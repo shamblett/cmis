@@ -19,6 +19,8 @@ import 'dart:math' as math;
 part 'src/Cmis.dart';
 part 'src/CmisException.dart';
 part 'src/CmisUserUtils.dart';
+part 'src/CmisOperationContext.dart';
+part 'src/CmisTypeCache.dart';
 part 'src/httpAdapters/CmisHttpAdapter.dart';
 part 'src/httpAdapters/CmisNativeHttpAdapter.dart';
 
