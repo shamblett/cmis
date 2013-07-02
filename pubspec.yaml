@@ -2,3 +2,6 @@ name: cmis
 description: A sample web application
 dependencies:
   browser: any
+  json_object: any
+dev_dependencies:
+  scheduled_test: any

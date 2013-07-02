@@ -5,3 +5,31 @@ packages:
     description: browser
     source: hosted
     version: "0.5.20"
+  http:
+    description: http
+    source: hosted
+    version: "0.5.20"
+  json_object:
+    description: json_object
+    source: hosted
+    version: "1.0.15+3"
+  meta:
+    description: meta
+    source: hosted
+    version: "0.5.20"
+  pathos:
+    description: pathos
+    source: hosted
+    version: "0.5.20"
+  scheduled_test:
+    description: scheduled_test
+    source: hosted
+    version: "0.5.20"
+  stack_trace:
+    description: stack_trace
+    source: hosted
+    version: "0.5.20"
+  unittest:
+    description: unittest
+    source: hosted
+    version: "0.5.20"
