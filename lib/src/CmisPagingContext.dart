@@ -58,5 +58,45 @@ class CmisPagingContext {
     
   }
   
+  /**
+   * Set the page to the previous page
+   */
+  void setPreviousPage() {
+    
+    _skipCount = _skipCount - _opCtx.maxItems;
+    if (_skipCount < 0)
+      _skipCount = 0;
+    
+  }
   
+  /**
+   * Set the page to the next page
+   */
+  void setNextPage() {
+    
+    _skipCount = _skipCount + _opCtx.maxItems;
+    if ( _skipCount >= _totalItems)
+      _skipCount = _totalItems - _opCtx.maxItems;
+    
+   }
+  
+  /**
+   * Set the first page
+   */
+  int firstPage() => _skipCount = 0;
+  
+  /**
+   * Set the last page
+   */
+  void lastPage() {
+    
+    if (_totalItems != null) {
+     
+      int totalPages = getTotalPages() - 1;
+      _skipCount = totalPages * _opCtx.maxItems;
+      
+    }
+    
+  }
+
 }
