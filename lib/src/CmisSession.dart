@@ -323,7 +323,71 @@ class CmisSession{
   /**
    * Type definitions
    */
+   void getTypeDefinition(String typeId) {
+    
+     /* Add any found type to the cache */
+     var savedCompleter = _httpAdapter.completion;
+     
+     void localCompleter() {
+       
+       if ( _httpAdapter.jsonResponse.error == false ) {
+         
+        _typeCache.addType(_httpAdapter.jsonResponse.jsonCmisResponse.type);
+            
+       }
+       savedCompleter();
+     }
+     
+     jsonobject.JsonObject data = new jsonobject.JsonObject();
+     data.typeId = typeId;
+     data.cmisSelector = 'typeDefinition';
+     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
+     data.suppressResponseCodes = true; 
 
+     /* Try the cache initially */  
+     jsonobject.JsonObject cachedTypeDef = _typeCache.getType(typeId);
+     if ( cachedTypeDef == null ) { 
+       
+      /* Not found in cache get it from the server */
+       String dataString = data.toString();
+       _httpAdapter.completion = localCompleter;
+       _httpRequest('GET',
+                    null,
+                    data:dataString);
+       
+     } else {
+       
+       _httpAdapter.jsonResponse.error = false;
+       _httpAdapter.jsonResponse.jsonCmisResponse.type = cachedTypeDef; 
+       if ( _httpAdapter.completion != null ) _httpAdapter.completion();
+       
+     }
+     
+     
+   }
+   
+   void getTypeChildren(String typeId) {
+     
+     jsonobject.JsonObject data = new jsonobject.JsonObject();
+     data.typeId = typeId;
+     data.cmisSelector = 'typeChildren';
+     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
+     data.skipCount = _opCtx.skipCount;
+     data.suppressResponseCodes = true; 
+
+     String dataString = data.toString();
+     _httpRequest('GET',
+         null,
+         data:dataString);
+     
+   }
+   
+  /**
+   * Queries
+   */
+   
+  
+   
   /* Updates the login credentials in Cmis that will be used for all further
    * requests to the CMIS server. Both user name and password must be set, even if one
    * or the other is '' i.e empty. This must be called before the CMIS client
