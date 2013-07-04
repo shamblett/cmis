@@ -22,6 +22,7 @@ part 'src/CmisUserUtils.dart';
 part 'src/CmisOperationContext.dart';
 part 'src/CmisTypeCache.dart';
 part 'src/CmisPagingContext.dart';
+part 'src/CmisSession.dart';
 part 'src/httpAdapters/CmisHttpAdapter.dart';
 part 'src/httpAdapters/CmisNativeHttpAdapter.dart';
 
