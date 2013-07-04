@@ -20,7 +20,7 @@ class CmisSession{
   CmisOperationContext _opCtx = new CmisOperationContext();
   String _rootFolderId = null; 
   CmisTypeCache _typeCache = new CmisTypeCache();    
-  CmisPagingContext _pagingContext = null;
+  Map _pagingContext = new Map<String,CmisPagingContext>();
   
   /* Authentication */
   String _user = null;
@@ -114,26 +114,216 @@ class CmisSession{
   
   /* Public */
   
-  /* Getters and Setter */
-  
   /**
    *  Completion callback 
    */  
-  set resultCompletion (var completion )  {
-    
-    _httpAdapter.completion = completion;
-  }
+  set resultCompletion (var completion )  => _httpAdapter.completion = completion;
   
   
   /**
    *  Response getter for completion callbacks 
    */
   jsonobject.JsonObject get completionResponse => _httpAdapter.jsonResponse;
+
+  /**
+   * URL handling
+   */
+  String get url => _urlPrefix;
+  String get rootUrl => _rootUrl;
+  set rootUrl(String url) => _rootUrl = url;
   
+  /**
+   * Paging context
+   */
+  void addPagingContext(String elementId, 
+                        int skipCount, 
+                        int numItemsTotal) { 
+    
+    _pagingContext[elementId] = new CmisPagingContext(skipCount, 
+                                                      numItemsTotal, 
+                                                      _opCtx);
+  }
   
+  CmisPagingContext getPagingContext(String elementId) {
+    
+    return _pagingContext[elementId];
+    
+  }
   
+  bool setPagingContextOffset(String elementId, 
+                              int offset) {
+    
+    if ( _pagingContext.containsKey(elementId) ) {
+    
+      _pagingContext[elementId].skipCount = offset;
+      return true;
+      
+    }
+    
+    return false;
+    
+  }
+    
+  int getPagingContextOffset(String elementId) {
   
+    if ( _pagingContext.containsKey(elementId) ) {
+      
+      return _pagingContext[elementId].skipCount;
+    }
+    
+    return 0;
+      
+   }
   
+  void deletePagingContext(String elementId) {
+    
+    _pagingContext.remove(elementId);
+    
+   }
+  
+  /**
+   * Repository 
+   */
+  
+   void getRepositoryInfo() {
+    
+    String data = 'cmisSelector: "repositoryInfo"';
+    _httpRequest('GET',
+                 null,
+                 data:data);
+    
+    }
+   
+   /**
+    * CMIS objects
+    */
+   void create(String name, 
+               String typeId, 
+               String folderId,
+               String cmisAction,
+               [ Map customProperties ] ) {
+     
+     
+     String url = rootUrl;
+     jsonobject.JsonObject data = new jsonobject.JsonObject();
+     data.cmisaction = cmisAction;
+     data.objectId = folderId;
+     data.suppressResponseCodes = true;
+     
+     /* Properties */
+     Map properties = new Map<String,String>();
+     properties['cmis:name'] = name;
+     properties['cmis:objectTypeId'] = typeId;
+     
+     /* Add any supplied custom properties */
+     if ( customProperties != null ) {
+       
+       properties.addAll(customProperties);
+     }
+     
+     /* Construct the final data set */
+     properties.forEach((String key,String value) {
+       
+       data.key = value;
+       
+     });
+     
+     String dataString = data.toString();
+     _httpRequest('POST',
+         url,
+         data:dataString); 
+   }
+   
+   /**
+    * Documents
+    */
+   void getDocument(String id) {
+     
+     String url = rootUrl;
+     jsonobject.JsonObject data = new jsonobject.JsonObject();
+     data.objectId = id;
+     data.cmisSelector = 'object';
+     data.filter = _opCtx.propertyFilter;
+     data.includeAllowableActions = _opCtx.includeAllowableActions;           
+     data.includeRelationships = _opCtx.includeRelationships;        
+     data.includePolicyIds =  _opCtx.includePolicies;          
+     data.includeACL = _opCtx.includeAcls;            
+     data.suppressResponseCodes = true; 
+     
+     String dataString = data.toString();
+     _httpRequest('GET',
+         url,
+         data:dataString);
+                         
+   }
+   
+   void getChildren(String id) {
+     
+     String url = rootUrl;
+     jsonobject.JsonObject data = new jsonobject.JsonObject();
+     data.objectId = id;
+     data.cmisSelector = 'children';
+     data.filter = _opCtx.propertyFilter;
+     data.includeAllowableActions = _opCtx.includeAllowableActions;           
+     data.includeRelationships = _opCtx.includeRelationships;        
+     data.includePolicyIds =  _opCtx.includePolicies;          
+     data.includeACL = _opCtx.includeAcls; 
+     data.includePathSegment = _opCtx.includePathSegments;
+     data.skipCount = _opCtx.skipCount;
+     data.maxItems = _opCtx.maxItems;
+     data.suppressResponseCodes = true; 
+     
+     String dataString = data.toString();
+     _httpRequest('GET',
+         url,
+         data:dataString);
+                         
+   }
+  
+   void deleteDocument(String id) {
+    
+    String url = rootUrl;
+    jsonobject.JsonObject data = new jsonobject.JsonObject();
+    data.objectId = id;
+    data.cmisSelector = 'delete';
+    data.suppressResponseCodes = true; 
+    
+    String dataString = data.toString();
+    _httpRequest('POST',
+        url,
+        data:dataString);
+    
+   
+   } 
+  
+   void createDocument(String name, 
+                      String typeId, 
+                      String folderId,
+                      [ Map customProperties ] ) {
+    
+     create(name, 
+            typeId, 
+            folderId, 
+            "createDocument",
+            customProperties );
+   }
+   
+   void createFolder(String name, 
+                     String typeId, 
+                     String folderId,
+                     [ Map customProperties ] ) {
+    
+     create(name, 
+            typeId, 
+            folderId, 
+            "createFolder",
+            customProperties );
+    }
+  
+  /**
+   * Type definitions
+   */
+
   /* Updates the login credentials in Cmis that will be used for all further
    * requests to the CMIS server. Both user name and password must be set, even if one
    * or the other is '' i.e empty. This must be called before the CMIS client
