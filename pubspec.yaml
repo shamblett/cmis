@@ -4,4 +4,5 @@ dependencies:
   browser: any
   json_object: any
 dev_dependencies:
+  bootjack: any
   scheduled_test: any

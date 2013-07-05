@@ -2,11 +2,217 @@
 
 <html>
   <head>
-    <title>cmis_test</title>
+    <link rel="stylesheet" href="packages/bootjack/css/bootstrap-2.3.1.css">
+    <link rel="stylesheet" type="text/css" href="css/cmis.css"/>
+    <title>CMIS Client Test Suite</title>
   </head>
  
   <body>   
-    <p id="text"></p>
+    <div id="cmis-alertsection"> </div>
+    <header >
+      <h3 class="text-center" >CMIS Client Interactive Test Suite</h3>
+        <div class="well">
+          <p>
+          Enter the connection details and press Connect to proceed.</p><p><small><em>Please note that CORS restrictions may
+          apply and if you are using the test CMIS server at http://cmis.alfresco.com/cmisbrowser you MUST specify
+          the repository to use(pre-populated below), this server does not allow repository browsing.
+          See the README.txt file under tests for more details.</em></small>
+          </p>
+        </div>
+    </header>
+    <div id="cmis-connect-section">
+      <form class="form-inline">
+        <fieldset>
+          <legend>Server Details</legend>
+        
+            <label for="cmis-url">URL:</label>
+            <input type="text" id="cmis-url"/>
+        
+            <label for="cmis-user">User:</label>
+            <input type="text" id="cmis-user"/>
+        
+       
+            <label for="cmis-password">Password:</label>
+            <input type="password" id="cmis-password"/>
+            
+          </fieldset>
+          
+      </form>
+      <button class="btn btn-primary" id="cmis-connect-btn">Connect</button> <br/>
+      <div id="cmis-alertsection-connect"> </div>
+    </div>
+    
+    <hr/>   
+    <div id="cmis-repositories-section">
+    
+      <form class="form-inline">
+     
+        <fieldset>
+          <legend>Repository Details</legend>
+          
+          <label for="cmis-repository-id">Using Repository-Id:</label>
+          <input type="text" id="cmis-repository-id" value="371554cd-ac06-40ba-98b8-e6b60275cca7"/>
+          
+        </fieldset>
+        
+      </form>
+    
+      <button class="btn btn-primary" id="cmis-repository-info">Get Repository Information</button>
+      <div id="cmis-repository-list"></div>
+      <div id="cmis-alertsection-repository"> </div>
+    </div>
+    
+    <hr/>  
+    <div id="repoinfosection">
+    </div>
+
+    <hr/>    
+    <form >
+      <table>
+        <tr>
+          <td><label for="typeidfield">Type-Id:</label></td>
+          <td><input type="text" id="typeidfield" value="cmis:document"/></td>
+        </tr>
+      </table>
+  </form>
+    
+    <button id="typebutton">Get Type Descendants!</button>  <br/>
+    <div id="typessection">
+    </div>
+
+    <hr/>    
+    <form >
+      <table>
+        <tr>
+          <td><label for="docidfield">Doc-Id:</label></td>
+          <td><input type="text" id="docidfield" value="133"/></td>
+        </tr>
+      </table>
+  </form>
+    
+    <button id="getbutton">Get Document!</button>  <br/>
+    <button id="deletebutton">Delete Document!</button>  <br/>
+    <div id="documentsection">
+    </div>
+    <hr/>    
+    <form >
+      <table>
+        <tr>
+          <td><label for="folderidfield">Folder-Id:</label></td>
+          <td><input type="text" id="folderidfield" value="?"/></td>
+        </tr>
+      </table>
+  </form>
+    <button id="cmischildren">Get Children!</button>
+    <button id="cmisroot">Get Root Folder!</button>
+    <br/>
+    <div id="childrensection">
+    </div>    
+    <br/>    
+    <hr/>    
+    <h3> Create Document With Ajax: </h3>
+    <form >
+    <fieldset>
+      <legend>Create document Ajax</legend>
+      <table>
+        <tr>
+          <td><label for="name">Name:</label></td>
+          <td><input type="text" id="name" name="Name" value="My document"/></td>
+        </tr>
+        <tr>
+          <td><label for="typeId">Type-Id:</label></td>
+          <td><input type="text" id="typeId" name="Type" value="cmis:document"/></td>
+        </tr>
+        <tr>
+          <td><label for="folderId">Folder-Id:</label></td>
+          <td><input type="text" id="folderId" name="Folder Id" value="100"/></td>
+        </tr>
+      </table>
+    </fieldset>
+  </form>
+    <button id="createdoc">Create Doc!</button>  <br/>
+    <div id="createdocsection">
+    </div>        
+    <h3> Create a document from an HTML form: </h3>
+    <form id="createdochtmlid" action="" target="createresultframe" enctype="multipart/form-data" onsubmit="prepareCreate()" method="post">
+     <fieldset>
+      <legend>Create document HTML</legend>
+      <table>
+        <tr>
+          <td><label for="name">Name:</label></td>
+          <td><input name="propertyValue[0]" type="text" id="name" value="My Document"/></td>
+        </tr>
+        <tr>
+          <td><label for="typeId">Type-Id:</label></td>
+            <td><input name="propertyValue[1]" type="text" id="typeId" value="cmis:document"/></td>
+        </tr>
+        <tr>
+          <td><label for="folderId">Folder-Id:</label></td>
+          <td><input type="text" id="folderId" name="objectId" value="100"/></td>
+        </tr>
+        <tr>
+          <td><label for="contentId">Content:</label></td>
+          <td><input id="contentId" name="Browse..." type="file" size="50"/></td>
+        </tr>
+        <tr>
+        <td><input id="createdochtml" type="submit" value="Create Doc!"/></td>
+        <td></td>
+        </tr>       
+      </table>      
+     </fieldset>
+     <input name="propertyId[0]" type="hidden" value="cmis:name" />
+       <input name="propertyId[1]" type="hidden" value="cmis:objectTypeId" />
+       <input name="cmisaction" type="hidden" value="createDocument" />
+       <input id="transactionId" name="token" type="hidden" value="" />         
+  </form>
+  <div id="responsesection">
+  </div>
+    <div id="invisibleareaid">
+    <!--  create iframe, could also be done dynamic (see above but has issues in IE) onload="createDocumentDone() -->
+  <iframe id="createresultframe" name="createresultframe" style="width:0px;height:0px;visibility:hidden">
+  </iframe>
+     </div>   
+        
+    <div id="createfolderhtmlsection">
+    </div>        
+    <h3> Create Folder (Ajax): </h3>
+    <form >
+    <fieldset>
+      <legend>Create Folder</legend>
+      <table>
+        <tr>
+          <td><label for="name">Name:</label></td>
+          <td><input type="text" id="fName" name="Name" value="My folder"/></td>
+        </tr>
+        <tr>
+          <td><label for="typeId">Type-Id:</label></td>
+          <td><input type="text" id="fTypeId" name="Type" value="cmis:folder"/></td>
+        </tr>
+        <tr>
+          <td><label for="folderId">Folder-Id:</label></td>
+          <td><input type="text" id="fFolderId" name="Folder Id" value="100"/></td>
+        </tr>
+      </table>
+    </fieldset>
+  </form>
+    <button id="createfolder">Create Folder!</button>  <br/>
+    <div id="createfoldersection">
+    </div>   
+
+    <p/>
+    <div id="doquerysection">
+    </div>        
+    <h3> Make a Query: </h3>
+    <form >
+    <fieldset>
+      <legend>Enter a query</legend>
+      <textarea id="queryfield" cols="80" rows="5">SELECT * from cmis:document
+      </textarea>
+    </fieldset>
+  </form>
+    <button id="doquery">Do query!</button>  <br/>
+    <div id="queryresponsesection">
+    </div>   
     <script type="application/dart" src="cmis_test.dart"></script>
     <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
     <script src="packages/browser/dart.js"></script>
