@@ -42,11 +42,37 @@ class Cmis {
    * Return either a new CmisSession or one from the cache if we have one
    */
   CmisSession getCmisSession(String urlPrefix,
-                             String userName,
+                             [String userName,
                              String password,
-                             [String repId ]){
+                             String repId ]){
     
+    /* Check for an existing session */
+    if ( _sessionMap.containsKey(repId) ) {
+     
+        return _sessionMap[repId];
+    }
+   
+    /* Generate a new one */
+    CmisSession newSession = new CmisSession(urlPrefix,
+                                             repId);
+   
+    /* Login if asked */
+    if ( (userName != null) && (password != null) ) {
+       
+       newSession.login(userName, 
+                        password);
+   
+    }
     
+    /* Add to the map */
+    if ( repId != null ) {
+      
+      _sessionMap[repId] = newSession;
+      
+    }
+    
+    /* Return the new session */
+    return newSession;
     
     
   }
@@ -56,7 +82,20 @@ class Cmis {
    */
   bool sessionExists(String repId){
     
+    return _sessionMap.containsKey(repId);
     
+  }
+  
+  /**
+   * Session removal 
+   */
+  bool removeSession(String repId) {
+    
+    if (sessionExists(repId) ) {
+      
+      _sessionMap.remove(repId);
+      
+    }
     
   }
   

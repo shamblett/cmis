@@ -223,16 +223,17 @@ class CmisSession{
   
   /**
    * Repository 
-   */
+  */
+  set repositoryId(String repoId) => _repId = repoId;  
   
-   void getRepositoryInfo() {
+  void getRepositoryInfo() {
     
     String data = 'cmisSelector: "repositoryInfo"';
     _httpRequest('GET',
                  null,
                  data:data);
     
-    }
+   }
    
    /**
     * CMIS objects
