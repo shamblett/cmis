@@ -5,7 +5,47 @@
  * Copyright :  S.Hamblett@OSCF
  *
  * 
- * The main CMIS Session class
+ * The main CMIS Session class.
+ * 
+ * Note that only the most important CMIS features are covered at the moment.
+ * Please refer to the accompanying documentation for further details.
+ * 
+ * It can be used as a standalone CMISlibrary but it is envisaged that it will
+ * provide a core library for more advanced and/or specialised CMIS client libraries to 
+ * wrap around.
+ * 
+ * Results of API calls are returned via completion functions supplied by the client. 
+ * Clients then call CmisSession API's to determine the outcome of the request. This allows 
+ * true async operation throughout the library.
+ * 
+ * An example of getting a document :-
+ * 
+ * void completer(){
+       
+       jsonobject.JsonObject res = cmisSession.completionResponse;
+       /* Check for error */
+       try {
+         expect(res.error, isFalse);
+       } catch(e) {
+         
+         jsonobject.JsonObject errorResponse = res.jsonCmisResponse;
+         String errorText = errorResponse.error;
+         String reasonText = errorResponse.reason;
+         int statusCode = res.errorCode;
+         return;
+       }
+       
+       /* Get the success response*/
+       jsonobject.JsonObject successResponse = res.jsonCmisResponse;
+       .......
+  }
+ *
+ *
+ * CmisSessiondepends on the JSON Object library for its response processing.
+ * 
+ * See the API documentation for more details about individual methods, particularly the 
+ * WiltNativeHTTPAdapter for the structure of the Wilt completion response.  
+ * 
  */
 
 part of cmis;
