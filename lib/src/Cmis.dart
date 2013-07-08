@@ -42,9 +42,9 @@ class Cmis {
    * Return either a new CmisSession or one from the cache if we have one
    */
   CmisSession getCmisSession(String urlPrefix,
-                             [String userName,
-                             String password,
-                             String repId ]){
+                             [String userName = null,
+                             String password = null,
+                             String repId = null ]){
     
     /* Check for an existing session */
     if ( _sessionMap.containsKey(repId) ) {
