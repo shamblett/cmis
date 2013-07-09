@@ -70,8 +70,8 @@ class CmisSession{
   CmisNativeHttpAdapter _httpAdapter = null;
   
   /* Constructor */
-  CmisSession(_urlPrefix, 
-              [ _repId ] ) {
+  CmisSession(this._urlPrefix, 
+              [this. _repId ] ) {
     
     
     /* Get our HTTP adapter */

@@ -52,14 +52,15 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     /* Process the error response */
     jsonResponse.error = true;
     jsonResponse.responseText = req.responseText;
-    jsonResponse.errorCode = req.status;
-    if ( (req.status != 0)  && (_method != 'HEAD') ) {
+    if ( (req.status != 0) ) {
       jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject.fromJsonString(req.responseText);
       jsonResponse.jsonCmisResponse = errorAsJson;
+      jsonResponse.errorCode = req.status;
     } else {
       jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject();
       errorAsJson.error = "Invalid HTTP response";
-      errorAsJson.reason = "HEAD or status code of 0";
+      errorAsJson.reason = "Status code of 0";
+      jsonResponse.errorCode = 0;
       jsonResponse.jsonCmisResponse = errorAsJson;
     }
     

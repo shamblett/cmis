@@ -63,37 +63,50 @@ void addSuccessAlert(DivElement section,
   
 }
 
-/* Elements */
+/* Elements and event handlers */
 
 /* Repository */
 InputElement cmisRepositoryId =  query('#cmis-repository-id'); 
 String repoId = null;
 DivElement repositoryAlertSection = query('#cmis-alertsection-repository');
+void outputRepositoryInfo(jsonobject.JsonObject response){
+  
+  
+}
+void doRepositoryInfo(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      String error = errorResponse.error;
+      String reason = errorResponse.reason;
+      int errorCode = cmisResponse.errorCode;
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(repositoryAlertSection,
+                    message);
+      
+    } else {
+      
+      outputRepositoryInfo(cmisResponse);
+    }
+    
+  }
+  
+  clearAlertSection(repositoryAlertSection);
+  cmisSession.resultCompletion = completer;
+  cmisSession.getRepositoryInfo();
+  
+}
 
 /* Connect */
 InputElement cmisUrl =  query('#cmis-url'); 
 InputElement cmisUser =  query('#cmis-user');
 InputElement cmisPassword = query('#cmis-password'); 
 DivElement connectAlertSection = query('#cmis-alertsection-connect');
-
-/* Main here */
-main() {
-  
-  /* Initialise the page */
-  clearAlertSection(connectAlertSection);
-  clearAlertSection(repositoryAlertSection);
-  
-  /* Get our working element set and add event handlers */
-  
-  /* Connect */
-  ButtonElement connectBtn = query('#cmis-connect-btn');
-  connectBtn.onClick.listen(doConnect);
- 
-  
-}
-
-
-/* Event Handlers */
 void doConnect(Event e){
   
   String url = cmisUrl.value;
@@ -117,9 +130,9 @@ void doConnect(Event e){
   try {
   
     cmisSession = cmisClient.getCmisSession(url,
-                                          userName,
-                                          password,
-                                          repoId);
+                                            userName,
+                                            password,
+                                            repoId);
     addSuccessAlert(connectAlertSection,
                     "Cmis Session successfully created");
     
@@ -130,3 +143,22 @@ void doConnect(Event e){
   }
   
 }
+
+/* Main here */
+main() {
+  
+  /* Initialise the page */
+  clearAlertSection(connectAlertSection);
+  clearAlertSection(repositoryAlertSection);
+  
+  /* Get our working element set and add event handlers */
+  
+  /* Connect */
+  ButtonElement connectBtn = query('#cmis-connect-btn');
+  connectBtn.onClick.listen(doConnect);
+ 
+  /* Repository Info */
+  ButtonElement repositoryInfoBtn = query('#cmis-repository-info');
+  repositoryInfoBtn.onClick.listen(doRepositoryInfo);
+}
+
