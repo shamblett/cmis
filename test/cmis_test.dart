@@ -69,7 +69,36 @@ void addSuccessAlert(DivElement section,
 InputElement cmisRepositoryId =  query('#cmis-repository-id'); 
 String repoId = null;
 DivElement repositoryAlertSection = query('#cmis-alertsection-repository');
+DivElement repositoryListSection = query('#cmis-repository-list');
 void outputRepositoryInfo(jsonobject.JsonObject response){
+  
+  jsonobject.JsonObject repositoryInfo = response.jsonCmisResponse;
+  
+  repositoryListSection.children.clear();
+  UListElement uList = new UListElement();
+  LIElement repoName = new LIElement();
+  repoName.innerHtml = "Repository Name : ${repositoryInfo.repositoryName}";
+  uList.children.add(repoName);
+  LIElement repoDescription = new LIElement();
+  repoDescription.innerHtml = "Repository Description : ${repositoryInfo.repositoryDescription}";
+  uList.children.add(repoDescription);
+  LIElement vendorName = new LIElement();
+  vendorName.innerHtml = "Vendor Name :  ${repositoryInfo.vendorName}";
+  uList.children.add(vendorName);
+  LIElement productName = new LIElement();
+  productName.innerHtml  = "Product Name : ${repositoryInfo.productName}";
+  uList.children.add(productName);
+  LIElement productVersion = new LIElement();
+  productVersion.innerHtml = "Product Version : ${repositoryInfo.productVersion}";
+  uList.children.add(productVersion);
+  LIElement rootFolderId = new LIElement();
+  rootFolderId.innerHtml = "Root Folder Id : ${repositoryInfo.rootFolderId}";
+  uList.children.add(rootFolderId);
+  cmisSession.rootFolderId = repositoryInfo.rootFolderId;
+  repositoryListSection.children.add(uList);
+   
+}
+void outputRepositoryList(jsonobject.JsonObject response){
   
   
 }
@@ -82,23 +111,50 @@ void doRepositoryInfo(Event e) {
     if ( cmisResponse.error ) {
     
       jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
-      String error = errorResponse.error;
-      String reason = errorResponse.reason;
       int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
       String message = "Error - $error, Reason - $reason, Code - $errorCode";
       addErrorAlert(repositoryAlertSection,
                     message);
       
     } else {
       
-      outputRepositoryInfo(cmisResponse);
+      if ( cmisSession.repositoryId != null ) {
+        
+        outputRepositoryInfo(cmisResponse);
+        
+      } else {
+      
+        outputRepositoryList(cmisResponse);
+      }
+      
     }
     
   }
   
   clearAlertSection(repositoryAlertSection);
   cmisSession.resultCompletion = completer;
-  cmisSession.getRepositoryInfo();
+  if ( cmisRepositoryId.value.isEmpty ) {
+    
+    cmisSession.getRepositories();
+    
+  } else {
+    
+    cmisSession.repositoryId = cmisRepositoryId.value;
+    cmisSession.getRepositoryInfo();
+  }
   
 }
 

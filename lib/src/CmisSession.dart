@@ -225,8 +225,25 @@ class CmisSession{
    * Repository 
   */
   set repositoryId(String repoId) => _repId = repoId;  
+  get repositoryId => _repId;
+  set rootFolderId(String rootFolderId) => _rootFolderId = rootFolderId;
+  get rootFolderId => _rootFolderId;
+  
+  void getRepositories() {
+    
+    _httpRequest('GET',
+        null,
+        data:null);
+  
+  }
   
   void getRepositoryInfo() {
+    
+    
+    if ( _repId == null ) {
+      
+      throw new CmisException('getRepositoryInfo() expects a non null repository Id');
+    }
     
     String data = 'cmisSelector: "repositoryInfo"';
     _httpRequest('GET',

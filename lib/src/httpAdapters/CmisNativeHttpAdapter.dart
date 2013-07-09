@@ -50,6 +50,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     html.HttpRequest req = response.target;
     
     /* Process the error response */
+    jsonResponse = new jsonobject.JsonObject();
     jsonResponse.error = true;
     jsonResponse.responseText = req.responseText;
     if ( (req.status != 0) ) {
@@ -74,6 +75,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
   void onSuccess(html.HttpRequest response){
     
     /* Process the success response */
+    jsonResponse = new jsonobject.JsonObject();
     jsonResponse.error = false;
     jsonResponse.responseText = response.responseText;
     if ( _method != 'HEAD') {
@@ -104,6 +106,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
      jsonResponse.errorText = null;
      jsonResponse.errorCode = null;
      _method = method;
+     jsonResponse = null;
     
     /* Query CMIS over HTTP */ 
     html.HttpRequest.request(url,
