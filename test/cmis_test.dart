@@ -7,7 +7,7 @@
  * The Cmis class provides core functionality for interacting with CMIS servers from
  * the browser.
  * 
- * This isn the CMIS client interactive test suite
+ * This is the CMIS client interactive test suite
  * 
  */
 
@@ -17,9 +17,10 @@ import 'dart:html';
 
 import '../lib/cmis.dart';
 import 'package:json_object/json_object.dart' as jsonobject;
+import 'cmis_test_config.dart';
 
 /* Initialise */
-Cmis cmisClient = null;
+Cmis cmisClient = new Cmis();
 CmisSession cmisSession = null;
 
 
@@ -95,12 +96,20 @@ void outputRepositoryInfo(jsonobject.JsonObject response){
   rootFolderId.innerHtml = "Root Folder Id : ${repositoryInfo.rootFolderId}";
   uList.children.add(rootFolderId);
   cmisSession.rootFolderId = repositoryInfo.rootFolderId;
+  LIElement thinClientUri = new LIElement();
+  thinClientUri.innerHtml = "Thin Client URI : ${repositoryInfo.thinClientURI}";
+  uList.children.add(thinClientUri);
+
   repositoryListSection.children.add(uList);
    
 }
 void outputRepositoryList(jsonobject.JsonObject response){
   
   
+}
+void doRepositoryInfoClear(Event e) {
+  
+  repositoryListSection.children.clear();
 }
 void doRepositoryInfo(Event e) {
   
@@ -165,8 +174,10 @@ InputElement cmisPassword = query('#cmis-password');
 DivElement connectAlertSection = query('#cmis-alertsection-connect');
 void doConnect(Event e){
   
-  String url = cmisUrl.value;
+  repoId = null;
+  
   /* Must have a url */
+  String url = cmisUrl.value;
   if ( url.isEmpty ) {
     
     addErrorAlert(connectAlertSection,
@@ -182,7 +193,7 @@ void doConnect(Event e){
     
   }
   
-  cmisClient = new Cmis();
+  
   try {
   
     cmisSession = cmisClient.getCmisSession(url,
@@ -207,6 +218,15 @@ main() {
   clearAlertSection(connectAlertSection);
   clearAlertSection(repositoryAlertSection);
   
+  /* Initialise the HTML from the config file */
+  if ( configInUse ) {
+    
+    cmisRepositoryId.value = configRepositoryId;
+    cmisUrl.value = configUrl;
+    cmisUser.value = configUser;
+    cmisPassword.value = configPassword;
+  }
+  
   /* Get our working element set and add event handlers */
   
   /* Connect */
@@ -216,5 +236,8 @@ main() {
   /* Repository Info */
   ButtonElement repositoryInfoBtn = query('#cmis-repository-info');
   repositoryInfoBtn.onClick.listen(doRepositoryInfo);
+  
+  ButtonElement repositoryInfoBtnClear = query('#cmis-repository-info-clear');
+  repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
 }
 

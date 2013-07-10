@@ -26,13 +26,13 @@
           <legend>Server Details</legend>
         
             <label for="cmis-url">URL:</label>
-            <input type="text" id="cmis-url"/>
+            <input type="text" id="cmis-url" value=""/>
         
             <label for="cmis-user">User:</label>
-            <input type="text" id="cmis-user"/>
+            <input type="text" id="cmis-user" value=""/>
             
             <label for="cmis-password">Password:</label>
-            <input type="password" id="cmis-password"/>
+            <input type="password" id="cmis-password" value=""/>
             
           </fieldset>
           
@@ -50,13 +50,14 @@
           <legend>Repository Details</legend>
           
           <label for="cmis-repository-id">Using Repository-Id:</label>
-          <input type="text" id="cmis-repository-id" value="371554cd-ac06-40ba-98b8-e6b60275cca7"/>
+          <input type="text" id="cmis-repository-id" value=""/>
           
         </fieldset>
         
       </form>
     
       <button class="btn btn-primary" id="cmis-repository-info">Get Repository Information</button>
+      <button class="btn btn-primary" id="cmis-repository-info-clear">Clear</button>
       <div id="cmis-repository-list"></div>
       <div id="cmis-alertsection-repository"> </div>
     </div>

@@ -101,12 +101,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     
      
      /* Initialise */
-     jsonResponse.error = null;
-     jsonResponse.successText = null;
-     jsonResponse.errorText = null;
-     jsonResponse.errorCode = null;
      _method = method;
-     jsonResponse = null;
     
     /* Query CMIS over HTTP */ 
     html.HttpRequest.request(url,
