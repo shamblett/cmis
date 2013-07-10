@@ -105,11 +105,27 @@ void outputRepositoryInfo(jsonobject.JsonObject response){
 }
 void outputRepositoryList(jsonobject.JsonObject response){
   
+  jsonobject.JsonObject repositoryInfo = response.jsonCmisResponse;
+  
+  repositoryListSection.children.clear();
+  UListElement uList = new UListElement();
+  
+  repositoryInfo.forEach((int key, Map value){
+    
+    LIElement repoEntry = new LIElement();
+    repoEntry.innerHtml = "Repository Id : ${value['repositoryId']}, Repository Name: ${value['repositoryName']}}";  
+    uList.children.add(repoEntry);
+   
+  });
+  
+  repositoryListSection.children.add(uList);
+  
   
 }
 void doRepositoryInfoClear(Event e) {
   
   repositoryListSection.children.clear();
+  
 }
 void doRepositoryInfo(Event e) {
   
