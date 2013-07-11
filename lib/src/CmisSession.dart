@@ -440,6 +440,20 @@ class CmisSession{
      
    }
    
+   void getTypeDescendants() {
+     
+     if ( _repId == null ) {
+       
+       throw new CmisException('getTypeDescendants() expects a non null repository Id');
+     }
+     
+     String data = 'cmisSelector: "typeChildren"';
+     _httpRequest('GET',
+         null,
+         data:data);
+     
+   }
+   
   /**
    * Queries
    */

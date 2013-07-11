@@ -227,6 +227,72 @@ void doConnect(Event e){
   
 }
 
+/* Type information */
+InputElement cmisType =  query('#cmis-type-id'); 
+DivElement typeAlertSection = query('#cmis-alertsection-type');
+DivElement typeListSection = query('#cmis-type-list');
+void outputTypeList(jsonobject.JsonObject response) {
+  
+  String output = response.toString();
+  typeListSection.innerHtml = output;
+  
+}
+void doTypeInfoClear(Event e) {
+  
+  typeListSection.children.clear();
+  String message = "Oops! This interface is not yet implemented";
+  addInfoAlert(typeAlertSection,
+               message);
+  
+}
+void doTypeInfo(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(typeAlertSection,
+                    message);
+      
+    } else {
+      
+        outputTypeList(cmisResponse);
+      
+    }
+    
+  }
+  
+  clearAlertSection(typeAlertSection);
+  cmisSession.resultCompletion = completer;
+  if ( cmisType.value.isEmpty ) {
+    
+    cmisSession.getTypeDescendants();
+    
+  } else {
+    
+    cmisSession.getTypeChildren(cmisType.value);
+  }
+  
+}
+
 /* Main here */
 main() {
   
@@ -255,5 +321,12 @@ main() {
   
   ButtonElement repositoryInfoBtnClear = query('#cmis-repository-info-clear');
   repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
+  
+  /* Type information */
+  ButtonElement typeInfoBtn = query('#cmis-type-info');
+  typeInfoBtn.onClick.listen(doTypeInfo);
+  
+  ButtonElement typeInfoBtnClear = query('#cmis-type-info-clear');
+  typeInfoBtnClear.onClick.listen(doTypeInfoClear);
 }
 
