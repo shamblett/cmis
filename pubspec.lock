@@ -49,3 +49,7 @@ packages:
     description: unittest
     source: hosted
     version: "0.5.20"
+  xml:
+    description: xml
+    source: hosted
+    version: "0.9.3+2"
