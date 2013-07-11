@@ -4,7 +4,7 @@
  * Date   : 01/07/2013
  * Copyright :  S.Hamblett@OSCF
  *
- * Native(JSON) HTTP adapter for Cmis.
+ * XML HTTP adapter for Cmis.
  *  
  * This always returns a JSON Object for use by the completion function.
  * 
@@ -21,7 +21,7 @@
 
 part of cmis;
 
-class CmisNativeHttpAdapter implements CmisHttpAdapter {
+class CmisXmlHttpAdapter implements CmisHttpAdapter {
   
  
   /* The method used */
@@ -34,11 +34,19 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
   var completion = null;
   
  /* Optional completer */
- CmisNativeHttpAdapter([this.completion]);
+ CmisXmlHttpAdapter([this.completion]);
     
   /* All response headers */
   String allResponseHeaders = null;
  
+  /**
+   * Convert the incoming XML data to JSON 
+   */
+  jsonobject.JsonObject _xml2Json(String xml){
+    
+    
+    
+  }
   /*
    * We get an HttpRequestProgressEvent on error and process this
    * to return a JSON Object.
@@ -54,7 +62,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     jsonResponse.error = true;
     jsonResponse.responseText = req.responseText;
     if ( (req.status != 0) ) {
-      jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject.fromJsonString(req.responseText);
+      jsonobject.JsonObject errorAsJson = _xml2Json(req.responseText);
       jsonResponse.jsonCmisResponse = errorAsJson;
       jsonResponse.errorCode = req.status;
     } else {
@@ -79,7 +87,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     jsonResponse.error = false;
     jsonResponse.responseText = response.responseText;
     if ( _method != 'HEAD') {
-      jsonobject.JsonObject successAsJson = new jsonobject.JsonObject.fromJsonString(response.responseText);
+      jsonobject.JsonObject successAsJson = _xml2Json(response.responseText);
       jsonResponse.jsonCmisResponse = successAsJson;
     }
     jsonResponse.errorCode = null;

@@ -233,16 +233,15 @@ DivElement typeAlertSection = query('#cmis-alertsection-type');
 DivElement typeListSection = query('#cmis-type-list');
 void outputTypeList(jsonobject.JsonObject response) {
   
-  String output = response.toString();
-  typeListSection.innerHtml = output;
+  String message = "Oops! This interface is not yet implemented";
+  addInfoAlert(typeAlertSection,
+               message);
   
 }
 void doTypeInfoClear(Event e) {
   
   typeListSection.children.clear();
-  String message = "Oops! This interface is not yet implemented";
-  addInfoAlert(typeAlertSection,
-               message);
+  
   
 }
 void doTypeInfo(Event e) {
@@ -293,6 +292,115 @@ void doTypeInfo(Event e) {
   
 }
 
+/* Document Information */
+InputElement cmisDocInfo =  query('#cmis-docinfo-id'); 
+DivElement docInfoAlertSection = query('#cmis-alertsection-docinfo');
+DivElement docInfoListSection = query('#cmis-docInfo-list');
+void outputDocInfoList(jsonobject.JsonObject response){
+  
+  
+}
+void doDocInfo(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(typeAlertSection,
+                    message);
+      
+    } else {
+      
+        outputDocInfoList(cmisResponse);
+      
+    }
+    
+  }
+  
+  clearAlertSection(docInfoAlertSection);
+  cmisSession.resultCompletion = completer;
+  if ( cmisDocInfo.value.isEmpty ) {
+    
+    addErrorAlert(typeAlertSection,
+                  "You must supply a document Id");;
+    
+    
+  } else {
+    
+      cmisSession.getDocument(cmisDocInfo.value);
+  }
+  
+}
+void doDocDelete(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(typeAlertSection,
+                    message);
+      
+    } else {
+      
+      addSuccessAlert(docInfoAlertSection,
+                    "Document Deleted");
+      
+    }
+    
+  }
+  
+  clearAlertSection(docInfoAlertSection);
+  cmisSession.resultCompletion = completer;
+  if ( cmisDocInfo.value.isEmpty ) {
+    
+    addErrorAlert(docInfoAlertSection,
+                  "You must supply a document Id");;
+    
+    
+  } else {
+    
+      cmisSession.deleteDocument(cmisDocInfo.value);
+  }
+  
+}
+
+
 /* Main here */
 main() {
   
@@ -328,5 +436,12 @@ main() {
   
   ButtonElement typeInfoBtnClear = query('#cmis-type-info-clear');
   typeInfoBtnClear.onClick.listen(doTypeInfoClear);
+  
+  /* Document Information */
+  ButtonElement docInfoBtn = query('#cmis-docinfo-get');
+  docInfoBtn.onClick.listen(doDocInfo);
+  
+  ButtonElement docDeleteBtn = query('#cmis-docinfo-delete');
+  docDeleteBtn.onClick.listen(doDocDelete);
 }
 

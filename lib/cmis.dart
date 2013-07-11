@@ -25,5 +25,6 @@ part 'src/CmisPagingContext.dart';
 part 'src/CmisSession.dart';
 part 'src/httpAdapters/CmisHttpAdapter.dart';
 part 'src/httpAdapters/CmisNativeHttpAdapter.dart';
+part 'src/httpAdapters/CmisXmlHttpAdapter.dart';
 
 
