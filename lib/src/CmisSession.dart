@@ -69,6 +69,9 @@ class CmisSession{
   /* Http Adapter */
   CmisNativeHttpAdapter _httpAdapter = null;
   
+  /* Repository Information */
+  jsonobject.JsonObject _repoInformation = null;
+  
   /* Constructor */
   CmisSession(this._urlPrefix, 
               [this. _repId ] ) {
@@ -231,6 +234,20 @@ class CmisSession{
   
   void getRepositories() {
     
+    /* Save any found repositories */
+    var savedCompleter = _httpAdapter.completion;
+    
+    void localCompleter() {
+      
+      if ( _httpAdapter.jsonResponse.error == false ) {
+        
+       _repoInformation = _httpAdapter.jsonResponse.jsonCmisResponse;
+            
+       }
+       savedCompleter();
+     }
+    
+    _httpAdapter.completion = localCompleter;
     _httpRequest('GET',
         null,
         data:null);
@@ -245,10 +262,37 @@ class CmisSession{
       throw new CmisException('getRepositoryInfo() expects a non null repository Id');
     }
     
-    String data = 'cmisSelector: "repositoryInfo"';
-    _httpRequest('GET',
-                 null,
-                 data:data);
+    /* Get the repository information if we have it */
+    jsonobject.JsonObject jsonResponse = new jsonobject.JsonObject();
+    if ( _repoInformation != null ) {
+      
+      jsonobject.JsonObject repoInformation = new jsonobject.JsonObject();
+      _repoInformation.forEach((var key, Map value){
+        
+        if ( key == _repId ) repoInformation = value;
+      });
+     
+      
+      /* Construct a valid JSON response */
+      jsonResponse.error = false;
+      jsonobject.JsonObject successAsJson = repoInformation; 
+      jsonResponse.errorCode = null;
+      jsonResponse.jsonCmisResponse = successAsJson;
+
+      
+    } else {
+      
+      jsonResponse.error = true;
+      jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject();
+      errorAsJson.error = "Invalid HTTP response";
+      errorAsJson.reason = "Status code of 0";
+      jsonResponse.errorCode = 0;
+      jsonResponse.jsonCmisResponse = errorAsJson;
+    }
+
+    /* Complete the call */
+    _httpAdapter.jsonResponse = jsonResponse;
+    if (  _httpAdapter.completion != null) _httpAdapter.completion();
     
    }
    

@@ -70,16 +70,13 @@ void addSuccessAlert(DivElement section,
 InputElement cmisRepositoryId =  query('#cmis-repository-id'); 
 String repoId = null;
 DivElement repositoryAlertSection = query('#cmis-alertsection-repository');
-DivElement repositoryListSection = query('#cmis-repository-list');
+DivElement repositoryDetailsSection = query('#cmis-repository-details');
 void outputRepositoryInfo(jsonobject.JsonObject response){
   
   jsonobject.JsonObject repositoryInfo = response.jsonCmisResponse;
   
-  repositoryListSection.children.clear();
+  repositoryDetailsSection.children.clear();
   UListElement uList = new UListElement();
-  LIElement repoName = new LIElement();
-  repoName.innerHtml = "Repository Name : ${repositoryInfo.repositoryName}";
-  uList.children.add(repoName);
   LIElement repoDescription = new LIElement();
   repoDescription.innerHtml = "Repository Description : ${repositoryInfo.repositoryDescription}";
   uList.children.add(repoDescription);
@@ -96,13 +93,11 @@ void outputRepositoryInfo(jsonobject.JsonObject response){
   rootFolderId.innerHtml = "Root Folder Id : ${repositoryInfo.rootFolderId}";
   uList.children.add(rootFolderId);
   cmisSession.rootFolderId = repositoryInfo.rootFolderId;
-  LIElement thinClientUri = new LIElement();
-  thinClientUri.innerHtml = "Thin Client URI : ${repositoryInfo.thinClientURI}";
-  uList.children.add(thinClientUri);
 
-  repositoryListSection.children.add(uList);
+  repositoryDetailsSection.children.add(uList);
    
 }
+DivElement repositoryListSection = query('#cmis-repository-list');
 void outputRepositoryList(jsonobject.JsonObject response){
   
   jsonobject.JsonObject repositoryInfo = response.jsonCmisResponse;
@@ -110,10 +105,10 @@ void outputRepositoryList(jsonobject.JsonObject response){
   repositoryListSection.children.clear();
   UListElement uList = new UListElement();
   
-  repositoryInfo.forEach((int key, Map value){
+  repositoryInfo.forEach((var key, Map value){
     
     LIElement repoEntry = new LIElement();
-    repoEntry.innerHtml = "Repository Id : ${value['repositoryId']}, Repository Name: ${value['repositoryName']}}";  
+    repoEntry.innerHtml = "<b>Repository Id :</b> ${value['repositoryId']} <b>Repository Name:</b> ${value['repositoryName']}";  
     uList.children.add(repoEntry);
    
   });
