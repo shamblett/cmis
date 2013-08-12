@@ -12,7 +12,6 @@
  */
 
 import 'dart:async';
-import 'dart:json' as json;
 import 'dart:html';
 
 import '../lib/cmis.dart';
@@ -97,24 +96,43 @@ void outputRepositoryInfo(jsonobject.JsonObject response){
   repositoryDetailsSection.children.add(uList);
    
 }
+
+
 DivElement repositoryListSection = query('#cmis-repository-list');
 void outputRepositoryList(jsonobject.JsonObject response){
   
+  void onRepoSelect(Event e ){
+    
+    var radioElement = e.target;
+    cmisRepositoryId.value = radioElement.value;
+    
+  }
   jsonobject.JsonObject repositoryInfo = response.jsonCmisResponse;
   
   repositoryListSection.children.clear();
-  UListElement uList = new UListElement();
-  
+  int id = 0;
   repositoryInfo.forEach((var key, Map value){
     
-    LIElement repoEntry = new LIElement();
-    repoEntry.innerHtml = "<b>Repository Id :</b> ${value['repositoryId']} <b>Repository Name:</b> ${value['repositoryName']}";  
-    uList.children.add(repoEntry);
+    DivElement div = new DivElement();
+    div.classes.add("radio");
+    
+    LabelElement repoLabel = new LabelElement();
+    repoLabel.htmlFor = "cmis-repoId-$id";
+    repoLabel.text = "${value['repositoryId']} -- ${value['repositoryName']}";
    
+    RadioButtonInputElement repoEntry = new RadioButtonInputElement();
+    repoEntry.value = "${value['repositoryId']}";
+    repoEntry.name = "repoId";
+    repoEntry.id = "cmis-repoId-$id";
+    repoEntry.title = "${value['repositoryId']} ${value['repositoryName']}";
+    repoEntry.onClick.listen(onRepoSelect);
+    repoLabel.children.add(repoEntry);
+    
+    div.children.add(repoLabel);
+    repositoryListSection.children.add(div);
+    id++;
+    
   });
-  
-  repositoryListSection.children.add(uList);
-  
   
 }
 void doRepositoryInfoClear(Event e) {
