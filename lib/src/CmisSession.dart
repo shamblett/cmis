@@ -263,35 +263,37 @@ class CmisSession{
     }
     
     /* Get the repository information if we have it */
-    jsonobject.JsonObject jsonResponse = new jsonobject.JsonObject();
     if ( _repoInformation != null ) {
       
       jsonobject.JsonObject repoInformation = new jsonobject.JsonObject();
+      repoInformation = null;
       _repoInformation.forEach((var key, Map value){
-        
-        if ( key == _repId ) repoInformation = value;
+      
+        if ( key == _repId )  repoInformation = value;
+          
       });
      
-      
-      /* Construct a valid JSON response */
-      jsonResponse.error = false;
-      jsonobject.JsonObject successAsJson = repoInformation; 
-      jsonResponse.errorCode = null;
-      jsonResponse.jsonCmisResponse = successAsJson;
-
-      
+      if ( repoInformation != null ) {
+        
+        /* Construct a success response */
+        jsonobject.JsonObject successAsJson = repoInformation; 
+        _httpAdapter.generateSuccessResponse(successAsJson);
+        
+      } else {
+        
+        /* No repository info, construct an error response */
+        jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject();
+        _httpAdapter.generateErrorResponse(errorAsJson, 0);
+      }
+  
     } else {
       
-      jsonResponse.error = true;
+      /* No repositories, construct an error response */
       jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject();
-      errorAsJson.error = "Invalid HTTP response";
-      errorAsJson.reason = "Status code of 0";
-      jsonResponse.errorCode = 0;
-      jsonResponse.jsonCmisResponse = errorAsJson;
+      _httpAdapter.generateErrorResponse(errorAsJson, 0);
     }
 
     /* Complete the call */
-    _httpAdapter.jsonResponse = jsonResponse;
     if (  _httpAdapter.completion != null) _httpAdapter.completion();
     
    }

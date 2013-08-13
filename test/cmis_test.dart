@@ -137,7 +137,10 @@ void outputRepositoryList(jsonobject.JsonObject response){
 }
 void doRepositoryInfoClear(Event e) {
   
-  repositoryListSection.children.clear();
+  repositoryAlertSection.children.clear();
+  repositoryDetailsSection.children.clear();
+  cmisRepositoryId.value = "";
+  cmisSession.repositoryId = null;
   
 }
 void doRepositoryInfo(Event e) {

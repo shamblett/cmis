@@ -50,19 +50,16 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     html.HttpRequest req = response.target;
     
     /* Process the error response */
-    jsonResponse = new jsonobject.JsonObject();
-    jsonResponse.error = true;
-    jsonResponse.responseText = req.responseText;
-    if ( (req.status != 0) ) {
+    if ( req.status != 0 ) {
+      
       jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject.fromJsonString(req.responseText);
-      jsonResponse.jsonCmisResponse = errorAsJson;
-      jsonResponse.errorCode = req.status;
+      generateErrorResponse(errorAsJson, req.status);
+      
     } else {
+      
       jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject();
-      errorAsJson.error = "Invalid HTTP response";
-      errorAsJson.reason = "Status code of 0";
-      jsonResponse.errorCode = 0;
-      jsonResponse.jsonCmisResponse = errorAsJson;
+      generateErrorResponse(errorAsJson, req.status);
+      
     }
     
     /* Set the response headers */
@@ -74,15 +71,8 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
    */
   void onSuccess(html.HttpRequest response){
     
-    /* Process the success response */
-    jsonResponse = new jsonobject.JsonObject();
-    jsonResponse.error = false;
-    jsonResponse.responseText = response.responseText;
-    if ( _method != 'HEAD') {
-      jsonobject.JsonObject successAsJson = new jsonobject.JsonObject.fromJsonString(response.responseText);
-      jsonResponse.jsonCmisResponse = successAsJson;
-    }
-    jsonResponse.errorCode = null;
+    jsonobject.JsonObject successAsJson = new jsonobject.JsonObject.fromJsonString(response.responseText);
+    generateSuccessResponse(successAsJson);
     
     /* Set the response headers */
     allResponseHeaders = response.getAllResponseHeaders();
@@ -118,5 +108,32 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     
   }
   
+  /*
+   * Psuedo respose generators
+   */
+  void generateErrorResponse(jsonobject.JsonObject response, int status) {
+    
+    /* Generate the error response */
+    jsonResponse.error = true;
+    jsonResponse.jsonCmisResponse = response;
+    jsonResponse.errorCode = status;
+    if ( status == 0 ) {
+      
+      response.error = "Invalid HTTP response";
+      response.reason = "HEAD or status code of 0";
+      
+    }
+    
+  }
+  
+  void generateSuccessResponse(jsonobject.JsonObject response) {
+    
+    /* Generate the success response */
+    jsonResponse.error = false;
+    jsonResponse.errorCode = null;
+    jsonResponse.jsonCmisResponse = response;
+    
+    
+  }
   
 }

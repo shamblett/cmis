@@ -31,4 +31,10 @@ abstract class CmisHttpAdapter {
   void onError(html.HttpRequestProgressEvent response);
   void onSuccess(html.HttpRequest response);
   
+  /*
+   * Psuedo respose generators
+   */
+  void generateErrorResponse(jsonobject.JsonObject response, int status);
+  void generateSuccessResponse(jsonobject.JsonObject response);
+  
 }
