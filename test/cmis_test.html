@@ -21,13 +21,17 @@
         </div>
     </header>
     <div id="cmis-connect-section">
-      <form class="form-inline">
+      <form class="form-horizontal">
         <fieldset>
           <legend>Server Details</legend>
         
-            <label for="cmis-url">URL:</label>
+            <label for="cmis-url">Repository URL:</label>
             <input type="text" id="cmis-url" value=""/>
         
+            <label for="cmis-url">Service URL:</label>
+            <input type="text"id="cmis-service-url" value=""/>
+            <span class="help-block">Only use if the Repository Service URL is different to the one above.</span>
+            
             <label for="cmis-user">User:</label>
             <input type="text" id="cmis-user" value=""/>
             
