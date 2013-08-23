@@ -92,6 +92,12 @@ void outputRepositoryInfo(jsonobject.JsonObject response){
   rootFolderId.innerHtml = "Root Folder Id : ${repositoryInfo.rootFolderId}";
   uList.children.add(rootFolderId);
   cmisSession.rootFolderId = repositoryInfo.rootFolderId;
+  LIElement rootFolderUrl = new LIElement();
+  rootFolderUrl.innerHtml = "Root Folder URL : ${repositoryInfo.rootFolderUrl}";
+  uList.children.add(rootFolderUrl);
+  LIElement repositoryUrl = new LIElement();
+  repositoryUrl.innerHtml = "Repository URL : ${repositoryInfo.repositoryUrl}";
+  uList.children.add(repositoryUrl);
 
   repositoryDetailsSection.children.add(uList);
    
@@ -249,9 +255,7 @@ DivElement typeAlertSection = query('#cmis-alertsection-type');
 DivElement typeListSection = query('#cmis-type-list');
 void outputTypeList(jsonobject.JsonObject response) {
   
-  String message = "Oops! This interface is not yet implemented";
-  addInfoAlert(typeAlertSection,
-               message);
+  print(response);
   
 }
 void doTypeInfoClear(Event e) {
