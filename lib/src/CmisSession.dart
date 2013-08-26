@@ -56,6 +56,7 @@ class CmisSession{
   /* CMIS data structures */
   String _repId = null;
   String _urlPrefix = null;
+  String _serviceUrlPrefix = null;
   String _rootUrl = null;
   CmisOperationContext _opCtx = new CmisOperationContext();
   String _rootFolderId = null; 
@@ -74,7 +75,8 @@ class CmisSession{
   
   /* Constructor */
   CmisSession(this._urlPrefix, 
-              [this. _repId ] ) {
+              [this._serviceUrlPrefix,
+               this. _repId ] ) {
     
     
     /* Get our HTTP adapter */
@@ -91,7 +93,8 @@ class CmisSession{
   */
   void _httpRequest( String method, 
                      String url, 
-                     {String data:null, 
+                     {bool useServiceUrl:false,
+                     String data:null, 
                      Map headers:null}) {
     
     
@@ -102,6 +105,10 @@ class CmisSession{
     
     /* Build the URL */
     String cmisUrl = "$_urlPrefix/";
+    if ( (_serviceUrlPrefix != null) && useServiceUrl ) {    
+      cmisUrl = "$_serviceUrlPrefix";
+    }
+    
     if ( _repId != null) cmisUrl = "$cmisUrl$_repId/"; 
     if ( url != null ) cmisUrl = "$cmisUrl/url";
     
@@ -172,6 +179,7 @@ class CmisSession{
    * URL handling
    */
   String get url => _urlPrefix;
+  String get serviceUrl => _serviceUrlPrefix;
   String get rootUrl => _rootUrl;
   set rootUrl(String url) => _rootUrl = url;
   
@@ -250,6 +258,7 @@ class CmisSession{
     _httpAdapter.completion = localCompleter;
     _httpRequest('GET',
         null,
+        useServiceUrl:true,
         data:null);
   
   }

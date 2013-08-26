@@ -207,6 +207,7 @@ void doRepositoryInfo(Event e) {
 
 /* Connect */
 InputElement cmisUrl =  query('#cmis-url'); 
+InputElement cmisServiceUrl =  query('#cmis-service-url'); 
 InputElement cmisUser =  query('#cmis-user');
 InputElement cmisPassword = query('#cmis-password'); 
 DivElement connectAlertSection = query('#cmis-alertsection-connect');
@@ -223,8 +224,12 @@ void doConnect(Event e){
     return;
     
   }
+  String serviceUrl = cmisServiceUrl.value;
+  if ( serviceUrl.isEmpty) serviceUrl = null;
   String userName = cmisUser.value;
+  if ( userName.isEmpty) userName = null;
   String password = cmisPassword.value;
+  if ( password.isEmpty) password = null;
   if ( !cmisRepositoryId.value.isEmpty ) {
     
     repoId = cmisRepositoryId.value;
@@ -235,6 +240,7 @@ void doConnect(Event e){
   try {
   
     cmisSession = cmisClient.getCmisSession(url,
+                                            serviceUrl,
                                             userName,
                                             password,
                                             repoId);
@@ -433,6 +439,7 @@ main() {
     
     cmisRepositoryId.value = configRepositoryId;
     cmisUrl.value = configUrl;
+    cmisServiceUrl.value = serviceUrl;
     cmisUser.value = configUser;
     cmisPassword.value = configPassword;
   }
