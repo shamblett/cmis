@@ -62,6 +62,7 @@ class CmisSession{
   String _rootFolderId = null; 
   CmisTypeCache _typeCache = new CmisTypeCache();    
   Map _pagingContext = new Map<String,CmisPagingContext>();
+  int _depth = 5;
   
   /* Authentication */
   String _user = null;
@@ -94,7 +95,7 @@ class CmisSession{
   void _httpRequest( String method, 
                      String url, 
                      {bool useServiceUrl:false,
-                     String data:null, 
+                     jsonobject.JsonObject data:null, 
                      Map headers:null}) {
     
     
@@ -111,6 +112,28 @@ class CmisSession{
     
     if ( _repId != null) cmisUrl = "$cmisUrl$_repId/"; 
     if ( url != null ) cmisUrl = "$cmisUrl/url";
+    
+    /* Add any url parameters if this is a GET */
+    String httpData = null;
+    if ( method == 'GET') {
+      
+      if ( data != null ) {
+        
+      
+        data.forEach((String key, String value){
+       
+          cmisUrl = _setURLParameter(cmisUrl, 
+                               key, 
+                               value);
+        });
+        
+      }
+      
+    } else {
+      
+      httpData = data.toString();
+      
+    }
     
     /* Check for authentication */
     if ( _user != null ) {
@@ -130,7 +153,7 @@ class CmisSession{
     /* Execute the request*/
     _httpAdapter.httpRequest(method, 
                              cmisUrl, 
-                             data, 
+                             httpData, 
                              cmisHeaders);
     
   }
@@ -436,6 +459,10 @@ class CmisSession{
   /**
    * Type definitions
    */
+   
+   set depth(int depth) => _depth = depth;
+   get depth => _depth;
+   
    void getTypeDefinition(String typeId) {
     
      /* Add any found type to the cache */
@@ -479,7 +506,7 @@ class CmisSession{
      
    }
    
-   void getTypeChildren(String typeId) {
+   void getTypeChildren([String typeId]) {
      
      jsonobject.JsonObject data = new jsonobject.JsonObject();
      data.typeId = typeId;
@@ -495,14 +522,16 @@ class CmisSession{
      
    }
    
-   void getTypeDescendants() {
+   void getTypeDescendants([String typeId]) {
      
      if ( _repId == null ) {
        
        throw new CmisException('getTypeDescendants() expects a non null repository Id');
      }
-     
-     String data = 'cmisSelector: "typeDescendants"';
+     jsonobject.JsonObject data = new jsonobject.JsonObject();
+     data.cmisselector = 'typeDescendants';
+     data.depth = _depth.toString();
+     if ( typeId != null ) data.typeId = typeId;
      _httpRequest('GET',
          null,
          data:data);

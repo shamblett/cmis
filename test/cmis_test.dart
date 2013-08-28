@@ -261,13 +261,15 @@ DivElement typeAlertSection = query('#cmis-alertsection-type');
 DivElement typeListSection = query('#cmis-type-list');
 void outputTypeList(jsonobject.JsonObject response) {
   
-  print(response);
+  PreElement preCode = new PreElement();
+  preCode.innerHtml = response.jsonCmisResponse.toString();
+  typeListSection.children.add(preCode);
   
 }
 void doTypeInfoClear(Event e) {
   
   typeListSection.children.clear();
-  
+  typeAlertSection.children.clear();
   
 }
 void doTypeInfo(Event e) {
@@ -307,13 +309,14 @@ void doTypeInfo(Event e) {
   
   clearAlertSection(typeAlertSection);
   cmisSession.resultCompletion = completer;
+  cmisSession.depth = 1;
   if ( cmisType.value.isEmpty ) {
     
-    cmisSession.getTypeDescendants();
+    cmisSession.getTypeDescendants(null);
     
   } else {
     
-    cmisSession.getTypeChildren(cmisType.value);
+    cmisSession.getTypeDescendants(cmisType.value);
   }
   
 }

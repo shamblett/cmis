@@ -3,6 +3,7 @@ description: A sample web application
 dependencies:
   browser: any
   json_object: any
+  petitparser: any
   xml: any
 dev_dependencies:
   bootjack: any
