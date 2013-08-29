@@ -120,7 +120,7 @@ class CmisSession{
       if ( data != null ) {
         
       
-        data.forEach((String key, String value){
+        data.forEach((String key, dynamic  value){
        
           cmisUrl = _setURLParameter(cmisUrl, 
                                key, 
@@ -165,12 +165,12 @@ class CmisSession{
    */
   String _setURLParameter( String url, 
                            String key, 
-                           String value) {
+                           dynamic value) {
     
     var originalUrl = Uri.parse(url);
     Map queryParams = originalUrl.queryParameters;
     Map newQueryParams = new  Map<String,String>.from(queryParams);
-    newQueryParams[key] = value;
+    newQueryParams[key] = value.toString();;
     
     var newUrl = new Uri(scheme:originalUrl.scheme,
                          userInfo:originalUrl.userInfo,
@@ -506,23 +506,25 @@ class CmisSession{
      
    }
    
-   void getTypeChildren([String typeId]) {
+   void getTypeChildren([String typeId = null]) {
      
+    if ( _repId == null ) {
+       
+       throw new CmisException('getTypeChildren() expects a non null repository Id');
+     }
      jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.typeId = typeId;
      data.cmisSelector = 'typeChildren';
      data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
+     data.maxItems = _opCtx.maxItems;
      data.skipCount = _opCtx.skipCount;
-     data.suppressResponseCodes = true; 
-
-     String dataString = data.toString();
+     if ( typeId != null ) data.typeId = typeId;
      _httpRequest('GET',
          null,
-         data:dataString);
+         data:data);
      
    }
    
-   void getTypeDescendants([String typeId]) {
+   void getTypeDescendants([String typeId = null]) {
      
      if ( _repId == null ) {
        
@@ -530,7 +532,8 @@ class CmisSession{
      }
      jsonobject.JsonObject data = new jsonobject.JsonObject();
      data.cmisselector = 'typeDescendants';
-     data.depth = _depth.toString();
+     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
+     data.depth = _depth;
      if ( typeId != null ) data.typeId = typeId;
      _httpRequest('GET',
          null,

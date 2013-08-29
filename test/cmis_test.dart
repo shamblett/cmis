@@ -276,6 +276,18 @@ void outputTypeList(jsonobject.JsonObject response) {
       childIndex = randomizer.nextInt(length);
       
     }   
+    /* Check for a 'children' property, if none announce this and go.
+     * We can't cater for all possibilties in this relatively simple test
+     * harness */
+    try {
+      var test = response.jsonCmisResponse[childIndex].children;
+    } catch(e) {
+      LIElement noDescendants = new LIElement();
+      noDescendants.innerHtml = "No 'children' property, try again";
+      uList.children.add(noDescendants);
+      typeListSection.children.add(uList);
+      return;
+    }
     if ( response.jsonCmisResponse[childIndex].children.isNotEmpty) {
         
         if ( response.jsonCmisResponse[childIndex].children.length > 0 ) {
@@ -382,7 +394,7 @@ void doTypeInfo(Event e) {
     
   } else {
     
-    cmisSession.getTypeDescendants(cmisType.value);
+    cmisSession.getTypeDescendants(cmisType.value.trim());
   }
   
 }
