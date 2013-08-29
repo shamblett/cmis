@@ -13,6 +13,7 @@
 
 import 'dart:async';
 import 'dart:html';
+import 'dart:math';
 
 import '../lib/cmis.dart';
 import 'package:json_object/json_object.dart' as jsonobject;
@@ -261,9 +262,74 @@ DivElement typeAlertSection = query('#cmis-alertsection-type');
 DivElement typeListSection = query('#cmis-type-list');
 void outputTypeList(jsonobject.JsonObject response) {
   
-  PreElement preCode = new PreElement();
-  preCode.innerHtml = response.jsonCmisResponse.toString();
-  typeListSection.children.add(preCode);
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+  
+    /* Get a random type if no type id specified */
+    int childIndex = 0;
+    int typeIndex = 0;
+    if ( cmisType.value.isEmpty ) {
+      
+      int length = response.jsonCmisResponse.length;
+      Random randomizer = new Random();
+      childIndex = randomizer.nextInt(length);
+      
+    }   
+    if ( response.jsonCmisResponse[childIndex].children.isNotEmpty) {
+        
+        if ( response.jsonCmisResponse[childIndex].children.length > 0 ) {
+            
+          if ( cmisType.value.isEmpty ) {
+            
+            int length = response.jsonCmisResponse[childIndex].children.length;
+            Random randomizer = new Random();
+            typeIndex = randomizer.nextInt(length);
+            
+          }  
+          jsonobject.JsonObject children = response.jsonCmisResponse[childIndex].children[typeIndex];
+          
+          jsonobject.JsonObject typeInfo = children.type;
+          LIElement localName = new LIElement();
+          localName.innerHtml = "Local Name: ${typeInfo.localName}";
+          uList.children.add(localName);
+          LIElement description = new LIElement();
+          description.innerHtml = "Description: ${typeInfo.description}";
+          uList.children.add(description);
+          LIElement id = new LIElement();
+          id.innerHtml = "Type Id: ${typeInfo.id}";
+          uList.children.add(id);
+          LIElement parentId = new LIElement();
+          parentId.innerHtml = "Parent Id: ${typeInfo.parentId}";
+          uList.children.add(parentId);
+    
+        } else {
+    
+          LIElement noDescendants = new LIElement();
+          noDescendants.innerHtml = "The children record id empty in this repository";
+          uList.children.add(noDescendants);
+        }
+        
+       
+      } else {
+        
+        LIElement noDescendants = new LIElement();
+        noDescendants.innerHtml = "There are no type children records in this repository";
+        uList.children.add(noDescendants);
+      }
+      
+  } else {
+    
+    LIElement noDescendants = new LIElement();
+    if ( cmisType.value.isEmpty ) {
+      noDescendants.innerHtml = "There are no more type descendants in this repository";
+    } else {
+      noDescendants.innerHtml = "There are no more type descendants for this type";
+    }
+    uList.children.add(noDescendants);
+  }
+  
+  typeListSection.children.add(uList);
   
 }
 void doTypeInfoClear(Event e) {
