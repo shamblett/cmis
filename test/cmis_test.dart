@@ -466,6 +466,30 @@ void outputTypeListChildren(jsonobject.JsonObject response) {
   
 }
 
+void outputTypeListDefinition(jsonobject.JsonObject response) {
+  
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+  
+    LIElement localName = new LIElement();
+    localName.innerHtml = "Local Name: ${response.jsonCmisResponse.localName}";
+    uList.children.add(localName);
+    LIElement queryName = new LIElement();
+    queryName.innerHtml = "Description: ${response.jsonCmisResponse.queryName}";
+    uList.children.add(queryName);
+      
+  } else {
+    
+    LIElement noDefinition = new LIElement();
+    noChildren.innerHtml = "There is no definition for this type";
+    uList.children.add(noDefinition);
+  }
+  
+  typeListSection.children.add(uList);
+  
+}
+
 void doTypeInfoChildren(Event e) {
   
   void completer() {
@@ -514,6 +538,57 @@ void doTypeInfoChildren(Event e) {
   }
   
 }
+
+void doTypeInfoDefinition(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(typeAlertSection,
+                    message);
+      
+    } else {
+      
+        outputTypeListDefinition(cmisResponse);
+      
+    }
+    
+  }
+  
+  clearAlertSection(typeAlertSection);
+  if (cmisType.value.isEmpty ) {
+    
+    String message = "You must supply a Type Id for this function";
+    addErrorAlert(typeAlertSection,
+        message);
+    return;
+    
+  }
+  cmisSession.resultCompletion = completer;
+  cmisSession.depth = 1;
+  cmisSession.getTypeDefinition(cmisType.value.trim());
+  
+}
+
 
 /* Document Information */
 InputElement cmisDocInfo =  query('#cmis-docinfo-id'); 
@@ -660,6 +735,9 @@ main() {
   
   ButtonElement typeInfoChildrenBtn = query('#cmis-type-info-children');
   typeInfoChildrenBtn.onClick.listen(doTypeInfoChildren);
+  
+  ButtonElement typeInfoDefinitionBtn = query('#cmis-type-info-definition');
+  typeInfoDefinitionBtn.onClick.listen(doTypeInfoDefinition);
   
   ButtonElement typeInfoBtnClear = query('#cmis-type-info-clear');
   typeInfoBtnClear.onClick.listen(doTypeInfoClear);

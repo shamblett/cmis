@@ -468,33 +468,37 @@ class CmisSession{
        
        if ( _httpAdapter.jsonResponse.error == false ) {
          
-        _typeCache.addType(_httpAdapter.jsonResponse.jsonCmisResponse.type);
+        _typeCache.addType(_httpAdapter.jsonResponse.jsonCmisResponse);
             
        }
        savedCompleter();
      }
      
+     if ( _repId == null ) {
+       
+       throw new CmisException('getTypeDefinitiion() expects a non null repository Id');
+     }
+     if ( typeId == null ) {
+       
+       throw new CmisException('getTypeChildren() expects a type id');
+     }
      jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.typeId = typeId;
-     data.cmisSelector = 'typeDefinition';
-     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
-     data.suppressResponseCodes = true; 
+     data.typeid = typeId;
+     data.cmiselector = 'typeDefinition';
 
      /* Try the cache initially */  
      jsonobject.JsonObject cachedTypeDef = _typeCache.getType(typeId);
      if ( cachedTypeDef == null ) { 
        
       /* Not found in cache get it from the server */
-       String dataString = data.toString();
        _httpAdapter.completion = localCompleter;
        _httpRequest('GET',
                     null,
-                    data:dataString);
+                    data:data);
        
      } else {
        
-       _httpAdapter.jsonResponse.error = false;
-       _httpAdapter.jsonResponse.jsonCmisResponse.type = cachedTypeDef; 
+       _httpAdapter.generateSuccessResponse(cachedTypeDef);
        if ( _httpAdapter.completion != null ) _httpAdapter.completion();
        
      }
