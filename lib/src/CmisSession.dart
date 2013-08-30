@@ -393,23 +393,19 @@ class CmisSession{
                          
    }
    
-   void getChildren(String id) {
+   void getDocumentChildren([String typeId]) {
      
      String url = rootUrl;
      jsonobject.JsonObject data = new jsonobject.JsonObject();
      data.objectId = id;
-     data.cmisSelector = 'children';
+     data.cmisSelector = 'object';
      data.filter = _opCtx.propertyFilter;
      data.includeAllowableActions = _opCtx.includeAllowableActions;           
      data.includeRelationships = _opCtx.includeRelationships;        
      data.includePolicyIds =  _opCtx.includePolicies;          
-     data.includeACL = _opCtx.includeAcls; 
-     data.includePathSegment = _opCtx.includePathSegments;
-     data.skipCount = _opCtx.skipCount;
-     data.maxItems = _opCtx.maxItems;
+     data.includeACL = _opCtx.includeAcls;            
      data.suppressResponseCodes = true; 
      
-     String dataString = data.toString();
      _httpRequest('GET',
          url,
          data:dataString);

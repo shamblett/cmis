@@ -260,7 +260,7 @@ void doConnect(Event e){
 InputElement cmisType =  query('#cmis-type-id'); 
 DivElement typeAlertSection = query('#cmis-alertsection-type');
 DivElement typeListSection = query('#cmis-type-list');
-void outputTypeList(jsonobject.JsonObject response) {
+void outputTypeListDescendants(jsonobject.JsonObject response) {
   
   UListElement uList = new UListElement();
   
@@ -314,6 +314,9 @@ void outputTypeList(jsonobject.JsonObject response) {
           LIElement parentId = new LIElement();
           parentId.innerHtml = "Parent Id: ${typeInfo.parentId}";
           uList.children.add(parentId);
+          LIElement spacer = new LIElement();
+          spacer.innerHtml = "  ....... ";
+          uList.children.add(spacer);
     
         } else {
     
@@ -350,7 +353,7 @@ void doTypeInfoClear(Event e) {
   typeAlertSection.children.clear();
   
 }
-void doTypeInfo(Event e) {
+void doTypeInfoDescendants(Event e) {
   
   void completer() {
     
@@ -379,7 +382,7 @@ void doTypeInfo(Event e) {
       
     } else {
       
-        outputTypeList(cmisResponse);
+        outputTypeListDescendants(cmisResponse);
       
     }
     
@@ -395,6 +398,119 @@ void doTypeInfo(Event e) {
   } else {
     
     cmisSession.getTypeDescendants(cmisType.value.trim());
+  }
+  
+}
+
+void outputTypeListChildren(jsonobject.JsonObject response) {
+  
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+  
+    /* Get the first 4 children */
+    if ( response.jsonCmisResponse.types.isNotEmpty) {
+        
+        int length = response.jsonCmisResponse.types.length;
+        if (  length > 0 ) {
+            
+          List types = response.jsonCmisResponse.types;
+          
+          BRElement br = new BRElement();
+          int children = length;
+          if (children > 4 ) children = 4;
+          for(int i=0; i<=children-1; i++) {
+            
+            LIElement localName = new LIElement();
+            localName.innerHtml = "Local Name: ${types[i].localName}";
+            uList.children.add(localName);
+            LIElement description = new LIElement();
+            description.innerHtml = "Description: ${types[i].description}";
+            uList.children.add(description);
+            LIElement id = new LIElement();
+            id.innerHtml = "Type Id: ${types[i].id}";
+            uList.children.add(id);
+            LIElement spacer = new LIElement();
+            spacer.innerHtml = "  ....... ";
+            uList.children.add(spacer);
+          
+          };
+    
+        } else {
+    
+          LIElement noChildren = new LIElement();
+          noChildren.innerHtml = "The children types are empty in this repository";
+          uList.children.add(noChildren);
+        }
+        
+       
+      } else {
+        
+        LIElement noChildren = new LIElement();
+        noChildren.innerHtml = "There are no children types";
+        uList.children.add(noChildren);
+      }
+      
+  } else {
+    
+    LIElement noChildren = new LIElement();
+    if ( cmisType.value.isEmpty ) {
+      noChildren.innerHtml = "There are no more children types in this repository";
+    } else {
+      noChildren.innerHtml = "There are no more children types for this type";
+    }
+    uList.children.add(noChildren);
+  }
+  
+  typeListSection.children.add(uList);
+  
+}
+
+void doTypeInfoChildren(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(typeAlertSection,
+                    message);
+      
+    } else {
+      
+        outputTypeListChildren(cmisResponse);
+      
+    }
+    
+  }
+  
+  clearAlertSection(typeAlertSection);
+  cmisSession.resultCompletion = completer;
+  cmisSession.depth = 1;
+  if ( cmisType.value.isEmpty ) {
+    
+    cmisSession.getTypeChildren(null);
+    
+  } else {
+    
+    cmisSession.getTypeChildren(cmisType.value.trim());
   }
   
 }
@@ -539,8 +655,11 @@ main() {
   repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
   
   /* Type information */
-  ButtonElement typeInfoBtn = query('#cmis-type-info');
-  typeInfoBtn.onClick.listen(doTypeInfo);
+  ButtonElement typeInfoDescendantsBtn = query('#cmis-type-info-descendants');
+  typeInfoDescendantsBtn.onClick.listen(doTypeInfoDescendants);
+  
+  ButtonElement typeInfoChildrenBtn = query('#cmis-type-info-children');
+  typeInfoChildrenBtn.onClick.listen(doTypeInfoChildren);
   
   ButtonElement typeInfoBtnClear = query('#cmis-type-info-clear');
   typeInfoBtnClear.onClick.listen(doTypeInfoClear);
