@@ -146,8 +146,6 @@ void doRepositoryInfoClear(Event e) {
   
   repositoryAlertSection.children.clear();
   repositoryDetailsSection.children.clear();
-  cmisRepositoryId.value = "";
-  cmisSession.repositoryId = null;
   
 }
 void doRepositoryInfo(Event e) {
@@ -206,6 +204,87 @@ void doRepositoryInfo(Event e) {
   
 }
 
+void outputCheckedOutDocs(jsonobject.JsonObject response) {
+  
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+  
+    /* Get the first 4 children */
+    if ( response.jsonCmisResponse.objects.isNotEmpty) {
+            
+      jsonobject.JsonObject properties = response.jsonCmisResponse.objects[0].properties;
+          
+      LIElement displayName = new LIElement();
+      displayName.innerHtml = "Display Name: ${properties['cmis:contentStreamFileName'].displayName}";
+      uList.children.add(displayName);
+      LIElement id = new LIElement();
+      id.innerHtml = "Id: ${properties['cmis:contentStreamFileName'].id}";
+      uList.children.add(id);
+      LIElement docValue = new LIElement();
+      docValue.innerHtml = "Value: ${properties['cmis:contentStreamFileName'].value}";
+      uList.children.add(docValue);
+       
+    } else {
+             
+        LIElement noChildren = new LIElement();
+        noChildren.innerHtml = "There are no checked out documents";
+        uList.children.add(noChildren);
+             
+   }
+         
+      
+  } else {
+    
+    LIElement noChildren = new LIElement();
+    noChildren.innerHtml = "There are no checked out documents";
+    uList.children.add(noChildren);
+  }
+  
+  repositoryDetailsSection.children.add(uList);
+  
+}
+
+void doCheckedOutDocs(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(typeAlertSection,
+                    message);
+      
+    } else {
+      
+        outputCheckedOutDocs(cmisResponse);
+      
+    }
+    
+  }
+  
+  cmisSession.resultCompletion = completer;
+  cmisSession.getCheckedOutDocs();
+    
+ }
+  
 /* Connect */
 InputElement cmisUrl =  query('#cmis-url'); 
 InputElement cmisServiceUrl =  query('#cmis-service-url'); 
@@ -466,30 +545,6 @@ void outputTypeListChildren(jsonobject.JsonObject response) {
   
 }
 
-void outputTypeListDefinition(jsonobject.JsonObject response) {
-  
-  UListElement uList = new UListElement();
-  
-  if ( response.jsonCmisResponse.isNotEmpty ) {
-  
-    LIElement localName = new LIElement();
-    localName.innerHtml = "Local Name: ${response.jsonCmisResponse.localName}";
-    uList.children.add(localName);
-    LIElement queryName = new LIElement();
-    queryName.innerHtml = "Description: ${response.jsonCmisResponse.queryName}";
-    uList.children.add(queryName);
-      
-  } else {
-    
-    LIElement noDefinition = new LIElement();
-    noChildren.innerHtml = "There is no definition for this type";
-    uList.children.add(noDefinition);
-  }
-  
-  typeListSection.children.add(uList);
-  
-}
-
 void doTypeInfoChildren(Event e) {
   
   void completer() {
@@ -536,6 +591,30 @@ void doTypeInfoChildren(Event e) {
     
     cmisSession.getTypeChildren(cmisType.value.trim());
   }
+  
+}
+
+void outputTypeListDefinition(jsonobject.JsonObject response) {
+  
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+  
+    LIElement localName = new LIElement();
+    localName.innerHtml = "Local Name: ${response.jsonCmisResponse.localName}";
+    uList.children.add(localName);
+    LIElement queryName = new LIElement();
+    queryName.innerHtml = "Description: ${response.jsonCmisResponse.queryName}";
+    uList.children.add(queryName);
+      
+  } else {
+    
+    LIElement noDefinition = new LIElement();
+    noChildren.innerHtml = "There is no definition for this type";
+    uList.children.add(noDefinition);
+  }
+  
+  typeListSection.children.add(uList);
   
 }
 
@@ -725,6 +804,9 @@ main() {
   /* Repository Info */
   ButtonElement repositoryInfoBtn = query('#cmis-repository-info');
   repositoryInfoBtn.onClick.listen(doRepositoryInfo);
+  
+  ButtonElement checkedOutDocsBtn = query('#cmis-repository-checkedoutdocs');
+  checkedOutDocsBtn.onClick.listen(doCheckedOutDocs);
   
   ButtonElement repositoryInfoBtnClear = query('#cmis-repository-info-clear');
   repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);

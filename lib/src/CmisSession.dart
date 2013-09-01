@@ -207,6 +207,12 @@ class CmisSession{
   set rootUrl(String url) => _rootUrl = url;
   
   /**
+   * Operational context
+   */
+  CmisOperationContext get operationalContext => _opCtx;
+  set operationalContext(CmisOperationContext opCtx) => _opCtx = opCtx;
+  
+  /**
    * Paging context
    */
   void addPagingContext(String elementId, 
@@ -330,6 +336,28 @@ class CmisSession{
     
    }
    
+  void getCheckedOutDocs() {
+    
+    if ( _repId == null ) {
+      
+      throw new CmisException('getCheckedOutDocs() expects a non null repository Id');
+    }
+    jsonobject.JsonObject data = new jsonobject.JsonObject();
+    data.cmisselector = 'checkedOut';
+    data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
+    data.maxItems = _opCtx.maxItems;
+    data.skipCount = _opCtx.skipCount;
+    data.propertyFilter = _opCtx.propertyFilter;
+    data.renditionFilter = _opCtx.renditionFilter;
+    data.includeAllowableActions = _opCtx.includeAllowableActions;
+    data.includeRelationships = _opCtx.includeRelationships;
+    data.succint = _opCtx.succint;
+    
+    _httpRequest('GET',
+        null,
+        data:data);
+    
+  }
    /**
     * CMIS objects
     */

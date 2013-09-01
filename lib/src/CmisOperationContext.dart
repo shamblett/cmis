@@ -24,5 +24,6 @@ class CmisOperationContext {
   String orderBy = null;
   bool includePropertyDefinitions = true;
   bool searchAllVersions = true;
+  bool succint = false;
   
 }
