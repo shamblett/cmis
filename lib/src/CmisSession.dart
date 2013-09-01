@@ -484,7 +484,7 @@ class CmisSession{
      }
      jsonobject.JsonObject data = new jsonobject.JsonObject();
      data.typeid = typeId;
-     data.cmiselector = 'typeDefinition';
+     data.cmisselector = 'typeDefinition';
 
      /* Try the cache initially */  
      jsonobject.JsonObject cachedTypeDef = _typeCache.getType(typeId);
