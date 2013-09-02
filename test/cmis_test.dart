@@ -319,6 +319,9 @@ void outputRootInfo(jsonobject.JsonObject response) {
           LIElement objectId = new LIElement();
           objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
           uList.children.add(objectId);
+          LIElement objectTypeId = new LIElement();
+          objectTypeId.innerHtml = "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+          uList.children.add(objectTypeId);
           if ( properties['cmis:parentId'] != null ) {
             LIElement parentId = new LIElement();
             parentId.innerHtml = "Parent Id: ${properties['cmis:parentId'].value}";
@@ -963,7 +966,7 @@ main() {
   ButtonElement docInfoBtn = query('#cmis-docinfo-get');
   docInfoBtn.onClick.listen(doDocInfo);
   
-  ButtonElement docDeleteBtn = query('#cmis-docinfo-delete');
+  ButtonElement docDeleteBtn = query('#cmis-doccreate-delete');
   docDeleteBtn.onClick.listen(doDocDelete);
 }
 
