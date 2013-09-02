@@ -38,6 +38,9 @@
             <label for="cmis-password">Password:</label>
             <input type="password" id="cmis-password" value=""/>
             
+            <label for="cmis-proxy">Using Proxy:</label>
+            <input type="checkbox" id="cmis-proxy" value="yes"/>
+            
           </fieldset>
           
       </form>
@@ -65,6 +68,27 @@
       <button class="btn btn-primary" id="cmis-repository-info-clear">Clear</button>
       <div id="cmis-repository-details"></div>
       <div id="cmis-alertsection-repository"> </div>
+    </div>
+    
+    <hr/>  
+    <div id="cmis-rootinfo-section">
+    
+     <form class="form-inline">
+     
+        <fieldset>
+          <legend>Root Information</legend>
+          
+          <label for="cmis-rootinfo-id">Object Id:</label>
+          <input type="text" id="cmis-rootinfo-id" value=""/>
+          
+        </fieldset>
+        
+      </form>
+    
+      <button class="btn btn-primary" id="cmis-root-info">Get Root Information</button>
+      <button class="btn btn-primary" id="cmis-root-info-clear">Clear</button>
+      <div id="cmis-rootinfo-list"></div>
+      <div id="cmis-alertsection-rootinfo"> </div>
     </div>
     
     <hr/>  

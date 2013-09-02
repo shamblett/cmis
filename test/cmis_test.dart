@@ -284,12 +284,132 @@ void doCheckedOutDocs(Event e) {
   cmisSession.getCheckedOutDocs();
     
  }
+
+/* Root folder */
+InputElement cmisRootInfoId =  query('#cmis-rootinfo-id'); 
+DivElement rootInfoAlertSection = query('#cmis-alertsection-rootinfo');
+DivElement rootInfoListSection = query('#cmis-rootinfo-list');
+void doRootInfoClear(Event e) {
   
+  rootInfoAlertSection.children.clear();
+  rootInfoListSection.children.clear();
+  
+}
+
+void outputRootInfo(jsonobject.JsonObject response) {
+  
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+  
+    /* Get the first 4 children */
+    if ( response.jsonCmisResponse.objects.isNotEmpty) {
+            
+      List objects = response.jsonCmisResponse.objects;
+      int numItems = response.jsonCmisResponse.numItems;
+      
+      if ( numItems > 0 ) {
+        
+        objects.forEach((jsonobject.JsonObject object){
+        
+          jsonobject.JsonObject properties = object.object.properties;
+          LIElement name = new LIElement();
+          name.innerHtml = "Name: ${properties['cmis:name'].value}";
+          uList.children.add(name);
+          LIElement objectId = new LIElement();
+          objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
+          uList.children.add(objectId);
+          if ( properties['cmis:parentId'] != null ) {
+            LIElement parentId = new LIElement();
+            parentId.innerHtml = "Parent Id: ${properties['cmis:parentId'].value}";
+            uList.children.add(parentId);
+          }
+          if ( properties['cmis:path'] != null ) {
+            LIElement path = new LIElement();
+            path.innerHtml = "Path: ${properties['cmis:path'].value}";
+            uList.children.add(path);
+          }
+          LIElement spacer = new LIElement();
+          spacer.innerHtml = "  ....... ";
+          uList.children.add(spacer);
+        
+        });
+        
+      } else {
+        
+        LIElement noChildren = new LIElement();
+        noChildren.innerHtml = "There are no objects in the root folder";
+        uList.children.add(noChildren);
+        
+      }
+       
+       
+    } else {
+             
+        LIElement noChildren = new LIElement();
+        noChildren.innerHtml = "There are no objects in the root folder";
+        uList.children.add(noChildren);
+             
+   }
+         
+      
+  } else {
+    
+    LIElement noChildren = new LIElement();
+    noChildren.innerHtml = "There are no objects in the root folder";
+    uList.children.add(noChildren);
+  }
+  
+  rootInfoListSection.children.add(uList);
+  
+}
+
+void doRootInfo(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(rootInfoAlertSection,
+                    message);
+      
+    } else {
+      
+        outputRootInfo(cmisResponse);
+      
+    }
+    
+  }
+  
+  cmisSession.resultCompletion = completer;
+  cmisSession.getRootFolderContents();
+    
+ }
+
 /* Connect */
 InputElement cmisUrl =  query('#cmis-url'); 
 InputElement cmisServiceUrl =  query('#cmis-service-url'); 
 InputElement cmisUser =  query('#cmis-user');
 InputElement cmisPassword = query('#cmis-password'); 
+InputElement cmisProxy = query('#cmis-proxy'); 
 DivElement connectAlertSection = query('#cmis-alertsection-connect');
 void doConnect(Event e){
   
@@ -324,6 +444,9 @@ void doConnect(Event e){
                                             userName,
                                             password,
                                             repoId);
+    
+    if ( cmisProxy.value == 'yes' ) cmisSession.proxy = true;
+    
     addSuccessAlert(connectAlertSection,
                     "Cmis Session successfully created");
     
@@ -810,6 +933,16 @@ main() {
   
   ButtonElement repositoryInfoBtnClear = query('#cmis-repository-info-clear');
   repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
+  
+  /* Root Folder */
+  ButtonElement rootInfoBtn = query('#cmis-root-info');
+  rootInfoBtn.onClick.listen(doRootInfo);
+  
+  //ButtonElement checkedOutDocsBtn = query('#cmis-repository-checkedoutdocs');
+  //checkedOutDocsBtn.onClick.listen(doCheckedOutDocs);
+  
+  ButtonElement rootInfoBtnClear = query('#cmis-root-info-clear');
+  rootInfoBtnClear.onClick.listen(doRootInfoClear);
   
   /* Type information */
   ButtonElement typeInfoDescendantsBtn = query('#cmis-type-info-descendants');

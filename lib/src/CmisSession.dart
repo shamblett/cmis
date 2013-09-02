@@ -57,7 +57,6 @@ class CmisSession{
   String _repId = null;
   String _urlPrefix = null;
   String _serviceUrlPrefix = null;
-  String _rootUrl = null;
   CmisOperationContext _opCtx = new CmisOperationContext();
   String _rootFolderId = null; 
   CmisTypeCache _typeCache = new CmisTypeCache();    
@@ -67,6 +66,11 @@ class CmisSession{
   /* Authentication */
   String _user = null;
   String _password = null;
+  
+  /* Proxy indicator */
+  bool _proxy = false;
+  bool get proxy => _proxy;
+  set proxy(bool proxy) => _proxy = proxy;
   
   /* Http Adapter */
   CmisNativeHttpAdapter _httpAdapter = null;
@@ -104,36 +108,39 @@ class CmisSession{
     cmisHeaders["Accept"] = "application/json";
     if ( headers != null ) cmisHeaders.addAll(headers);
     
-    /* Build the URL */
-    String cmisUrl = "$_urlPrefix/";
+    /* Build the URL if we are not passed one. */
+    String cmisUrl = null;
+    String httpData = null;
+      
+    cmisUrl = "$_urlPrefix/";
     if ( (_serviceUrlPrefix != null) && useServiceUrl ) {    
+    
       cmisUrl = "$_serviceUrlPrefix";
     }
     
     if ( _repId != null) cmisUrl = "$cmisUrl$_repId/"; 
-    if ( url != null ) cmisUrl = "$cmisUrl/url";
+    if ( url != null ) cmisUrl = "$cmisUrl$url";
     
     /* Add any url parameters if this is a GET */
-    String httpData = null;
     if ( method == 'GET') {
       
       if ( data != null ) {
         
-      
         data.forEach((String key, dynamic  value){
        
           cmisUrl = _setURLParameter(cmisUrl, 
                                key, 
                                value);
-        });
+         });
         
+       }
+      
+      } else {
+      
+        httpData = data.toString();
+      
       }
       
-    } else {
-      
-      httpData = data.toString();
-      
-    }
     
     /* Check for authentication */
     if ( _user != null ) {
@@ -185,6 +192,20 @@ class CmisSession{
     
   }
   
+  /**
+   * If we are using a proxy, URL's returned form the repository
+   * need to be adjusted to cater for this.
+   */
+  String _caterForProxyServer(String url) {
+    
+    /* Cut the passed in URL at the end of the repo id */
+    String pattern = "$_repId/";
+    List urlStrings = url.split(pattern);
+    String proxiedUrl = urlStrings[1];
+    return proxiedUrl;
+    
+  }
+  
   /* Public */
   
   /**
@@ -203,8 +224,6 @@ class CmisSession{
    */
   String get url => _urlPrefix;
   String get serviceUrl => _serviceUrlPrefix;
-  String get rootUrl => _rootUrl;
-  set rootUrl(String url) => _rootUrl = url;
   
   /**
    * Operational context
@@ -345,8 +364,7 @@ class CmisSession{
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.cmisselector = 'checkedOut';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
-    data.maxItems = _opCtx.maxItems;
-    data.skipCount = _opCtx.skipCount;
+    data.maxItems = _opCtx.maxItems;   data.skipCount = _opCtx.skipCount;
     data.propertyFilter = _opCtx.propertyFilter;
     data.renditionFilter = _opCtx.renditionFilter;
     data.includeAllowableActions = _opCtx.includeAllowableActions;
@@ -358,6 +376,44 @@ class CmisSession{
         data:data);
     
   }
+  
+  /**
+   * Root folder 
+   */
+  
+  void getRootFolderContents() {
+    
+    if ( _repId == null ) {
+      
+      throw new CmisException('getRootFolderContents() expects a non null repository Id');
+    }
+    
+    /* Get the root folder URL for the selected repository */
+    jsonobject.JsonObject repoInformation = new jsonobject.JsonObject();
+    if ( !_repoInformation.containsKey(_repId)) {
+      
+      throw new CmisException('getRootFolderContents() no repository information found');
+    }
+    repoInformation = _repoInformation[_repId];
+    String rootUrl = null;
+    if ( _proxy ) {
+      
+      rootUrl = _caterForProxyServer(repoInformation.rootFolderUrl);
+      
+    } else {
+      
+     rootUrl = repoInformation.rootFolderUrl;
+     
+    }
+    
+    
+    _httpRequest('GET',
+        rootUrl,
+        data:null);
+    
+    
+  }
+  
    /**
     * CMIS objects
     */
@@ -399,7 +455,7 @@ class CmisSession{
    }
    
    /**
-    * Documents
+    * Documents/Folders
     */
    void getDocument(String id) {
      
