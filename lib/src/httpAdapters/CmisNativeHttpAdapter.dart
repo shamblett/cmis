@@ -46,6 +46,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
    */
   void onError(html.HttpRequestProgressEvent response){
     
+    jsonResponse.jsonCmisResponse = new jsonobject.JsonObject();
     /* Get the HTTP request from the progress event */
     html.HttpRequest req = response.target;
     
@@ -71,9 +72,25 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
    */
   void onSuccess(html.HttpRequest response){
     
-    jsonobject.JsonObject successAsJson = new jsonobject.JsonObject.fromJsonString(response.responseText);
-    generateSuccessResponse(successAsJson);
+    jsonResponse.jsonCmisResponse = new jsonobject.JsonObject();
     
+    /**
+     * If stringify fails we may have a document body returned, ie straight text,
+     * in this case create a jJsonObject with this as its value.
+     */
+    
+    try {
+      
+      jsonobject.JsonObject successAsJson = new jsonobject.JsonObject.fromJsonString(response.responseText);
+      generateSuccessResponse(successAsJson);
+      
+    } catch(e) {
+      
+      jsonobject.JsonObject successAsJson = new jsonobject.JsonObject();
+      successAsJson['rawText'] = response.responseText;
+      generateSuccessResponse(successAsJson);
+    }
+      
     /* Set the response headers */
     allResponseHeaders = response.getAllResponseHeaders();
     

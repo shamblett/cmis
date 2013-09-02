@@ -66,6 +66,61 @@ void addSuccessAlert(DivElement section,
 
 /* Elements and event handlers */
 
+/* Connect */
+InputElement cmisUrl =  query('#cmis-url'); 
+InputElement cmisServiceUrl =  query('#cmis-service-url'); 
+InputElement cmisUser =  query('#cmis-user');
+InputElement cmisPassword = query('#cmis-password'); 
+InputElement cmisProxy = query('#cmis-proxy'); 
+DivElement connectAlertSection = query('#cmis-alertsection-connect');
+void doConnect(Event e){
+  
+  repoId = null;
+  
+  /* Must have a url */
+  String url = cmisUrl.value;
+  if ( url.isEmpty ) {
+    
+    addErrorAlert(connectAlertSection,
+                  "You must specify a URL");
+    return;
+    
+  }
+  String serviceUrl = cmisServiceUrl.value;
+  if ( serviceUrl.isEmpty) serviceUrl = null;
+  String userName = cmisUser.value;
+  if ( userName.isEmpty) userName = null;
+  String password = cmisPassword.value;
+  if ( password.isEmpty) password = null;
+  if ( !cmisRepositoryId.value.isEmpty ) {
+    
+    repoId = cmisRepositoryId.value;
+    
+  }
+  
+  
+  try {
+  
+    cmisSession = cmisClient.getCmisSession(url,
+                                            serviceUrl,
+                                            userName,
+                                            password,
+                                            repoId);
+    
+    if ( cmisProxy.value == 'yes' ) cmisSession.proxy = true;
+    
+    addSuccessAlert(connectAlertSection,
+                    "Cmis Session successfully created");
+    
+  } catch(e) {
+    
+    addErrorAlert(connectAlertSection,
+                  e); 
+  }
+  
+}
+
+
 /* Repository */
 InputElement cmisRepositoryId =  query('#cmis-repository-id'); 
 String repoId = null;
@@ -407,59 +462,6 @@ void doRootInfo(Event e) {
     
  }
 
-/* Connect */
-InputElement cmisUrl =  query('#cmis-url'); 
-InputElement cmisServiceUrl =  query('#cmis-service-url'); 
-InputElement cmisUser =  query('#cmis-user');
-InputElement cmisPassword = query('#cmis-password'); 
-InputElement cmisProxy = query('#cmis-proxy'); 
-DivElement connectAlertSection = query('#cmis-alertsection-connect');
-void doConnect(Event e){
-  
-  repoId = null;
-  
-  /* Must have a url */
-  String url = cmisUrl.value;
-  if ( url.isEmpty ) {
-    
-    addErrorAlert(connectAlertSection,
-                  "You must specify a URL");
-    return;
-    
-  }
-  String serviceUrl = cmisServiceUrl.value;
-  if ( serviceUrl.isEmpty) serviceUrl = null;
-  String userName = cmisUser.value;
-  if ( userName.isEmpty) userName = null;
-  String password = cmisPassword.value;
-  if ( password.isEmpty) password = null;
-  if ( !cmisRepositoryId.value.isEmpty ) {
-    
-    repoId = cmisRepositoryId.value;
-    
-  }
-  
-  
-  try {
-  
-    cmisSession = cmisClient.getCmisSession(url,
-                                            serviceUrl,
-                                            userName,
-                                            password,
-                                            repoId);
-    
-    if ( cmisProxy.value == 'yes' ) cmisSession.proxy = true;
-    
-    addSuccessAlert(connectAlertSection,
-                    "Cmis Session successfully created");
-    
-  } catch(e) {
-    
-    addErrorAlert(connectAlertSection,
-                  e); 
-  }
-  
-}
 
 /* Type information */
 InputElement cmisType =  query('#cmis-type-id'); 
@@ -798,11 +800,42 @@ void doTypeInfoDefinition(Event e) {
 /* Document Information */
 InputElement cmisDocInfo =  query('#cmis-docinfo-id'); 
 DivElement docInfoAlertSection = query('#cmis-alertsection-docinfo');
-DivElement docInfoListSection = query('#cmis-docInfo-list');
-void outputDocInfoList(jsonobject.JsonObject response){
+DivElement docInfoListSection = query('#cmis-docinfo-list');
+void doDocInfoClear(Event e) {
+  
+  docInfoListSection.children.clear();
+  docInfoAlertSection.children.clear();
+  
+}
+
+void outputDocInfoList(jsonobject.JsonObject response) {
+  
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+  
+    try {
+      
+      int numItems = response.jsonCmisResponse.numItems;
+          
+    } catch(e) {
+      
+      String rawText = response.jsonCmisResponse.rawText;
+      PreElement theText = new PreElement();
+      theText.innerHtml = rawText;
+      docInfoListSection.children.add(theText);
+      
+    }
+      
+  } else {
+    
+    addErrorAlert(docInfoAlertSection,
+    "This is not a document type object");
+  }
   
   
 }
+
 void doDocInfo(Event e) {
   
   void completer() {
@@ -842,13 +875,13 @@ void doDocInfo(Event e) {
   cmisSession.resultCompletion = completer;
   if ( cmisDocInfo.value.isEmpty ) {
     
-    addErrorAlert(typeAlertSection,
-                  "You must supply a document Id");;
+    addErrorAlert(docInfoAlertSection,
+                  "You must supply a valid document Id");
     
     
   } else {
     
-      cmisSession.getDocument(cmisDocInfo.value);
+      cmisSession.getDocument(cmisDocInfo.value.trim());
   }
   
 }
@@ -968,5 +1001,8 @@ main() {
   
   ButtonElement docDeleteBtn = query('#cmis-doccreate-delete');
   docDeleteBtn.onClick.listen(doDocDelete);
+  
+  ButtonElement docInfoBtnClear = query('#cmis-docinfo-clear');
+  docInfoBtnClear.onClick.listen(doDocInfoClear);
 }
 

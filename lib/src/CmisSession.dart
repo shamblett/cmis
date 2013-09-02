@@ -206,6 +206,36 @@ class CmisSession{
     
   }
   
+  /**
+   * Getter for the root folder URL checking for proxy use
+   */
+  
+  String _getRootFolderUrl() {
+    
+    /* Get the root folder URL for the selected repository */
+    jsonobject.JsonObject repoInformation = new jsonobject.JsonObject();
+    if ( !_repoInformation.containsKey(_repId)) {
+      
+      throw new CmisException('getRootFolderUrl() no repository information found');
+    }
+    repoInformation = _repoInformation[_repId];
+    String rootUrl = null;
+    if ( _proxy ) {
+      
+      rootUrl = _caterForProxyServer(repoInformation.rootFolderUrl);
+      
+    } else {
+      
+     rootUrl = repoInformation.rootFolderUrl;
+     
+    }
+    
+    return rootUrl;
+    
+  }
+  
+  get rootUrl => _getRootFolderUrl();
+  
   /* Public */
   
   /**
@@ -388,24 +418,7 @@ class CmisSession{
       throw new CmisException('getRootFolderContents() expects a non null repository Id');
     }
     
-    /* Get the root folder URL for the selected repository */
-    jsonobject.JsonObject repoInformation = new jsonobject.JsonObject();
-    if ( !_repoInformation.containsKey(_repId)) {
-      
-      throw new CmisException('getRootFolderContents() no repository information found');
-    }
-    repoInformation = _repoInformation[_repId];
-    String rootUrl = null;
-    if ( _proxy ) {
-      
-      rootUrl = _caterForProxyServer(repoInformation.rootFolderUrl);
-      
-    } else {
-      
-     rootUrl = repoInformation.rootFolderUrl;
-     
-    }
-    
+    String rootUrl = _getRootFolderUrl();
     
     _httpRequest('GET',
         rootUrl,
@@ -459,21 +472,13 @@ class CmisSession{
     */
    void getDocument(String id) {
      
-     String url = rootUrl;
      jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.objectId = id;
-     data.cmisSelector = 'object';
-     data.filter = _opCtx.propertyFilter;
-     data.includeAllowableActions = _opCtx.includeAllowableActions;           
-     data.includeRelationships = _opCtx.includeRelationships;        
-     data.includePolicyIds =  _opCtx.includePolicies;          
-     data.includeACL = _opCtx.includeAcls;            
-     data.suppressResponseCodes = true; 
+     data.objectId = id;   
+     String rootUrl = _getRootFolderUrl();
      
-     String dataString = data.toString();
      _httpRequest('GET',
-         url,
-         data:dataString);
+         rootUrl,
+         data:data);
                          
    }
    
