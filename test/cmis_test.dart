@@ -915,7 +915,9 @@ main() {
     cmisUrl.value = configUrl;
     cmisServiceUrl.value = serviceUrl;
     cmisUser.value = configUser;
-    cmisPassword.value = configPassword;
+    cmisPassword.value = configPassword;      
+    cmisProxy.checked = configProxy;
+  
   }
   
   /* Get our working element set and add event handlers */
