@@ -100,8 +100,18 @@
         <fieldset>
           <legend>Root Folder Information</legend>
           
-          <label for="cmis-rootinfo-id">Object Id:</label>
-          <input type="text" id="cmis-rootinfo-id" value=""/>
+          <label class="radio">
+            <input type="radio" id="cmis-root-info-folder" name="cmis-rootinfo" value="folder"/>
+            Folders
+          </label>
+          <label class="radio">
+            <input type="radio" id="cmis-root-info-document" name="cmis-rootinfo" value="document"/>
+            Documents
+          </label>
+          <label class="radio">
+            <input type="radio" id="cmis-root-info-both" name="cmis-rootinfo" value="both" checked/>
+            Both
+           </label>
           
         </fieldset>
         
