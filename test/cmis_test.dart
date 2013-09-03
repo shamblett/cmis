@@ -376,6 +376,7 @@ void outputRootInfo(jsonobject.JsonObject response) {
         
           jsonobject.JsonObject properties = object.object.properties;
           
+          /* Check for the type filter */
           bool outputInfo = false;
           
           if ( rootFilterSelection == 'both') {
