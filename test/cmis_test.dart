@@ -107,6 +107,9 @@ main() {
   ButtonElement folderInfoTreeBtn = query('#cmis-folder-get-tree');
   folderInfoTreeBtn.onClick.listen(doFolderInfoTree);
   
+  ButtonElement folderInfoCheckedOutBtn = query('#cmis-folder-get-checkedout');
+  folderInfoCheckedOutBtn.onClick.listen(doFolderInfoCheckedOut);
+  
   ButtonElement folderInfoBtnClear = query('#cmis-folder-clear');
   folderInfoBtnClear.onClick.listen(doFolderInfoClear);
   
