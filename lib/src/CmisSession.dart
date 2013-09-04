@@ -568,7 +568,16 @@ class CmisSession{
   
   void getFolderParent(String folderId) {
     
+    jsonobject.JsonObject data = new jsonobject.JsonObject();
+    data.objectId = folderId; 
+    data.cmisselector = 'parent';
+    data.propertyFilter = _opCtx.propertyFilter;
+    data.succint = _opCtx.succint;
+    String rootUrl = _getRootFolderUrl();
     
+    _httpRequest('GET',
+        rootUrl,
+        data:data);
   }
 
   void getFolderCheckedOutDocs(String folderId) {

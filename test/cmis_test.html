@@ -123,6 +123,30 @@
       <div id="cmis-alertsection-rootinfo"> </div>
     </div>
     
+    <div id="cmis-folderinfo-section">
+    
+     <form class="form-inline">
+     
+        <fieldset>
+          <legend>Folder Information</legend>
+          
+          <label for="cmis-folder-id">Folder Id:</label>
+          <input class="input-xxlarge" type="text" id="cmis-folder-id" value=""/>
+          
+        </fieldset>
+        
+      </form>
+    
+      <button class="btn btn-primary" id="cmis-folder-get-children">Get Children</button>
+      <button class="btn btn-primary" id="cmis-folder-get-parent">Get Parent</button>
+      <button class="btn btn-primary" id="cmis-folder-get-descendants">Get Descendants</button>
+      <button class="btn btn-primary" id="cmis-folder-get-foldertree">Get Tree</button>
+      <button class="btn btn-primary" id="cmis-folder-get-checkedout">Get Checked Out Docs</button>
+      <button class="btn btn-primary" id="cmis-folder-clear">Clear</button>
+      <div id="cmis-folder-list"></div>
+      <div id="cmis-alertsection-folder"> </div>
+    </div>
+    
     <hr/>  
     <div id="cmis-docinfo-section">
     
@@ -145,29 +169,6 @@
     </div>
     
     <hr/>  
-    <div id="cmis-folderinfo-section">
-    
-     <form class="form-inline">
-     
-        <fieldset>
-          <legend>Folder Information</legend>
-          
-          <label for="cmis-folder-id">Folder Id:</label>
-          <input class="input-xxlarge" type="text" id="cmis-folder-id" value=""/>
-          
-        </fieldset>
-        
-      </form>
-    
-      <button class="btn btn-primary" id="cmis-folder-get-children">Get Children</button>
-      <button class="btn btn-primary" id="cmis-folder-get-parent">Get Parent Folder</button>
-      <button class="btn btn-primary" id="cmis-folder-get-descendants">Get Descendants</button>
-      <button class="btn btn-primary" id="cmis-folder-get-foldertree">Get Folder Tree</button>
-      <button class="btn btn-primary" id="cmis-folder-get-checkedout">Get Checked Out Docs</button>
-      <button class="btn btn-primary" id="cmis-folder-clear">Clear</button>
-      <div id="cmis-folder-list"></div>
-      <div id="cmis-alertsection-folder"> </div>
-    </div>
     
     <hr/>   
     <div id="cmis-doccreate-section">

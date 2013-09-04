@@ -101,6 +101,9 @@ main() {
   ButtonElement folderInfoDescendantsBtn = query('#cmis-folder-get-descendants');
   folderInfoDescendantsBtn.onClick.listen(doFolderInfoDescendants);
   
+  ButtonElement folderInfoParentBtn = query('#cmis-folder-get-parent');
+  folderInfoParentBtn.onClick.listen(doFolderInfoParent);
+  
   ButtonElement folderInfoBtnClear = query('#cmis-folder-clear');
   folderInfoBtnClear.onClick.listen(doFolderInfoClear);
   
