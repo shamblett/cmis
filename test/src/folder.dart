@@ -492,3 +492,68 @@ void doFolderInfoCheckedOut(Event e) {
   }
   
 }
+
+/* Create */
+InputElement cmisFolderUpdate =  query('#cmis-folder-update-name');
+DivElement folderUpdateAlertSection = query('#cmis-alertsection-folder-update');
+DivElement folderUpdateListSection = query('#cmis-folder-update-list');
+void outputFolderCreate(jsonobject.JsonObject response) {
+  
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+    
+    
+  }
+  
+}
+
+void doFolderCreate(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(folderUpdateAlertSection,
+                    message);
+      
+    } else {
+      
+        outputFolderCreate(cmisResponse);
+      
+    }
+    
+  }
+  
+  clearAlertSection(folderUpdateAlertSection);
+  cmisSession.resultCompletion = completer;
+  if ( cmisFolderUpdate.value.isEmpty ) {
+    
+    addErrorAlert(folderUpdateAlertSection,
+                  "You must supply a valid folder name");
+    
+    
+  } else {
+    
+      cmisSession.createFolder(cmisFolderUpdate.value.trim());
+  }
+  
+}

@@ -125,7 +125,7 @@ class CmisSession{
     
     /* Build the URL if we are not passed one. */
     String cmisUrl = null;
-    String httpData = null;
+    Map httpData = new Map<String,String>();
       
     cmisUrl = "$_urlPrefix/";
     if ( (_serviceUrlPrefix != null) && useServiceUrl ) {    
@@ -150,11 +150,26 @@ class CmisSession{
         
        }
       
-      } else {
+    } else if( method == 'POST' ) {
       
-        httpData = data.toString();
-      
+      /* Get the data as a map for POST */
+      if ( data != null ) {
+        
+        data.forEach((String key, dynamic value){
+          
+          httpData[key] = value.toString();
+          
+        });
+        
       }
+      
+    } else {
+      
+        //TODO
+        /* For now, we shouldn't use this in CMIS however */
+        httpData = null;
+      
+    }
       
     
     /* Check for authentication */
@@ -173,11 +188,20 @@ class CmisSession{
     }
     
     /* Execute the request*/
-    _httpAdapter.httpRequest(method, 
+    if ( method == 'GET' ) {
+    
+      _httpAdapter.httpRequest(method, 
                              cmisUrl, 
-                             httpData, 
+                             httpData.toString(), 
                              cmisHeaders);
     
+    } else {
+      
+      _httpAdapter.httpFormRequest(method, 
+          cmisUrl, 
+          httpData, 
+          cmisHeaders);
+    }
   }
   
 
@@ -430,22 +454,30 @@ class CmisSession{
     * CMIS objects
     */
    void create(String name, 
-               String typeId, 
-               String folderId,
                String cmisAction,
-               [ Map customProperties ] ) {
+               {String typeId : null, 
+                Map customProperties : null} ) {
      
      
-     String url = rootUrl;
+     String url = _getRootFolderUrl();
+     
      jsonobject.JsonObject data = new jsonobject.JsonObject();
      data.cmisaction = cmisAction;
-     data.objectId = folderId;
-     data.suppressResponseCodes = true;
      
+     /* Headers, we only create documents or folders */
+     Map headers = new Map<string,String>();
+     if ( typeId == 'cmis:folder' ) {
+       
+       headers['Content-Type'] = 'application/x-www-form-urlencoded';
+       
+     } else {
+       
+       headers['Content-Type'] = ' multipart/form-data';
+     }
      /* Properties */
      Map properties = new Map<String,String>();
      properties['cmis:name'] = name;
-     properties['cmis:objectTypeId'] = typeId;
+     if ( typeId != null ) properties['cmis:objectTypeId'] = typeId;
      
      /* Add any supplied custom properties */
      if ( customProperties != null ) {
@@ -453,17 +485,27 @@ class CmisSession{
        properties.addAll(customProperties);
      }
      
+  
      /* Construct the final data set */
+     int index = 0;
+     Map jsonMap = new Map<String,String>();
      properties.forEach((String key,String value) {
        
-       data.key = value;
+       
+       String propId = "propertyId[$index]";
+       String propValue = "propertyValue[$index]";
+       jsonMap["$propId"] = key;
+       jsonMap["$propValue"] = value;
+       index++;
        
      });
      
-     String dataString = data.toString();
+     data.addAll(jsonMap);
+     
      _httpRequest('POST',
          url,
-         data:dataString); 
+         data:data,
+         headers:headers); 
    }
    
    /**
@@ -619,15 +661,14 @@ class CmisSession{
   }
   
    void createFolder(String name, 
-                     String typeId, 
-                     String folderId,
-                     [ Map customProperties ] ) {
-    
+                     { String typeId : null, 
+                     Map customProperties : null} ) {
+
+     if ( typeId == null ) typeId = "cmis:folder";
      create(name, 
-            typeId, 
-            folderId, 
             "createFolder",
-            customProperties );
+            typeId : typeId,
+            customProperties : customProperties );
     }
   
   /**

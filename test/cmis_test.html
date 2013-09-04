@@ -171,6 +171,23 @@
     
     <hr/>  
     
+    <div id="cmis-folderupdate-section">
+      <form class="form-horizontal">
+        <fieldset>
+          <legend>Create/Delete Folder</legend>
+        
+            <label for="cmis-folder-update-name">Name:</label>
+            <input type="text" id="cmis-folder-update-name" value=""/>        
+            
+          </fieldset>
+          
+      </form>
+      <button class="btn btn-primary" id="cmis-folder-update-create">Create</button>
+      <button class="btn btn-primary" id="cmis-folder-update-delete">Delete</button>
+      <div id="cmis-folder-update-list"></div>
+      <div id="cmis-alertsection-folder-update"> </div>
+    </div>
+    
     <hr/>   
     <div id="cmis-doccreate-section">
       <form class="form-horizontal">
@@ -192,28 +209,6 @@
       <button class="btn btn-primary" id="cmis-doccreate-create">Create</button>
       <button class="btn btn-primary" id="cmis-doccreate-delete">Delete Document</button>
       <div id="cmis-alertsection-doccreate"> </div>
-    </div>
-    
-    <hr/>   
-    <div id="cmis-foldercreate-section">
-      <form class="form-inline">
-        <fieldset>
-          <legend>Create Folder</legend>
-        
-            <label for="cmis-folder-create-name">Name:</label>
-            <input type="text" id="cmis-folder-create-name" value=""/>
-        
-            <label for="cmis-folder-create-typeid">Type Id:</label>
-            <input type="text" id="cmis-folder-create-typeid" value=""/>
-            
-            <label for="cmis-folder-create-folder">Folder Id:</label>
-            <input type="text" id="cmis-folder-create-folder" value=""/>
-            
-          </fieldset>
-          
-      </form>
-      <button class="btn btn-primary" id="cmis-foldercreate-create">Create</button> <br/>
-      <div id="cmis-alertsection-foldercreate"> </div>
     </div>
     
     <hr/>   

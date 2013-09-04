@@ -109,8 +109,8 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
      
      /* Initialise */
      _method = method;
-    
-    /* Query CMIS over HTTP */ 
+      
+     /* Query CMIS over HTTP */ 
     html.HttpRequest.request(url,
                         method:method,
                         withCredentials:false,
@@ -122,7 +122,36 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
         ..then(onSuccess)
         ..catchError(onError)
         ..whenComplete(completion);
+   
+   
+  }
+  
+  /*
+   * Processes the HTTP POST(Form)request, returning the server's response
+   * via the completion callback.
+   */
+  void httpFormRequest(String method, 
+                   String url, 
+                   [Map data = null,
+                   Map headers = null]) {
     
+     
+     /* Initialise */
+     _method = method;
+      
+     /* POST CMIS over HTTP */ 
+    html.HttpRequest.postFormData(url,
+                        data,
+                        withCredentials:false,
+                        responseType:"json",
+                        requestHeaders:headers
+        
+        )
+        ..then(onSuccess)
+        ..catchError(onError)
+        ..whenComplete(completion);
+   
+   
   }
   
   /*
