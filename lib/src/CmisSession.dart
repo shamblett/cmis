@@ -392,7 +392,8 @@ class CmisSession{
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.cmisselector = 'checkedOut';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
-    data.maxItems = _opCtx.maxItems;   data.skipCount = _opCtx.skipCount;
+    data.maxItems = _opCtx.maxItems;   
+    data.skipCount = _opCtx.skipCount;
     data.propertyFilter = _opCtx.propertyFilter;
     data.renditionFilter = _opCtx.renditionFilter;
     data.includeAllowableActions = _opCtx.includeAllowableActions;
@@ -522,6 +523,15 @@ class CmisSession{
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.objectId = folderId; 
     data.cmisselector = 'children';
+    data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
+    data.maxItems = _opCtx.maxItems;   
+    data.skipCount = _opCtx.skipCount;
+    data.propertyFilter = _opCtx.propertyFilter;
+    data.renditionFilter = _opCtx.renditionFilter;
+    data.includePathSegment = _opCtx.includePathSegment;
+    data.includeAllowableActions = _opCtx.includeAllowableActions;
+    data.includeRelationships = _opCtx.includeRelationships;
+    data.succint = _opCtx.succint;
     String rootUrl = _getRootFolderUrl();
     
     _httpRequest('GET',
@@ -532,7 +542,23 @@ class CmisSession{
    
   void getFolderDescendants(String folderId) {
      
-     
+    jsonobject.JsonObject data = new jsonobject.JsonObject();
+    data.objectId = folderId; 
+    data.cmisselector = 'descendants';
+    data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
+    data.depth = _depth;
+    data.propertyFilter = _opCtx.propertyFilter;
+    data.renditionFilter = _opCtx.renditionFilter;
+    data.includePathSegment = _opCtx.includePathSegment;
+    data.includeAllowableActions = _opCtx.includeAllowableActions;
+    data.includeRelationships = _opCtx.includeRelationships;
+    data.succint = _opCtx.succint;
+    String rootUrl = _getRootFolderUrl();
+    
+    _httpRequest('GET',
+        rootUrl,
+        data:data);
+    
   }
   
   void getFolderTree(String folderId) {

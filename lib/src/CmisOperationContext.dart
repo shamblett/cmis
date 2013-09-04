@@ -20,7 +20,7 @@ class CmisOperationContext {
   bool includePolicies = false;
   String includeRelationships = "none";
   String renditionFilter = null;
-  bool includePathSegments = false;
+  bool includePathSegment = false;
   String orderBy = null;
   bool includePropertyDefinitions = true;
   bool searchAllVersions = true;
