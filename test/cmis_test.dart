@@ -95,6 +95,11 @@ main() {
   docInfoBtnClear.onClick.listen(doDocInfoClear);
   
   /* Folder Information */
+  ButtonElement folderInfoChildrenBtn = query('#cmis-folder-get-children');
+  folderInfoChildrenBtn.onClick.listen(doFolderInfoChildren);
+  
+  ButtonElement folderInfoBtnClear = query('#cmis-folder-clear');
+  folderInfoBtnClear.onClick.listen(doFolderInfoClear);
   
 }
 
