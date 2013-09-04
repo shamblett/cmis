@@ -55,13 +55,29 @@ class CmisSession{
 
   /* CMIS data structures */
   String _repId = null;
+  String _rootFolderId = null; 
+  
+  set repositoryId(String repoId) => _repId = repoId;  
+  get repositoryId => _repId;
+  set rootFolderId(String rootFolderId) => _rootFolderId = rootFolderId;
+  get rootFolderId => _rootFolderId;
+  
   String _urlPrefix = null;
   String _serviceUrlPrefix = null;
+  String get url => _urlPrefix;
+  String get serviceUrl => _serviceUrlPrefix;
+  get rootUrl => _getRootFolderUrl();
+  
   CmisOperationContext _opCtx = new CmisOperationContext();
-  String _rootFolderId = null; 
+  CmisOperationContext get operationalContext => _opCtx;
+  set operationalContext(CmisOperationContext opCtx) => _opCtx = opCtx;
+  
   CmisTypeCache _typeCache = new CmisTypeCache();    
   Map _pagingContext = new Map<String,CmisPagingContext>();
+  
   int _depth = 5;
+  set depth(int depth) => _depth = depth;
+  get depth => _depth;
   
   /* Authentication */
   String _user = null;
@@ -88,7 +104,6 @@ class CmisSession{
     _httpAdapter = new CmisNativeHttpAdapter(null);
     
   }
-  
   
   /* Private */
   
@@ -234,7 +249,6 @@ class CmisSession{
     
   }
   
-  get rootUrl => _getRootFolderUrl();
   
   /* Public */
   
@@ -249,17 +263,6 @@ class CmisSession{
    */
   jsonobject.JsonObject get completionResponse => _httpAdapter.jsonResponse;
 
-  /**
-   * URL handling
-   */
-  String get url => _urlPrefix;
-  String get serviceUrl => _serviceUrlPrefix;
-  
-  /**
-   * Operational context
-   */
-  CmisOperationContext get operationalContext => _opCtx;
-  set operationalContext(CmisOperationContext opCtx) => _opCtx = opCtx;
   
   /**
    * Paging context
@@ -313,11 +316,6 @@ class CmisSession{
   /**
    * Repository 
   */
-  set repositoryId(String repoId) => _repId = repoId;  
-  get repositoryId => _repId;
-  set rootFolderId(String rootFolderId) => _rootFolderId = rootFolderId;
-  get rootFolderId => _rootFolderId;
-  
   void getRepositories() {
     
     /* Save any found repositories */
@@ -519,7 +517,7 @@ class CmisSession{
     * Folders
     */
   
-  void getChildren(String folderId) {
+  void getFolderChildren(String folderId) {
      
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.objectId = folderId; 
@@ -532,7 +530,7 @@ class CmisSession{
     
   }
    
-  void getDescendants(String folderId) {
+  void getFolderDescendants(String folderId) {
      
      
   }
@@ -567,9 +565,6 @@ class CmisSession{
   /**
    * Type definitions
    */
-   
-   set depth(int depth) => _depth = depth;
-   get depth => _depth;
    
    void getTypeDefinition(String typeId) {
     
