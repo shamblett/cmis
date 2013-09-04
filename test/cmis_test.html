@@ -132,6 +132,7 @@
           
           <label for="cmis-folder-id">Folder Id:</label>
           <input class="input-xxlarge" type="text" id="cmis-folder-id" value=""/>
+          <span class="help-block">This must be an ObjectId of type cmis:folder.</span>
           
         </fieldset>
         
@@ -140,7 +141,7 @@
       <button class="btn btn-primary" id="cmis-folder-get-children">Get Children</button>
       <button class="btn btn-primary" id="cmis-folder-get-parent">Get Parent</button>
       <button class="btn btn-primary" id="cmis-folder-get-descendants">Get Descendants</button>
-      <button class="btn btn-primary" id="cmis-folder-get-foldertree">Get Tree</button>
+      <button class="btn btn-primary" id="cmis-folder-get-tree">Get Tree</button>
       <button class="btn btn-primary" id="cmis-folder-get-checkedout">Get Checked Out Docs</button>
       <button class="btn btn-primary" id="cmis-folder-clear">Clear</button>
       <div id="cmis-folder-list"></div>
@@ -157,7 +158,7 @@
           
           <label for="cmis-docinfo-id">Document Id:</label>
           <input class="input-xxlarge" type="text" id="cmis-docinfo-id" value=""/>
-           <span class="help-block">This must be an ObjectId of type cmis:document.</span>
+          <span class="help-block">This must be an ObjectId of type cmis:document.</span>
         </fieldset>
         
       </form>

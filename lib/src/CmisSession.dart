@@ -563,6 +563,22 @@ class CmisSession{
   
   void getFolderTree(String folderId) {
     
+    jsonobject.JsonObject data = new jsonobject.JsonObject();
+    data.objectId = folderId; 
+    data.cmisselector = 'folderTree';
+    data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
+    data.depth = _depth;
+    data.propertyFilter = _opCtx.propertyFilter;
+    data.renditionFilter = _opCtx.renditionFilter;
+    data.includePathSegment = _opCtx.includePathSegment;
+    data.includeAllowableActions = _opCtx.includeAllowableActions;
+    data.includeRelationships = _opCtx.includeRelationships;
+    data.succint = _opCtx.succint;
+    String rootUrl = _getRootFolderUrl();
+    
+    _httpRequest('GET',
+        rootUrl,
+        data:data);
     
   }
   

@@ -115,7 +115,7 @@ void doFolderInfoChildren(Event e) {
       }
       
       String message = "Error - $error, Reason - $reason, Code - $errorCode";
-      addErrorAlert(docInfoAlertSection,
+      addErrorAlert(folderInfoAlertSection,
                     message);
       
     } else {
@@ -214,7 +214,7 @@ void doFolderInfoDescendants(Event e) {
       }
       
       String message = "Error - $error, Reason - $reason, Code - $errorCode";
-      addErrorAlert(docInfoAlertSection,
+      addErrorAlert(folderInfoAlertSection,
                     message);
       
     } else {
@@ -308,7 +308,7 @@ void doFolderInfoParent(Event e) {
       }
       
       String message = "Error - $error, Reason - $reason, Code - $errorCode";
-      addErrorAlert(docInfoAlertSection,
+      addErrorAlert(folderInfoAlertSection,
                     message);
       
     } else {
@@ -330,6 +330,57 @@ void doFolderInfoParent(Event e) {
   } else {
     
       cmisSession.getFolderParent(cmisFolderInfo.value.trim());
+  }
+  
+}
+
+/* Folder Tree */
+void doFolderInfoTree(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(folderInfoAlertSection,
+                    message);
+      
+    } else {
+      
+        outputFolderInfoCommon(cmisResponse);
+      
+    }
+    
+  }
+  
+  clearAlertSection(folderInfoAlertSection);
+  cmisSession.resultCompletion = completer;
+  if ( cmisFolderInfo.value.isEmpty ) {
+    
+    addErrorAlert(folderInfoAlertSection,
+                  "You must supply a valid folder Id");
+    
+    
+  } else {
+    
+      cmisSession.getFolderTree(cmisFolderInfo.value.trim());
   }
   
 }
