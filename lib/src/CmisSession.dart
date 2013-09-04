@@ -470,10 +470,14 @@ class CmisSession{
    /**
     * Documents/Folders
     */
-   void getDocument(String id) {
+   
+   /**
+    * Documents
+    */
+   void getDocument(String documentId) {
      
      jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.objectId = id;   
+     data.objectId = documentId;   
      String rootUrl = _getRootFolderUrl();
      
      _httpRequest('GET',
@@ -482,24 +486,6 @@ class CmisSession{
                          
    }
    
-   void getDocumentChildren([String typeId]) {
-     
-     String url = rootUrl;
-     jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.objectId = id;
-     data.cmisSelector = 'object';
-     data.filter = _opCtx.propertyFilter;
-     data.includeAllowableActions = _opCtx.includeAllowableActions;           
-     data.includeRelationships = _opCtx.includeRelationships;        
-     data.includePolicyIds =  _opCtx.includePolicies;          
-     data.includeACL = _opCtx.includeAcls;            
-     data.suppressResponseCodes = true; 
-     
-     _httpRequest('GET',
-         url,
-         data:dataString);
-                         
-   }
   
    void deleteDocument(String id) {
     
@@ -529,6 +515,43 @@ class CmisSession{
             customProperties );
    }
    
+   /**
+    * Folders
+    */
+  
+  void getChildren(String folderId) {
+     
+    jsonobject.JsonObject data = new jsonobject.JsonObject();
+    data.objectId = folderId; 
+    data.cmisselector = 'children';
+    String rootUrl = _getRootFolderUrl();
+    
+    _httpRequest('GET',
+        rootUrl,
+        data:data);
+    
+  }
+   
+  void getDescendants(String folderId) {
+     
+     
+  }
+  
+  void getFolderTree(String folderId) {
+    
+    
+  }
+  
+  void getFolderParent(String folderId) {
+    
+    
+  }
+
+  void getFolderCheckedOutDocs(String folderId) {
+  
+  
+  }
+  
    void createFolder(String name, 
                      String typeId, 
                      String folderId,
