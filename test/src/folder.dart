@@ -23,6 +23,13 @@ void doFolderInfoClear(Event e) {
   
 }
 
+void doFolderUpdateClear(Event e) {
+  
+  folderUpdateListSection.children.clear();
+  folderUpdateAlertSection.children.clear();
+  
+}
+
 void outputFolderInfoCommon(jsonobject.JsonObject response) {
   
   UListElement uList = new UListElement();
@@ -499,12 +506,46 @@ DivElement folderUpdateAlertSection = query('#cmis-alertsection-folder-update');
 DivElement folderUpdateListSection = query('#cmis-folder-update-list');
 void outputFolderCreate(jsonobject.JsonObject response) {
   
+  String message = "Success! the folder ${cmisFolderUpdate.value} has been created";
+  addSuccessAlert(folderUpdateAlertSection,
+      message);
   UListElement uList = new UListElement();
   
   if ( response.jsonCmisResponse.isNotEmpty ) {
     
+    jsonobject.JsonObject properties = response.jsonCmisResponse.properties;
     
-  }
+    LIElement name = new LIElement();
+    name.innerHtml = "Name: ${properties['cmis:name'].value}";
+    uList.children.add(name);
+    LIElement objectId = new LIElement();
+    objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
+    uList.children.add(objectId);
+    LIElement objectTypeId = new LIElement();
+    objectTypeId.innerHtml = "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+    uList.children.add(objectTypeId);
+    if ( properties['cmis:parentId'] != null ) {
+      LIElement parentId = new LIElement();
+      parentId.innerHtml = "Parent Id: ${properties['cmis:parentId'].value}";
+      uList.children.add(parentId);
+    }
+    if ( properties['cmis:path'] != null ) {
+      LIElement path = new LIElement();
+      path.innerHtml = "Path: ${properties['cmis:path'].value}";
+      uList.children.add(path);
+    }
+    LIElement spacer = new LIElement();
+    spacer.innerHtml = "  ....... ";
+    uList.children.add(spacer);
+    
+ } else {
+    
+    LIElement noChildren = new LIElement();
+    noChildren.innerHtml = "Oops no valid response from folder create";
+    uList.children.add(noChildren);
+ }
+  
+  folderUpdateListSection.children.add(uList);
   
 }
 
@@ -557,3 +598,63 @@ void doFolderCreate(Event e) {
   }
   
 }
+void outputFolderDelete(jsonobject.JsonObject response) {
+  
+  /* Valid response indicates success, there is no other data returned */
+  
+  String message = "Success! the folder ${cmisFolderUpdate.value} has been deleted";
+  addSuccessAlert(folderUpdateAlertSection,
+      message);
+  
+}
+
+void doFolderDelete(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(folderUpdateAlertSection,
+                    message);
+      
+    } else {
+      
+        outputFolderDelete(cmisResponse);
+      
+    }
+    
+  }
+  
+  clearAlertSection(folderUpdateAlertSection);
+  cmisSession.resultCompletion = completer;
+  if ( cmisFolderUpdate.value.isEmpty ) {
+    
+    addErrorAlert(folderUpdateAlertSection,
+                  "You must supply a valid Object Id");
+    
+    
+  } else {
+    
+      cmisSession.deleteFolder(cmisFolderUpdate.value.trim());
+  }
+  
+}
+

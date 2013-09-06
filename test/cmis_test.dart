@@ -113,7 +113,13 @@ main() {
   ButtonElement folderCreateBtn = query('#cmis-folder-update-create');
   folderCreateBtn.onClick.listen(doFolderCreate);
   
-  ButtonElement folderInfoBtnClear = query('#cmis-folder-clear');
+  ButtonElement folderDeleteBtn = query('#cmis-folder-update-delete');
+  folderDeleteBtn.onClick.listen(doFolderDelete);
+  
+  ButtonElement folderUpdateBtnClear = query('#cmis-folder-update-clear');
+  folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
+  
+  ButtonElement folderInfoBtnClear = query('#cmis-docinfo-clear');
   folderInfoBtnClear.onClick.listen(doFolderInfoClear);
   
 }

@@ -176,14 +176,16 @@
         <fieldset>
           <legend>Create/Delete Folder</legend>
         
-            <label for="cmis-folder-update-name">Name:</label>
-            <input type="text" id="cmis-folder-update-name" value=""/>        
+            <label for="cmis-folder-update-name">Name/Object Id:</label>
+            <input type="text" id="cmis-folder-update-name" value=""/>  
+            <span class="help-block">Name for create, ObjectId for delete.</span>      
             
           </fieldset>
           
       </form>
       <button class="btn btn-primary" id="cmis-folder-update-create">Create</button>
       <button class="btn btn-primary" id="cmis-folder-update-delete">Delete</button>
+      <button class="btn btn-primary" id="cmis-folder-update-clear">Clear</button>
       <div id="cmis-folder-update-list"></div>
       <div id="cmis-alertsection-folder-update"> </div>
     </div>

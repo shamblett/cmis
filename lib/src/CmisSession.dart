@@ -118,7 +118,7 @@ class CmisSession{
                      Map headers:null}) {
     
     
-    /* Build the request for the HttpAdapter*/
+    /* Build the request for the HttpAdapter */
     Map cmisHeaders = new Map<String,String>();
     cmisHeaders["Accept"] = "application/json";
     if ( headers != null ) cmisHeaders.addAll(headers);
@@ -465,7 +465,7 @@ class CmisSession{
      data.cmisaction = cmisAction;
      
      /* Headers, we only create documents or folders */
-     Map headers = new Map<string,String>();
+     Map headers = new Map<String,String>();
      if ( typeId == 'cmis:folder' ) {
        
        headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -474,6 +474,7 @@ class CmisSession{
        
        headers['Content-Type'] = ' multipart/form-data';
      }
+     
      /* Properties */
      Map properties = new Map<String,String>();
      properties['cmis:name'] = name;
@@ -502,6 +503,26 @@ class CmisSession{
      
      data.addAll(jsonMap);
      
+     _httpRequest('POST',
+         url,
+         data:data,
+         headers:headers); 
+   }
+   
+   void delete(String objectId, 
+               [bool allVersions = false]) {
+     
+     String url = _getRootFolderUrl();
+     
+     jsonobject.JsonObject data = new jsonobject.JsonObject();
+     data.cmisaction = 'delete';
+     data.objectId = objectId;
+     data.allVersions = allVersions.toString();
+     
+     /* Headers, always the same for delete */
+     Map headers = new Map<String,String>();
+     headers['Content-Type'] = 'application/x-www-form-urlencoded';
+       
      _httpRequest('POST',
          url,
          data:data,
@@ -671,6 +692,13 @@ class CmisSession{
             customProperties : customProperties );
     }
   
+   void deleteFolder(String objectId, 
+                    [ bool allVersions = false ]) {
+
+     delete(objectId,
+            allVersions);
+            
+    }
   /**
    * Type definitions
    */
