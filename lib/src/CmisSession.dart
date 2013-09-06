@@ -456,11 +456,13 @@ class CmisSession{
    void create(String name, 
                String cmisAction,
                {String typeId : null, 
+                String parentId : null,
+                String parentPath : null,
                 Map customProperties : null} ) {
      
      
      String url = _getRootFolderUrl();
-     
+     if ( parentPath != null ) url = "$url/$parentPath";
      jsonobject.JsonObject data = new jsonobject.JsonObject();
      data.cmisaction = cmisAction;
      
@@ -478,6 +480,7 @@ class CmisSession{
      /* Properties */
      Map properties = new Map<String,String>();
      properties['cmis:name'] = name;
+     if ( parentId != null ) properties['objectId'] = parentId;
      if ( typeId != null ) properties['cmis:objectTypeId'] = typeId;
      
      /* Add any supplied custom properties */
@@ -683,12 +686,16 @@ class CmisSession{
   
    void createFolder(String name, 
                      { String typeId : null, 
-                     Map customProperties : null} ) {
+                       String parentId : null,
+                       String parentPath : null,
+                       Map customProperties : null} ) {
 
      if ( typeId == null ) typeId = "cmis:folder";
      create(name, 
             "createFolder",
             typeId : typeId,
+            parentId : parentId,
+            parentPath : parentPath,
             customProperties : customProperties );
     }
   

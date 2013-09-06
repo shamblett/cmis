@@ -502,6 +502,7 @@ void doFolderInfoCheckedOut(Event e) {
 
 /* Create */
 InputElement cmisFolderUpdate =  query('#cmis-folder-update-name');
+InputElement cmisFolderParent = query('#cmis-folder-update-parent');
 DivElement folderUpdateAlertSection = query('#cmis-alertsection-folder-update');
 DivElement folderUpdateListSection = query('#cmis-folder-update-list');
 void outputFolderCreate(jsonobject.JsonObject response) {
@@ -594,7 +595,10 @@ void doFolderCreate(Event e) {
     
   } else {
     
-      cmisSession.createFolder(cmisFolderUpdate.value.trim());
+      String parentPath = null;
+      if ( cmisFolderParent.value.isNotEmpty) parentPath = cmisFolderParent.value.trim();
+      cmisSession.createFolder(cmisFolderUpdate.value.trim(),
+                               parentPath: parentPath);
   }
   
 }
