@@ -119,6 +119,35 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
   }
   
   /*
+   * Processes the HTTP POST(Form)request, returning the server's response
+   * via the completion callback.
+   */
+  void httpFormRequest(String method, 
+                   String url, 
+                   [Map data = null,
+                   Map headers = null]) {
+    
+     
+     /* Initialise */
+     _method = method;
+      
+     /* POST CMIS over HTTP */ 
+    html.HttpRequest.postFormData(url,
+                        data,
+                        withCredentials:false,
+                        responseType:"json",
+                        requestHeaders:headers
+        
+        )
+        ..then(onSuccess)
+        ..catchError(onError)
+        ..whenComplete(completion);
+   
+   
+  }
+  
+  
+  /*
    * Psuedo respose generators
    */
 void generateErrorResponse(jsonobject.JsonObject response, int status) {
