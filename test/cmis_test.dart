@@ -119,7 +119,7 @@ main() {
   ButtonElement folderUpdateBtnClear = query('#cmis-folder-update-clear');
   folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
   
-  ButtonElement folderInfoBtnClear = query('#cmis-docinfo-clear');
+  ButtonElement folderInfoBtnClear = query('#cmis-folder-clear');
   folderInfoBtnClear.onClick.listen(doFolderInfoClear);
   
 }
