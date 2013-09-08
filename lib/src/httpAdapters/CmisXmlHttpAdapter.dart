@@ -107,7 +107,7 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
     html.HttpRequest.request(url,
                         method:method,
                         withCredentials:false,
-                        responseType:"json",
+                        responseType:null,
                         requestHeaders:headers,
                         sendData:data
         
@@ -135,7 +135,7 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
     html.HttpRequest.postFormData(url,
                         data,
                         withCredentials:false,
-                        responseType:"json",
+                        responseType:null,
                         requestHeaders:headers
         
         )
