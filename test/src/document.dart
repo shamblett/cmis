@@ -13,6 +13,7 @@
 
 part of cmistest;
 
+/* Information */
 InputElement cmisDocInfo =  query('#cmis-docinfo-id'); 
 DivElement docInfoAlertSection = query('#cmis-alertsection-docinfo');
 DivElement docInfoListSection = query('#cmis-docinfo-list');
@@ -100,7 +101,66 @@ void doDocInfo(Event e) {
   }
   
 }
-void doDocDelete(Event e) {
+
+/* Update */
+InputElement cmisDocumentUpdate =  query('#cmis-document-update-name');
+InputElement cmisDocumentFolderPath = query('#cmis-document-update-folderPath');
+InputElement cmisDocumentContentFileName =  query('#cmis-document-update-fileName');
+DivElement documentUpdateAlertSection = query('#cmis-alertsection-document-update');
+DivElement documentUpdateListSection = query('#cmis-document-update-list');
+
+void doDocumentUpdateClear(Event e) {
+  
+  documentUpdateListSection.children.clear();
+  documentUpdateAlertSection.children.clear();
+  
+}
+void outputDocumentCreate(jsonobject.JsonObject response) {
+  
+  String message = "Success! the document ${cmisDocumentUpdate.value} has been created";
+  addSuccessAlert(documentUpdateAlertSection,
+      message);
+  UListElement uList = new UListElement();
+  
+  if ( response.jsonCmisResponse.isNotEmpty ) {
+    
+    jsonobject.JsonObject properties = response.jsonCmisResponse.properties;
+    
+    LIElement name = new LIElement();
+    name.innerHtml = "Name: ${properties['cmis:name'].value}";
+    uList.children.add(name);
+    LIElement objectId = new LIElement();
+    objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
+    uList.children.add(objectId);
+    LIElement objectTypeId = new LIElement();
+    objectTypeId.innerHtml = "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+    uList.children.add(objectTypeId);
+    if ( properties['cmis:parentId'] != null ) {
+      LIElement parentId = new LIElement();
+      parentId.innerHtml = "Parent Id: ${properties['cmis:parentId'].value}";
+      uList.children.add(parentId);
+    }
+    if ( properties['cmis:path'] != null ) {
+      LIElement path = new LIElement();
+      path.innerHtml = "Path: ${properties['cmis:path'].value}";
+      uList.children.add(path);
+    }
+    LIElement spacer = new LIElement();
+    spacer.innerHtml = "  ....... ";
+    uList.children.add(spacer);
+    
+ } else {
+    
+    LIElement noChildren = new LIElement();
+    noChildren.innerHtml = "Oops no valid response from document create";
+    uList.children.add(noChildren);
+ }
+  
+  documentUpdateListSection.children.add(uList);
+  
+}
+
+void doDocumentCreate(Event e) {
   
   void completer() {
     
@@ -124,29 +184,34 @@ void doDocDelete(Event e) {
       }
       
       String message = "Error - $error, Reason - $reason, Code - $errorCode";
-      addErrorAlert(typeAlertSection,
+      addErrorAlert(documentUpdateAlertSection,
                     message);
       
     } else {
       
-      addSuccessAlert(docInfoAlertSection,
-                    "Document Deleted");
+        outputDocumentCreate(cmisResponse);
       
     }
     
   }
   
-  clearAlertSection(docInfoAlertSection);
+  clearAlertSection(documentUpdateAlertSection);
   cmisSession.resultCompletion = completer;
-  if ( cmisDocInfo.value.isEmpty ) {
+  if ( cmisDocumentUpdate.value.isEmpty ) {
     
-    addErrorAlert(docInfoAlertSection,
-                  "You must supply a document Id");;
+    addErrorAlert(documentUpdateAlertSection,
+                  "You must supply a valid document name");
     
     
   } else {
     
-      cmisSession.deleteDocument(cmisDocInfo.value);
+      String folderPath = null;
+      String content = null;
+      if ( cmisDocumentFolderPath.value.isNotEmpty) folderPath = cmisDocumentFolderPath.value.trim();
+      if ( cmisDocumentContentFileName.value.isNotEmpty ) content = cmisDocumentContentFileName.value;
+      cmisSession.createDocument(cmisDocumentUpdate.value.trim(),
+                               folderPath: folderPath,
+                               content: content);
   }
   
 }

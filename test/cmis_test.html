@@ -171,7 +171,7 @@
     
     <hr/>  
     
-    <div id="cmis-folderupdate-section">
+    <div id="cmis-folder-update-section">
       <form class="form-horizontal">
         <fieldset>
           <legend>Create/Delete Folder</legend>
@@ -190,31 +190,39 @@
       <button class="btn btn-primary" id="cmis-folder-update-delete">Delete</button>
       <button class="btn btn-primary" id="cmis-folder-update-clear">Clear</button>
       <div id="cmis-folder-update-list"></div>
-      <div id="cmis-alertsection-folder-update"> </div>
+      <div id="cmis-alertsection-folder-update"></div>
     </div>
     
     <hr/>   
-    <div id="cmis-doccreate-section">
+    <div id="cmis-document-update-section">
       <form class="form-horizontal">
         <fieldset>
           <legend>Create/Delete Document</legend>
         
-            <label for="cmis-document-create-name">Name:</label>
-            <input type="text" id="cmis-document-create-name" value=""/>
+            <label for="cmis-document-update-name">Name:</label>
+            <input type="text" id="cmis-document-update-name" value=""/>
         
-            <label for="cmis-document-create-typeid">Type Id:</label>
-            <input type="text" id="cmis-document-create-typeid" value=""/>
+            <label for="cmis-document-update-fileName">Content File Name:</label>
+            <input type="file" id="cmis-document-update-fileName"/>
             
-            <label for="cmis-document-create-folder">Folder Id:</label>
-            <input type="text" id="cmis-document-create-folder" value=""/>
+            <label for="cmis-document-update-folderPath">Folder Path:</label>
+            <input type="text" id="cmis-document-update-folderPath" value=""/>
+            <span class="help-block">Optional parent path for create.</span>       
+            
+            <label for="cmis-document-update-deleteId">Id:</label>
+            <input type="text" id="cmis-document-update-deleteId" value=""/>
+            <span class="help-block">Document Id for delete..</span>       
             
           </fieldset>
           
       </form>
-      <button class="btn btn-primary" id="cmis-doccreate-create">Create</button>
-      <button class="btn btn-primary" id="cmis-doccreate-delete">Delete Document</button>
-      <div id="cmis-alertsection-doccreate"> </div>
+      <button class="btn btn-primary" id="cmis-document-update-create">Create</button>
+      <button class="btn btn-primary" id="cmis-document-update-delete">Delete</button>
+      <button class="btn btn-primary" id="cmis-document-update-clear">Clear</button>
+      <div id="cmis-document-update-list"></div>
+      <div id="cmis-alertsection-document-update"></div>
     </div>
+    
     
     <hr/>   
     <div id="cmis-doquery-section">      

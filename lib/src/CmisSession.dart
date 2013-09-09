@@ -67,6 +67,7 @@ class CmisSession{
   String get url => _urlPrefix;
   String get serviceUrl => _serviceUrlPrefix;
   get rootUrl => _getRootFolderUrl();
+  get returnedRootUrl => _getRootFolderUrl(true);
   
   CmisOperationContext _opCtx = new CmisOperationContext();
   CmisOperationContext get operationalContext => _opCtx;
@@ -115,7 +116,8 @@ class CmisSession{
                      String url, 
                      {bool useServiceUrl:false,
                      jsonobject.JsonObject data:null, 
-                     Map headers:null}) {
+                     Map headers:null,
+                     html.FormData formData: null}) {
     
     
     /* Build the request for the HttpAdapter */
@@ -165,8 +167,8 @@ class CmisSession{
       
     } else {
       
-        //TODO
-        /* For now, we shouldn't use this in CMIS however */
+        
+        /* Form data supplied */
         httpData = null;
       
     }
@@ -197,10 +199,21 @@ class CmisSession{
     
     } else {
       
-      _httpAdapter.httpFormRequest(method, 
-          cmisUrl, 
-          httpData, 
-          cmisHeaders);
+      /* Method is POST, normal or form data */
+      if ( data != null ) {
+        
+        _httpAdapter.httpFormRequest(method, 
+            cmisUrl, 
+            httpData, 
+            cmisHeaders);
+        
+      } else {
+        
+        _httpAdapter.httpFormDataRequest(method, 
+            cmisUrl, 
+            formData, 
+            cmisHeaders);
+      }
     }
   }
   
@@ -249,7 +262,7 @@ class CmisSession{
    * Getter for the root folder URL checking for proxy use
    */
   
-  String _getRootFolderUrl() {
+  String _getRootFolderUrl([ bool ignoreProxy = false]) {
     
     /* Get the root folder URL for the selected repository */
     jsonobject.JsonObject repoInformation = new jsonobject.JsonObject();
@@ -259,7 +272,8 @@ class CmisSession{
     }
     repoInformation = _repoInformation[_repId];
     String rootUrl = null;
-    if ( _proxy ) {
+    /* Ignore the proxy check if we want the root url from the repository */
+    if ( (!ignoreProxy) && _proxy ) {
       
       rootUrl = _caterForProxyServer(repoInformation.rootFolderUrl);
       
@@ -458,42 +472,50 @@ class CmisSession{
                {String typeId : null, 
                 String parentId : null,
                 String parentPath : null,
+                String content : null,
                 Map customProperties : null} ) {
      
      
      String url = _getRootFolderUrl();
      if ( parentPath != null ) url = "$url/$parentPath";
      jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.cmisaction = cmisAction;
+     html.FormData formData = new html.FormData();
+     bool useFormData = false;
      
      /* Headers, we only create documents or folders */
      Map headers = new Map<String,String>();
+     
      if ( typeId == 'cmis:folder' ) {
        
        headers['Content-Type'] = 'application/x-www-form-urlencoded';
        
      } else {
+         
+       headers['Content-Type'] = 'multipart/form-data';
+       useFormData = true;
        
-       headers['Content-Type'] = ' multipart/form-data';
      }
      
      /* Properties */
-     Map properties = new Map<String,String>();
-     properties['cmis:name'] = name;
-     if ( parentId != null ) properties['objectId'] = parentId;
-     if ( typeId != null ) properties['cmis:objectTypeId'] = typeId;
-     
-     /* Add any supplied custom properties */
-     if ( customProperties != null ) {
+     if ( !useFormData ) {
+      
+      data.cmisaction = cmisAction; 
+      Map properties = new Map<String,String>();
+      properties['cmis:name'] = name;
+      if ( parentId != null ) properties['objectId'] = parentId;
+      if ( typeId != null ) properties['cmis:objectTypeId'] = typeId;
+      if ( content != null ) properties['content'] = content;
+ 
+      /* Add any supplied custom properties */
+      if ( customProperties != null ) {
        
-       properties.addAll(customProperties);
-     }
-     
+        properties.addAll(customProperties);
+      }
   
-     /* Construct the final data set */
-     int index = 0;
-     Map jsonMap = new Map<String,String>();
-     properties.forEach((String key,String value) {
+      /* Construct the final data set */
+      int index = 0;
+      Map jsonMap = new Map<String,String>();
+      properties.forEach((String key,String value) {
        
        
        String propId = "propertyId[$index]";
@@ -502,15 +524,33 @@ class CmisSession{
        jsonMap["$propValue"] = value;
        index++;
        
-     });
+      });
      
-     data.addAll(jsonMap);
+      data.addAll(jsonMap);
+      formData = null;
+      
+     } else {
+       
+       /* Form data interface for stream/content interfaces */
+       formData.append('name', name);
+       List blobParts = new List<String>();
+       blobParts.add('The contents');
+       html.Blob theBlob = new html.Blob(blobParts);
+       formData.appendBlob('content', theBlob, content);
+       if ( parentId != null ) formData.append('objectId', parentId);
+       if ( typeId != null ) formData.append('cmis:objectTypeId', typeId);
+       data = null;
+       
+     } 
      
      _httpRequest('POST',
          url,
          data:data,
-         headers:headers); 
-   }
+         headers:headers,
+         formData: formData); 
+  
+     
+  }
    
    void delete(String objectId, 
                [bool allVersions = false]) {
@@ -568,16 +608,19 @@ class CmisSession{
    
    } 
   
-   void createDocument(String name, 
-                      String typeId, 
-                      String folderId,
-                      [ Map customProperties ] ) {
-    
+   void createDocument( String name, 
+                        { String typeId : null, 
+                        String content : null,
+                        String folderPath : null,
+                        Map customProperties : null} ) {
+     
+     if ( typeId == null ) typeId = "cmis:document";
      create(name, 
-            typeId, 
-            folderId, 
-            "createDocument",
-            customProperties );
+         "createDocument",
+         typeId : typeId,
+         content: content,
+         parentPath : folderPath,
+         customProperties : customProperties );
    }
    
    /**

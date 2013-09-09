@@ -88,11 +88,18 @@ main() {
   ButtonElement docInfoBtn = query('#cmis-docinfo-get');
   docInfoBtn.onClick.listen(doDocInfo);
   
-  ButtonElement docDeleteBtn = query('#cmis-doccreate-delete');
-  docDeleteBtn.onClick.listen(doDocDelete);
-  
   ButtonElement docInfoBtnClear = query('#cmis-docinfo-clear');
   docInfoBtnClear.onClick.listen(doDocInfoClear);
+  
+  /* Document Update */
+  ButtonElement documentCreateBtn = query('#cmis-document-update-create');
+  documentCreateBtn.onClick.listen(doDocumentCreate);
+  
+  ButtonElement documentDeleteBtn = query('#cmis-document-update-delete');
+  //documentDeleteBtn.onClick.listen(doDocumentDelete);
+  
+  ButtonElement documentUpdateBtnClear = query('#cmis-document-update-clear');
+  documentUpdateBtnClear.onClick.listen(doDocumentUpdateClear);
   
   /* Folder Information */
   ButtonElement folderInfoChildrenBtn = query('#cmis-folder-get-children');
@@ -110,6 +117,10 @@ main() {
   ButtonElement folderInfoCheckedOutBtn = query('#cmis-folder-get-checkedout');
   folderInfoCheckedOutBtn.onClick.listen(doFolderInfoCheckedOut);
   
+  ButtonElement folderInfoBtnClear = query('#cmis-folder-clear');
+  folderInfoBtnClear.onClick.listen(doFolderInfoClear);
+  
+  /* Folder Update  */
   ButtonElement folderCreateBtn = query('#cmis-folder-update-create');
   folderCreateBtn.onClick.listen(doFolderCreate);
   
@@ -119,8 +130,7 @@ main() {
   ButtonElement folderUpdateBtnClear = query('#cmis-folder-update-clear');
   folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
   
-  ButtonElement folderInfoBtnClear = query('#cmis-folder-clear');
-  folderInfoBtnClear.onClick.listen(doFolderInfoClear);
+  
   
 }
 

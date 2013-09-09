@@ -146,6 +146,34 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
    
   }
   
+  /*
+   * Processes the HTTP Form Data request, returning the server's response
+   * via the completion callback.
+   */
+  void httpFormDataRequest(String method, 
+                   String url, 
+                   [html.FormData formData = null,
+                   Map headers = null]) {
+    
+     
+     /* Initialise */
+     _method = method;
+      
+     /* Query CMIS over HTTP */ 
+    html.HttpRequest.request(url,
+                        method:method,
+                        withCredentials:false,
+                        responseType:null,
+                        requestHeaders:headers,
+                        sendData:formData
+        
+        )
+        ..then(onSuccess)
+        ..catchError(onError)
+        ..whenComplete(completion);
+   
+   
+  }
   
   /*
    * Psuedo respose generators

@@ -35,6 +35,15 @@ abstract class CmisHttpAdapter {
                    Map headers = null]);
   
   /*
+   * Processes the HTTP POST(Form Data)request returning the server's response as
+   * a JSON Object
+   */
+  void httpFormDataRequest(String method, 
+                           String url, 
+                           [html.FormData formData = null,
+                           Map headers = null]);
+  
+  /*
    * Result Handling
    */
   void onError(html.HttpRequestProgressEvent response);
