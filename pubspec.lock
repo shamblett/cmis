@@ -4,51 +4,63 @@ packages:
   bootjack:
     description: bootjack
     source: hosted
-    version: "0.5.2"
+    version: "0.5.3+1"
   browser:
     description: browser
     source: hosted
-    version: "0.5.20"
+    version: "0.6.19"
+  crypto:
+    description: crypto
+    source: hosted
+    version: "0.6.21+3"
   dquery:
     description: dquery
     source: hosted
-    version: "0.5.1"
+    version: "0.5.2"
   http:
     description: http
     source: hosted
-    version: "0.5.20"
+    version: "0.6.19"
   json_object:
     description: json_object
     source: hosted
-    version: "1.0.15+3"
+    version: "1.0.16"
   logging:
     description: logging
     source: hosted
-    version: "0.5.20"
+    version: "0.6.19"
   meta:
     description: meta
     source: hosted
-    version: "0.5.20"
-  pathos:
-    description: pathos
+    version: "0.6.19"
+  mime:
+    description: mime
     source: hosted
-    version: "0.5.20"
+    version: "0.6.21+3"
+  path:
+    description: path
+    source: hosted
+    version: "0.6.19"
+  petitparser:
+    description: petitparser
+    source: hosted
+    version: "0.5.2"
   rikulo_commons:
     description: rikulo_commons
     source: hosted
-    version: "0.7.8+2"
+    version: "0.8.1"
   scheduled_test:
     description: scheduled_test
     source: hosted
-    version: "0.5.20"
+    version: "0.6.19"
   stack_trace:
     description: stack_trace
     source: hosted
-    version: "0.5.20"
+    version: "0.6.19"
   unittest:
     description: unittest
     source: hosted
-    version: "0.5.20"
+    version: "0.6.19"
   xml:
     description: xml
     source: hosted

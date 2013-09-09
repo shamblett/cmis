@@ -7,4 +7,6 @@ dependencies:
   xml: any
 dev_dependencies:
   bootjack: any
+  crypto: any
+  mime: any
   scheduled_test: any

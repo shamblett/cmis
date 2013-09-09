@@ -491,12 +491,11 @@ class CmisSession{
        
      } else {
          
-       headers['Content-Type'] = 'multipart/form-data';
        useFormData = true;
        
      }
      
-     /* Properties */
+     /* Properties for normal POST submit */
      if ( !useFormData ) {
       
       data.cmisaction = cmisAction; 
@@ -531,15 +530,25 @@ class CmisSession{
       
      } else {
        
-       /* Form data interface for stream/content interfaces */
-       formData.append('name', name);
-       List blobParts = new List<String>();
-       blobParts.add('The contents');
-       html.Blob theBlob = new html.Blob(blobParts);
-       formData.appendBlob('content', theBlob, content);
-       if ( parentId != null ) formData.append('objectId', parentId);
-       if ( typeId != null ) formData.append('cmis:objectTypeId', typeId);
-       data = null;
+       /* Form data interface for stream/content interfaces */    
+       formData.append('cmisaction', cmisAction);
+       formData.append('PropertyId[0]', 'cmis:name');
+       formData.append('PropertyValue[0]', name);   
+       if ( typeId != null ) {
+         
+         formData.append('PropertyId[1]', 'cmis:objectTypeId');
+         formData.append('PropertyValue[1]', typeId);
+       }
+      if ( parentId != null ) {
+         
+         formData.append('PropertyId[2]', 'objectId');
+         formData.append('PropertyValue[2]', parentId);
+       }
+      List blobParts = new List<String>();
+      blobParts.add(content);
+      html.Blob theBlob = new html.Blob(blobParts, 'text/plain');
+      formData.appendBlob('content', theBlob, content); 
+      data = null;
        
      } 
      
