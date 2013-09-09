@@ -602,6 +602,8 @@ void doFolderCreate(Event e) {
   }
   
 }
+
+/* Delete */
 void outputFolderDelete(jsonobject.JsonObject response) {
   
   /* Valid response indicates success, there is no other data returned */

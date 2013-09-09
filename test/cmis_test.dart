@@ -96,7 +96,7 @@ main() {
   documentCreateBtn.onClick.listen(doDocumentCreate);
   
   ButtonElement documentDeleteBtn = query('#cmis-document-update-delete');
-  //documentDeleteBtn.onClick.listen(doDocumentDelete);
+  documentDeleteBtn.onClick.listen(doDocumentDelete);
   
   ButtonElement documentUpdateBtnClear = query('#cmis-document-update-clear');
   documentUpdateBtnClear.onClick.listen(doDocumentUpdateClear);

@@ -601,18 +601,11 @@ class CmisSession{
    }
    
   
-   void deleteDocument(String id) {
-    
-    String url = rootUrl;
-    jsonobject.JsonObject data = new jsonobject.JsonObject();
-    data.objectId = id;
-    data.cmisSelector = 'delete';
-    data.suppressResponseCodes = true; 
-    
-    String dataString = data.toString();
-    _httpRequest('POST',
-        url,
-        data:dataString);
+   void deleteDocument(String objectId, 
+     [ bool allVersions = false ]) {
+
+       delete(objectId,
+           allVersions);
     
    
    } 

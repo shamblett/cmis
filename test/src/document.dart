@@ -115,6 +115,8 @@ void doDocumentUpdateClear(Event e) {
   documentUpdateAlertSection.children.clear();
   
 }
+
+/* Create */
 void outputDocumentCreate(jsonobject.JsonObject response) {
   
   String message = "Success! the document ${cmisDocumentUpdate.value} has been created";
@@ -212,6 +214,66 @@ void doDocumentCreate(Event e) {
       cmisSession.createDocument(cmisDocumentUpdate.value.trim(),
                                folderPath: folderPath,
                                content: content);
+  }
+  
+}
+/* Delete */
+InputElement cmisDocumentDelete =  query('#cmis-document-update-deleteId');
+void outputDocumentDelete(jsonobject.JsonObject response) {
+  
+  /* Valid response indicates success, there is no other data returned */ 
+  String message = "Success! the document ${cmisDocumentDelete.value} has been deleted";
+  addSuccessAlert(documentUpdateAlertSection,
+      message);
+  
+}
+
+void doDocumentDelete(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      addErrorAlert(documentUpdateAlertSection,
+                    message);
+      
+    } else {
+      
+        outputDocumentDelete(cmisResponse);
+      
+    }
+    
+  }
+  
+  clearAlertSection(documentUpdateAlertSection);
+  cmisSession.resultCompletion = completer;
+  if ( cmisDocumentDelete.value.isEmpty ) {
+    
+    addErrorAlert(documentUpdateAlertSection,
+                  "You must supply a valid Object Id");
+    
+    
+  } else {
+    
+      cmisSession.deleteDocument(cmisDocumentDelete.value.trim());
   }
   
 }
