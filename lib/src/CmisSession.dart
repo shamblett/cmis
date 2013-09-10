@@ -906,20 +906,17 @@ class CmisSession{
        throw new CmisException('query() expects a non null repository Id');
      }
      
-     String url = _getRootFolderUrl();
-     
      jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.cmisaction = 'query';
+     data.cmisselector= 'query';
      data.q = queryString;
      data.maxItems = _opCtx.maxItems;
-     data.searchAllVersions = _opCtx.searchAllVersions;
      data.includeAllowableActions = _opCtx.includeAllowableActions;           
      data.includeRelationships = _opCtx.includeRelationships;        
      data.skipCount = _opCtx.skipCount;
      data.renditionFilter = _opCtx.renditionFilter;
      
      _httpRequest('GET',
-                   url,
+                   null,
                    data:data); 
      
    }
