@@ -28,7 +28,7 @@ part 'src/rootfolder.dart';
 part 'src/typeinfo.dart';
 part 'src/document.dart';
 part 'src/folder.dart';
-
+part 'src/query.dart';
 
 main() {
   
@@ -130,7 +130,12 @@ main() {
   ButtonElement folderUpdateBtnClear = query('#cmis-folder-update-clear');
   folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
   
+  /* Query */
+  ButtonElement queryBtn = query('#cmis-query-query');
+  queryBtn.onClick.listen(doQuery);
   
+  ButtonElement queryBtnClear = query('#cmis-query-clear');
+  queryBtnClear.onClick.listen(doQueryClear);
   
 }
 

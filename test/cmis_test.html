@@ -229,17 +229,19 @@
     
     
     <hr/>   
-    <div id="cmis-doquery-section">      
-      <form class="form-inline">
+    <div id="cmis-query-section">      
+      <form class="form-horizontal">
         <fieldset>
           <legend>Enter a query</legend>
-          <textarea id="cmis-queryfield" cols="80" rows="5">SELECT * from cmis:document
+          <textarea id="cmis-query-statement" cols="80" rows="5">SELECT * from cmis:document
           </textarea>
+          <span class="help-block">Limited by max items etc...</span>  
         </fieldset>
       </form>
-      <button class="btn btn-primary" id="cmis-doquery">Do query</button>  <br/>
-      <div id="cmis-queryresponse-section"></div> 
-      <div id="cmis-alertsection-doquery"> </div>
+      <button class="btn btn-primary" id="cmis-query-query">Do the query</button>
+      <button class="btn btn-primary" id="cmis-query-clear">Clear</button>
+      <div id="cmis-query-list-section"></div> 
+      <div id="cmis-alertsection-query"> </div>
     </div>   
     
         

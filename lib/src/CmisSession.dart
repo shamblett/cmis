@@ -899,94 +899,31 @@ class CmisSession{
   /**
    * Queries
    */
-   void doQuery(String queryString) {
+   void query(String queryString) {
+     
+     if ( _repId == null ) {
+       
+       throw new CmisException('query() expects a non null repository Id');
+     }
+     
+     String url = _getRootFolderUrl();
      
      jsonobject.JsonObject data = new jsonobject.JsonObject();
+     data.cmisaction = 'query';
      data.q = queryString;
-     data.cmisSelector = 'query';
      data.maxItems = _opCtx.maxItems;
      data.searchAllVersions = _opCtx.searchAllVersions;
      data.includeAllowableActions = _opCtx.includeAllowableActions;           
      data.includeRelationships = _opCtx.includeRelationships;        
      data.skipCount = _opCtx.skipCount;
-     data.suppressResponseCodes = true; 
+     data.renditionFilter = _opCtx.renditionFilter;
      
-     String dataString = data.toString();
-     _httpRequest('POST',
-                   null,
-                   data:dataString); 
+     _httpRequest('GET',
+                   url,
+                   data:data); 
      
    }
   
-   void doQueryPaged(String queryString, 
-                     String elementId) {
-     
-     /* Add any found paging contexts */
-     var savedCompleter = _httpAdapter.completion;
-     
-     void localCompleter() {
-       
-       if ( _httpAdapter.jsonResponse.error == false ) {
-         
-        if ( _httpAdapter.jsonResponse.error == false ) {
-         
-           CmisPagingContext pgCtx = getPagingContext(elementId);
-           if ( pgCtx == null ) {
-            
-            addPagingContext(elementId, 
-                             0, 
-                             _httpAdapter.jsonResponse.jsonCmisResponse.numItems);
-           
-          } else {
-           
-           
-           _pagingContext[elementId].totalItems = 
-               _httpAdapter.jsonResponse.jsonCmisResponse.numItems;
-            
-          }
-           
-        }
-            
-       }
-       
-       savedCompleter();
-     } 
-     
-     jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.q = queryString;
-     data.cmisSelector = 'query';
-     data.maxItems = _opCtx.maxItems;
-     data.searchAllVersions = _opCtx.searchAllVersions;
-     data.includeAllowableActions = _opCtx.includeAllowableActions;           
-     data.includeRelationships = _opCtx.includeRelationships;        
-     data.skipCount = getPagingContextOffset(elementId);;
-     data.suppressResponseCodes = true; 
-     
-     String dataString = data.toString();
-     _httpAdapter.completion = localCompleter;
-     _httpRequest('POST',
-         null,
-         data:dataString);
-     
-   }
-   
-   /**
-    * Transactions
-    */
-   void getObjectFromTransaction(String transId) {
-     
-     jsonobject.JsonObject data = new jsonobject.JsonObject();
-     data.token = transId;
-     data.cmisSelector = 'lastResult';
-     data.suppressResponseCodes = true; 
-     
-     String dataString = data.toString();
-     _httpRequest('GET',
-         null,
-         data:dataString);
-     
-     
-   }
    
    
   /* Updates the login credentials in Cmis that will be used for all further
