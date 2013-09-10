@@ -287,6 +287,14 @@ class CmisSession{
     
   }
   
+  /**
+   * Mime type checker, if text return true, otherwise false.
+   */
+  bool _isText(String mimeType) {
+    
+    if ( mimeType.contains('text/') ) return true;
+    return false;
+  }
   
   /* Public */
   
@@ -473,6 +481,7 @@ class CmisSession{
                 String parentId : null,
                 String parentPath : null,
                 String content : null,
+                String mimeType : null,
                 Map customProperties : null} ) {
      
      
@@ -546,8 +555,8 @@ class CmisSession{
        }
       List blobParts = new List<String>();
       blobParts.add(content);
-      html.Blob theBlob = new html.Blob(blobParts, 'text/plain');
-      formData.appendBlob('content', theBlob, content); 
+      html.Blob theBlob = new html.Blob(blobParts, mimeType);
+      formData.appendBlob('content', theBlob); 
       data = null;
        
      } 
@@ -610,19 +619,69 @@ class CmisSession{
    
    } 
   
+   
    void createDocument( String name, 
                         { String typeId : null, 
                         String content : null,
                         String folderPath : null,
+                        String fileName : null,
+                        html.File file : null,
                         Map customProperties : null} ) {
      
+     
+     /* Declare the File Reader */
+     html.FileReader reader = new html.FileReader();
+     
+     /* Initialise */
      if ( typeId == null ) typeId = "cmis:document";
-     create(name, 
+     String mimeType = null;
+     if ( fileName != null ) mimeType = lookupMimeType(fileName);
+     
+     /* File read completers */
+     void fileRead() {
+         
+       String content = reader.result.toString();
+      
+       create(name, 
+           "createDocument",
+           typeId : typeId,
+           content: content,
+           mimeType: mimeType,
+           parentPath : folderPath,
+           customProperties : customProperties );
+       
+     }
+     
+     void fileReadError() {
+       
+       throw new CmisException('createDocument() error reading input file');
+       
+     }
+     
+     /* See if we have a filename or content, get the file contents if needed */
+     if ( content == null ) {
+       
+       if ( fileName == null ) throw new CmisException('createDocument() expects content or a file name');
+        
+       /* Read the file */
+       reader.onLoadEnd.listen((e) => fileRead());
+       reader.onError.listen((e) => fileReadError());
+       
+       /* We only do text here */ 
+       reader.readAsText(file);
+       
+     } else {
+     
+      /* Create from content supplied as a string */
+      create(name, 
          "createDocument",
          typeId : typeId,
          content: content,
          parentPath : folderPath,
          customProperties : customProperties );
+     
+     }
+     
    }
    
    /**

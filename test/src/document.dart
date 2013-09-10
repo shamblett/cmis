@@ -105,7 +105,8 @@ void doDocInfo(Event e) {
 /* Update */
 InputElement cmisDocumentUpdate =  query('#cmis-document-update-name');
 InputElement cmisDocumentFolderPath = query('#cmis-document-update-folderPath');
-InputElement cmisDocumentContentFileName =  query('#cmis-document-update-fileName');
+FileUploadInputElement cmisDocumentContentFileName =  query('#cmis-document-update-fileName');
+TextAreaElement cmisDocumentText = query('#cmis-document-update-text');
 DivElement documentUpdateAlertSection = query('#cmis-alertsection-document-update');
 DivElement documentUpdateListSection = query('#cmis-document-update-list');
 
@@ -208,12 +209,35 @@ void doDocumentCreate(Event e) {
   } else {
     
       String folderPath = null;
+      String fileName = null;
       String content = null;
+      File inputFile;
+      
       if ( cmisDocumentFolderPath.value.isNotEmpty) folderPath = cmisDocumentFolderPath.value.trim();
-      if ( cmisDocumentContentFileName.value.isNotEmpty ) content = cmisDocumentContentFileName.value;
+      if ( cmisDocumentText.value.isNotEmpty) {
+      
+        content = cmisDocumentText.value;
+        
+      } else {
+        
+        if ( cmisDocumentContentFileName.value.isNotEmpty ) {
+          
+          fileName = cmisDocumentContentFileName.value;
+          inputFile = cmisDocumentContentFileName.files[0];
+          
+        } else {
+          
+          addErrorAlert(documentUpdateAlertSection,
+          "You must supply either content or a file name");
+        }
+        
+      }
+     
       cmisSession.createDocument(cmisDocumentUpdate.value.trim(),
                                folderPath: folderPath,
-                               content: content);
+                               content: content,
+                               fileName: fileName,
+                               file: inputFile);
   }
   
 }

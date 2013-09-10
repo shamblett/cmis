@@ -9,12 +9,8 @@ library cmis;
 
 import 'dart:async';
 import 'dart:html' as html;
-import 'dart:utf';
-import 'dart:collection';
-import 'dart:typed_data';
 import 'package:json_object/json_object.dart' as jsonobject;
-import 'dart:json' as json;
-import 'dart:math' as math;
+import 'package:mime/mime.dart';
 
 part 'src/Cmis.dart';
 part 'src/CmisException.dart';
