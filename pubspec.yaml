@@ -1,12 +1,16 @@
 name: cmis
-description: A sample web application
+version: 1.0.0
+author: S. Hamblett <steve.hamblett@linux.com>
+description: A browser based CMIS 1.1. browser binding compliant client.
+homepage: https://github.com/shamblett/cmis
+documentation: https://github.com/shamblett/cmis
 dependencies:
-  browser: any
-  json_object: any
-  petitparser: any
-  xml: any
+  browser: '>=0.6.19 <0.6.20'
+  json_object: '>=1.0.16 <2.0.0'
+  mime: '>=0.6.21+3 <0.6.22'
 dev_dependencies:
   bootjack: any
   crypto: any
-  mime: any
+  petitparser: any
   scheduled_test: any
+  xml: any
