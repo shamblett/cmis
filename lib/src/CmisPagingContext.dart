@@ -31,7 +31,7 @@ class CmisPagingContext {
   int get totalItems => _totalItems == 0 ? 4294967295 : _totalItems;
   
   /**
-   * Get the curent page
+   * Get the current page
    */
   num get currentPage => ( (_skipCount / _opCtx.maxItems) + 1 ).floor();
   

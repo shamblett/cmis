@@ -7,12 +7,17 @@
  * 
  * The main CMIS Session class.
  * 
- * Note that only the most important CMIS features are covered at the moment.
+ * Note that only a subset of CMIS features are covered at the moment.
  * Please refer to the accompanying documentation for further details.
  * 
- * It can be used as a standalone CMISlibrary but it is envisaged that it will
+ * Cmis can be used as a standalone CMIS library but it is envisaged that it will
  * provide a core library for more advanced and/or specialised CMIS client libraries to 
  * wrap around.
+ * 
+ * A repository must be set for the majority of the API to work, typical usage is :
+ * 
+ * cmisSession.getRepositories() to get a list of repositories
+ * cmisSession.repositoryId = xxxxxxx
  * 
  * Results of API calls are returned via completion functions supplied by the client. 
  * Clients then call CmisSession API's to determine the outcome of the request. This allows 
@@ -20,31 +25,50 @@
  * 
  * An example of getting a document :-
  * 
- * void completer(){
-       
-       jsonobject.JsonObject res = cmisSession.completionResponse;
-       /* Check for error */
-       try {
-         expect(res.error, isFalse);
-       } catch(e) {
-         
-         jsonobject.JsonObject errorResponse = res.jsonCmisResponse;
-         String errorText = errorResponse.error;
-         String reasonText = errorResponse.reason;
-         int statusCode = res.errorCode;
-         return;
-       }
-       
-       /* Get the success response*/
-       jsonobject.JsonObject successResponse = res.jsonCmisResponse;
-       .......
+ * void doDocInfo(Event e) {
+  
+  void completer() {
+    
+    jsonobject.JsonObject cmisResponse = cmisSession.completionResponse;
+    
+    if ( cmisResponse.error ) {
+    
+      jsonobject.JsonObject errorResponse = cmisResponse.jsonCmisResponse;
+      int errorCode = cmisResponse.errorCode;
+      String error = null;
+      String reason = null;
+      if ( errorCode == 0 ) {
+        
+        error = errorResponse.error;
+        reason = errorResponse.reason;
+        
+      } else {
+        
+        error = errorResponse.message;
+        reason = "CMIS Server Response";
+      }
+      
+      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      print(error);
+      
+    } else {
+      
+        Do whatever here with the success response ........... 
+            outputDocInfoList(cmisResponse);
+      
+    }
+    
   }
+  
+    cmisSession.getDocument(<document object id>);
+  
+}
  *
  *
- * CmisSessiondepends on the JSON Object library for its response processing.
+ * CmisSession depends on the JSON Object class for its response processing.
  * 
  * See the API documentation for more details about individual methods, particularly the 
- * WiltNativeHTTPAdapter for the structure of the Wilt completion response.  
+ * CmisNativeHTTPAdapter for the structure of the Cmis completion response.  
  * 
  */
 
@@ -209,6 +233,7 @@ class CmisSession{
         
       } else {
         
+        /* Methods is POST, multi part request */
         _httpAdapter.httpFormDataRequest(method, 
             cmisUrl, 
             formData, 
@@ -362,6 +387,10 @@ class CmisSession{
   /**
    * Repository 
   */
+  
+  /**
+   * Get a list of repositories 
+   */
   void getRepositories() {
     
     /* Save any found repositories */
@@ -385,6 +414,11 @@ class CmisSession{
   
   }
   
+  /**
+   * Get information for a supplied repository.
+   * The client must set repositoryId as returned by getRepositories()
+   * before calling this.
+   */
   void getRepositoryInfo() {
     
     
@@ -428,7 +462,10 @@ class CmisSession{
     if (  _httpAdapter.completion != null) _httpAdapter.completion();
     
    }
-   
+ 
+  /**
+   * Get checked out documents for the repository
+   */
   void getCheckedOutDocs() {
     
     if ( _repId == null ) {
@@ -456,6 +493,9 @@ class CmisSession{
    * Root folder 
    */
   
+  /**
+   * Get the contents of the root folder
+   */
   void getRootFolderContents() {
     
     if ( _repId == null ) {
@@ -473,8 +513,13 @@ class CmisSession{
   }
   
    /**
-    * CMIS objects
+    * CMIS objects manipulation
     */
+  
+  /**
+   * Create item, see the supporting documentation as to what this
+   * currently supports.
+   */
    void create(String name, 
                String cmisAction,
                {String typeId : null, 
@@ -484,6 +529,10 @@ class CmisSession{
                 String mimeType : null,
                 Map customProperties : null} ) {
      
+     if ( _repId == null ) {
+       
+       throw new CmisException('create() expects a non null repository Id');
+     }
      
      String url = _getRootFolderUrl();
      if ( parentPath != null ) url = "$url/$parentPath";
@@ -570,8 +619,16 @@ class CmisSession{
      
   }
    
+   /**
+    * Delete item.
+    */
    void delete(String objectId, 
                [bool allVersions = false]) {
+     
+     if ( _repId == null ) {
+       
+       throw new CmisException('delete() expects a non null repository Id');
+     }
      
      String url = _getRootFolderUrl();
      
@@ -595,10 +652,15 @@ class CmisSession{
     */
    
    /**
-    * Documents
+    * Get document.
+    * This returns the document contents as supplied by the repository.
     */
    void getDocument(String documentId) {
      
+     if ( _repId == null ) {
+       
+       throw new CmisException('getDocument() expects a non null repository Id');
+     }
      jsonobject.JsonObject data = new jsonobject.JsonObject();
      data.objectId = documentId;   
      String rootUrl = _getRootFolderUrl();
@@ -609,17 +671,31 @@ class CmisSession{
                          
    }
    
-  
+  /**
+   * Delete document
+   */
    void deleteDocument(String objectId, 
      [ bool allVersions = false ]) {
 
-       delete(objectId,
+     if ( _repId == null ) {
+       
+       throw new CmisException('deleteDocument() expects a non null repository Id');
+     }
+     
+     delete(objectId,
            allVersions);
     
    
    } 
   
-   
+   /**
+    * Create document.
+    * This allows content to be supplied as a string or
+    * a 'File' class and its associated file name to be used in which
+    * case the file is read from the client.
+    * If content is not null it takes precedent over file upload.
+    * Will take a supplied type id, defaults to document.
+    */
    void createDocument( String name, 
                         { String typeId : null, 
                         String content : null,
@@ -628,6 +704,10 @@ class CmisSession{
                         html.File file : null,
                         Map customProperties : null} ) {
      
+     if ( _repId == null ) {
+       
+       throw new CmisException('createDocument() expects a non null repository Id');
+     }
      
      /* Declare the File Reader */
      html.FileReader reader = new html.FileReader();
@@ -688,8 +768,16 @@ class CmisSession{
     * Folders
     */
   
+   /**
+    * Get folder children
+    */
   void getFolderChildren(String folderId) {
      
+    if ( _repId == null ) {
+      
+      throw new CmisException('getFolderChildren() expects a non null repository Id');
+    }
+
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.objectId = folderId; 
     data.cmisselector = 'children';
@@ -710,8 +798,16 @@ class CmisSession{
     
   }
    
+  /**
+   * Get folder descendants
+   */
   void getFolderDescendants(String folderId) {
      
+    if ( _repId == null ) {
+      
+      throw new CmisException('getFolderDescendantss() expects a non null repository Id');
+    }
+
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.objectId = folderId; 
     data.cmisselector = 'descendants';
@@ -730,9 +826,16 @@ class CmisSession{
         data:data);
     
   }
-  
+  /**
+   * Get folder Tree.
+   * Note: not supported on all repositories.
+   */
   void getFolderTree(String folderId) {
     
+    if ( _repId == null ) {
+      
+      throw new CmisException('getFolderTree() expects a non null repository Id');
+    }
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.objectId = folderId; 
     data.cmisselector = 'folderTree';
@@ -751,9 +854,15 @@ class CmisSession{
         data:data);
     
   }
-  
+  /**
+   * Get folder parent
+   */
   void getFolderParent(String folderId) {
     
+    if ( _repId == null ) {
+      
+      throw new CmisException('getFolderParent() expects a non null repository Id');
+    }
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.objectId = folderId; 
     data.cmisselector = 'parent';
@@ -766,8 +875,16 @@ class CmisSession{
         data:data);
   }
 
+  /**
+   * Get checked out documents in the supplied folder
+   */
   void getFolderCheckedOutDocs(String folderId) {
   
+    if ( _repId == null ) {
+      
+      throw new CmisException('getFolderCheckedOutDocs() expects a non null repository Id');
+    }
+
     jsonobject.JsonObject data = new jsonobject.JsonObject();
     data.objectId = folderId; 
     data.cmisselector = 'checkedout';
@@ -788,12 +905,21 @@ class CmisSession{
   
   }
   
+  /**
+   * Create folder.
+   * Will take a supplied type id, defaults to folder.
+   */
    void createFolder(String name, 
                      { String typeId : null, 
                        String parentId : null,
                        String parentPath : null,
                        Map customProperties : null} ) {
 
+     if ( _repId == null ) {
+       
+       throw new CmisException('createFolder() expects a non null repository Id');
+     }
+     
      if ( typeId == null ) typeId = "cmis:folder";
      create(name, 
             "createFolder",
@@ -803,6 +929,9 @@ class CmisSession{
             customProperties : customProperties );
     }
   
+   /**
+    * Delete folder
+    */
    void deleteFolder(String objectId, 
                     [ bool allVersions = false ]) {
 
@@ -811,9 +940,12 @@ class CmisSession{
             
     }
   /**
-   * Type definitions
+   * Type Information
    */
    
+   /**
+    * Get type definition
+    */
    void getTypeDefinition(String typeId) {
     
      /* Add any found type to the cache */
@@ -861,6 +993,9 @@ class CmisSession{
      
    }
    
+   /**
+    * Get type children
+    */
    void getTypeChildren([String typeId = null]) {
      
     if ( _repId == null ) {
@@ -879,6 +1014,9 @@ class CmisSession{
      
    }
    
+   /**
+    * Get type descendants
+    */
    void getTypeDescendants([String typeId = null]) {
      
      if ( _repId == null ) {
@@ -899,6 +1037,10 @@ class CmisSession{
   /**
    * Queries
    */
+   
+   /**
+    * CMIS query
+    */
    void query(String queryString) {
      
      if ( _repId == null ) {

@@ -5,7 +5,7 @@
  * Copyright :  S.Hamblett@OSCF
  *
  * 
- * A CMIS Operation context class for the CMIS session
+ * A CMIS Operational context class for the CMIS session
  */
 
 part of cmis;

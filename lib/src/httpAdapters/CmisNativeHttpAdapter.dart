@@ -76,7 +76,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     
     /**
      * If stringify fails we may have a document body returned, ie straight text,
-     * in this case create a jJsonObject with this as its value.
+     * in this case create a JsonObject with this as its value.
      */
     
     try {
@@ -155,7 +155,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
   }
   
   /*
-   * Processes the HTTP Form Data request, returning the server's response
+   * Processes the HTTP POST(Form Multi Part) request, returning the server's response
    * via the completion callback.
    */
   void httpFormDataRequest(String method, 

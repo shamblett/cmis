@@ -4,7 +4,7 @@
  * Date   : 01/07/2013
  * Copyright :  S.Hamblett@OSCF
  *
- * This class provides Wilt user utility functions 
+ * This class provides Cmis user utility functions 
  */
 
 part of cmis;
@@ -12,6 +12,6 @@ part of cmis;
 
 class CmisUserUtils {
   
-  
+    //TODO need to add these.
   
 }

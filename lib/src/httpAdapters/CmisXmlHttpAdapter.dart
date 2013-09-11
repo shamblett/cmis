@@ -147,7 +147,7 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
   }
   
   /*
-   * Processes the HTTP Form Data request, returning the server's response
+   * Processes the HTTP  POST(Form Multi Part) request, returning the server's response
    * via the completion callback.
    */
   void httpFormDataRequest(String method, 
