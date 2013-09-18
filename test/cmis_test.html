@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <link rel="stylesheet" href="packages/bootjack/css/bootstrap-2.3.1.css">
+    <link rel="stylesheet" href="packages/bootjack/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/cmis.css"/>
     <title>CMIS Client Test Suite</title>
   </head>
@@ -20,26 +20,40 @@
         </div>
     </header>
     <div id="cmis-connect-section">
-      <form class="form-horizontal">
+      <form class="form-horizontal" role="form">
         <fieldset>
           <legend>Server Details</legend>
-        
-            <label for="cmis-url">Repository URL:</label>
-            <input type="text" id="cmis-url" value=""/>
-        
-            <label for="cmis-service-url">Service URL:</label>
-            <input type="text"id="cmis-service-url" value=""/>
+            <div class="form-group">
+            <label  class="col-lg-2 control-label" for="cmis-url">Repository URL:</label>
+            <div class="col-lg-10">
+            <input class="form-control" type="text" id="cmis-url" value=""/>
+            </div>
+            </div>
+            <div class="form-group">
+            <label  class="col-lg-2 control-label" for="cmis-service-url">Service URL:</label>
+            <div class="col-lg-10">
+            <input class="form-control" type="text"id="cmis-service-url" value=""/>
             <span class="help-block">Only use if the Repository Service URL is different to the one above.</span>
-            
-            <label for="cmis-user">User:</label>
-            <input type="text" id="cmis-user" value=""/>
-            
-            <label for="cmis-password">Password:</label>
-            <input type="password" id="cmis-password" value=""/>
-            
-            <label for="cmis-proxy">Using Proxy:</label>
+            </div>
+            </div>
+            <div class="form-group">
+            <label  class="col-lg-2 control-label" for="cmis-user">User:</label>
+             <div class="col-lg-10">
+            <input class="form-control" type="text" id="cmis-user" value=""/>
+            </div>
+            </div>
+            <div class="form-group">
+            <label  class="col-lg-2 control-label" for="cmis-password">Password:</label>
+             <div class="col-lg-10">
+            <input class="form-control" type="password" id="cmis-password" value=""/>
+            </div>
+            </div>
+            <div class="form-group">
+            <label  class="col-lg-2 control-label" for="cmis-proxy">Using Proxy:</label>
+             <div class="col-lg-10">
             <input type="checkbox" id="cmis-proxy" value="yes"/>
-            
+            </div>
+            </div>
           </fieldset>
           
       </form>

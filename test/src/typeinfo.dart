@@ -287,7 +287,7 @@ void outputTypeListDefinition(jsonobject.JsonObject response) {
   } else {
     
     LIElement noDefinition = new LIElement();
-    noChildren.innerHtml = "There is no definition for this type";
+    noDefinition.innerHtml = "There is no definition for this type";
     uList.children.add(noDefinition);
   }
   
