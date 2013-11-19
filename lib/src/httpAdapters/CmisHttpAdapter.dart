@@ -46,7 +46,7 @@ abstract class CmisHttpAdapter {
   /*
    * Result Handling
    */
-  void onError(html.HttpRequestProgressEvent response);
+  void onError(html.HttpRequest response);
   void onSuccess(html.HttpRequest response);
   
   /*
