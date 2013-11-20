@@ -13,9 +13,9 @@
 
 part of cmistest;
 
-InputElement cmisType =  query('#cmis-type-id'); 
-DivElement typeAlertSection = query('#cmis-alertsection-type');
-DivElement typeListSection = query('#cmis-type-list');
+InputElement cmisType =  querySelector('#cmis-type-id'); 
+DivElement typeAlertSection = querySelector('#cmis-alertsection-type');
+DivElement typeListSection = querySelector('#cmis-type-list');
 void outputTypeListDescendants(jsonobject.JsonObject response) {
   
   UListElement uList = new UListElement();

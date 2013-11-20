@@ -47,94 +47,94 @@ main() {
   /* Get our working element set and add event handlers */
   
   /* Connect */
-  ButtonElement connectBtn = query('#cmis-connect-btn');
+  ButtonElement connectBtn = querySelector('#cmis-connect-btn');
   connectBtn.onClick.listen(doConnect);
  
   /* Repository Info */
-  ButtonElement repositoryInfoBtn = query('#cmis-repository-info');
+  ButtonElement repositoryInfoBtn = querySelector('#cmis-repository-info');
   repositoryInfoBtn.onClick.listen(doRepositoryInfo);
   
-  ButtonElement checkedOutDocsBtn = query('#cmis-repository-checkedoutdocs');
+  ButtonElement checkedOutDocsBtn = querySelector('#cmis-repository-checkedoutdocs');
   checkedOutDocsBtn.onClick.listen(doCheckedOutDocs);
   
-  ButtonElement repositoryInfoBtnClear = query('#cmis-repository-info-clear');
+  ButtonElement repositoryInfoBtnClear = querySelector('#cmis-repository-info-clear');
   repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
   
   /* Root Folder */
-  ButtonElement rootInfoBtn = query('#cmis-root-info');
+  ButtonElement rootInfoBtn = querySelector('#cmis-root-info');
   rootInfoBtn.onClick.listen(doRootInfo);
   
-  query('#cmis-root-info-folder').onClick.listen(onRootFilterSelect);
-  query('#cmis-root-info-document').onClick.listen(onRootFilterSelect);
-  query('#cmis-root-info-both').onClick.listen(onRootFilterSelect);
+  querySelector('#cmis-root-info-folder').onClick.listen(onRootFilterSelect);
+  querySelector('#cmis-root-info-document').onClick.listen(onRootFilterSelect);
+  querySelector('#cmis-root-info-both').onClick.listen(onRootFilterSelect);
   
-  ButtonElement rootInfoBtnClear = query('#cmis-root-info-clear');
+  ButtonElement rootInfoBtnClear = querySelector('#cmis-root-info-clear');
   rootInfoBtnClear.onClick.listen(doRootInfoClear);
    
   /* Type information */
-  ButtonElement typeInfoDescendantsBtn = query('#cmis-type-info-descendants');
+  ButtonElement typeInfoDescendantsBtn = querySelector('#cmis-type-info-descendants');
   typeInfoDescendantsBtn.onClick.listen(doTypeInfoDescendants);
   
-  ButtonElement typeInfoChildrenBtn = query('#cmis-type-info-children');
+  ButtonElement typeInfoChildrenBtn = querySelector('#cmis-type-info-children');
   typeInfoChildrenBtn.onClick.listen(doTypeInfoChildren);
   
-  ButtonElement typeInfoDefinitionBtn = query('#cmis-type-info-definition');
+  ButtonElement typeInfoDefinitionBtn = querySelector('#cmis-type-info-definition');
   typeInfoDefinitionBtn.onClick.listen(doTypeInfoDefinition);
   
-  ButtonElement typeInfoBtnClear = query('#cmis-type-info-clear');
+  ButtonElement typeInfoBtnClear = querySelector('#cmis-type-info-clear');
   typeInfoBtnClear.onClick.listen(doTypeInfoClear);
   
   /* Document Information */
-  ButtonElement docInfoBtn = query('#cmis-docinfo-get');
+  ButtonElement docInfoBtn = querySelector('#cmis-docinfo-get');
   docInfoBtn.onClick.listen(doDocInfo);
   
-  ButtonElement docInfoBtnClear = query('#cmis-docinfo-clear');
+  ButtonElement docInfoBtnClear = querySelector('#cmis-docinfo-clear');
   docInfoBtnClear.onClick.listen(doDocInfoClear);
   
   /* Document Update */
-  ButtonElement documentCreateBtn = query('#cmis-document-update-create');
+  ButtonElement documentCreateBtn = querySelector('#cmis-document-update-create');
   documentCreateBtn.onClick.listen(doDocumentCreate);
   
-  ButtonElement documentDeleteBtn = query('#cmis-document-update-delete');
+  ButtonElement documentDeleteBtn = querySelector('#cmis-document-update-delete');
   documentDeleteBtn.onClick.listen(doDocumentDelete);
   
-  ButtonElement documentUpdateBtnClear = query('#cmis-document-update-clear');
+  ButtonElement documentUpdateBtnClear = querySelector('#cmis-document-update-clear');
   documentUpdateBtnClear.onClick.listen(doDocumentUpdateClear);
   
   /* Folder Information */
-  ButtonElement folderInfoChildrenBtn = query('#cmis-folder-get-children');
+  ButtonElement folderInfoChildrenBtn = querySelector('#cmis-folder-get-children');
   folderInfoChildrenBtn.onClick.listen(doFolderInfoChildren);
   
-  ButtonElement folderInfoDescendantsBtn = query('#cmis-folder-get-descendants');
+  ButtonElement folderInfoDescendantsBtn = querySelector('#cmis-folder-get-descendants');
   folderInfoDescendantsBtn.onClick.listen(doFolderInfoDescendants);
   
-  ButtonElement folderInfoParentBtn = query('#cmis-folder-get-parent');
+  ButtonElement folderInfoParentBtn = querySelector('#cmis-folder-get-parent');
   folderInfoParentBtn.onClick.listen(doFolderInfoParent);
   
-  ButtonElement folderInfoTreeBtn = query('#cmis-folder-get-tree');
+  ButtonElement folderInfoTreeBtn = querySelector('#cmis-folder-get-tree');
   folderInfoTreeBtn.onClick.listen(doFolderInfoTree);
   
-  ButtonElement folderInfoCheckedOutBtn = query('#cmis-folder-get-checkedout');
+  ButtonElement folderInfoCheckedOutBtn = querySelector('#cmis-folder-get-checkedout');
   folderInfoCheckedOutBtn.onClick.listen(doFolderInfoCheckedOut);
   
-  ButtonElement folderInfoBtnClear = query('#cmis-folder-clear');
+  ButtonElement folderInfoBtnClear = querySelector('#cmis-folder-clear');
   folderInfoBtnClear.onClick.listen(doFolderInfoClear);
   
   /* Folder Update  */
-  ButtonElement folderCreateBtn = query('#cmis-folder-update-create');
+  ButtonElement folderCreateBtn = querySelector('#cmis-folder-update-create');
   folderCreateBtn.onClick.listen(doFolderCreate);
   
-  ButtonElement folderDeleteBtn = query('#cmis-folder-update-delete');
+  ButtonElement folderDeleteBtn = querySelector('#cmis-folder-update-delete');
   folderDeleteBtn.onClick.listen(doFolderDelete);
   
-  ButtonElement folderUpdateBtnClear = query('#cmis-folder-update-clear');
+  ButtonElement folderUpdateBtnClear = querySelector('#cmis-folder-update-clear');
   folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
   
   /* Query */
-  ButtonElement queryBtn = query('#cmis-query-query');
+  ButtonElement queryBtn = querySelector('#cmis-query-query');
   queryBtn.onClick.listen(doQuery);
   
-  ButtonElement queryBtnClear = query('#cmis-query-clear');
+  ButtonElement queryBtnClear = querySelector('#cmis-query-clear');
   queryBtnClear.onClick.listen(doQueryClear);
   
 }

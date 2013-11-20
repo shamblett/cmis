@@ -13,12 +13,12 @@
 
 part of cmistest;
 
-InputElement cmisUrl =  query('#cmis-url'); 
-InputElement cmisServiceUrl =  query('#cmis-service-url'); 
-InputElement cmisUser =  query('#cmis-user');
-InputElement cmisPassword = query('#cmis-password'); 
-InputElement cmisProxy = query('#cmis-proxy'); 
-DivElement connectAlertSection = query('#cmis-alertsection-connect');
+InputElement cmisUrl =  querySelector('#cmis-url'); 
+InputElement cmisServiceUrl =  querySelector('#cmis-service-url'); 
+InputElement cmisUser =  querySelector('#cmis-user');
+InputElement cmisPassword = querySelector('#cmis-password'); 
+InputElement cmisProxy = querySelector('#cmis-proxy'); 
+DivElement connectAlertSection = querySelector('#cmis-alertsection-connect');
 void doConnect(Event e){
   
   repoId = null;

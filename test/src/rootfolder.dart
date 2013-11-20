@@ -13,9 +13,9 @@
 
 part of cmistest;
 
-InputElement cmisRootInfoId =  query('#cmis-rootinfo-id'); 
-DivElement rootInfoAlertSection = query('#cmis-alertsection-rootinfo');
-DivElement rootInfoListSection = query('#cmis-rootinfo-list');
+InputElement cmisRootInfoId =  querySelector('#cmis-rootinfo-id'); 
+DivElement rootInfoAlertSection = querySelector('#cmis-alertsection-rootinfo');
+DivElement rootInfoListSection = querySelector('#cmis-rootinfo-list');
 String rootFilterSelection = 'both';
 
 void doRootInfoClear(Event e) {

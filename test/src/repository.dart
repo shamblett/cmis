@@ -13,10 +13,10 @@
 
 part of cmistest;
 
-InputElement cmisRepositoryId =  query('#cmis-repository-id'); 
+InputElement cmisRepositoryId =  querySelector('#cmis-repository-id'); 
 String repoId = null;
-DivElement repositoryAlertSection = query('#cmis-alertsection-repository');
-DivElement repositoryDetailsSection = query('#cmis-repository-details');
+DivElement repositoryAlertSection = querySelector('#cmis-alertsection-repository');
+DivElement repositoryDetailsSection = querySelector('#cmis-repository-details');
 void outputRepositoryInfo(jsonobject.JsonObject response){
   
   jsonobject.JsonObject repositoryInfo = response.jsonCmisResponse;
@@ -51,7 +51,7 @@ void outputRepositoryInfo(jsonobject.JsonObject response){
 }
 
 
-DivElement repositoryListSection = query('#cmis-repository-list');
+DivElement repositoryListSection = querySelector('#cmis-repository-list');
 void outputRepositoryList(jsonobject.JsonObject response){
   
   void onRepoSelect(Event e ){

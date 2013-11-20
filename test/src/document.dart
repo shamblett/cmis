@@ -14,9 +14,9 @@
 part of cmistest;
 
 /* Information */
-InputElement cmisDocInfo =  query('#cmis-docinfo-id'); 
-DivElement docInfoAlertSection = query('#cmis-alertsection-docinfo');
-DivElement docInfoListSection = query('#cmis-docinfo-list');
+InputElement cmisDocInfo =  querySelector('#cmis-docinfo-id'); 
+DivElement docInfoAlertSection = querySelector('#cmis-alertsection-docinfo');
+DivElement docInfoListSection = querySelector('#cmis-docinfo-list');
 void doDocInfoClear(Event e) {
   
   docInfoListSection.children.clear();
@@ -103,12 +103,12 @@ void doDocInfo(Event e) {
 }
 
 /* Update */
-InputElement cmisDocumentUpdate =  query('#cmis-document-update-name');
-InputElement cmisDocumentFolderPath = query('#cmis-document-update-folderPath');
-FileUploadInputElement cmisDocumentContentFileName =  query('#cmis-document-update-fileName');
-TextAreaElement cmisDocumentText = query('#cmis-document-update-text');
-DivElement documentUpdateAlertSection = query('#cmis-alertsection-document-update');
-DivElement documentUpdateListSection = query('#cmis-document-update-list');
+InputElement cmisDocumentUpdate =  querySelector('#cmis-document-update-name');
+InputElement cmisDocumentFolderPath = querySelector('#cmis-document-update-folderPath');
+FileUploadInputElement cmisDocumentContentFileName =  querySelector('#cmis-document-update-fileName');
+TextAreaElement cmisDocumentText = querySelector('#cmis-document-update-text');
+DivElement documentUpdateAlertSection = querySelector('#cmis-alertsection-document-update');
+DivElement documentUpdateListSection = querySelector('#cmis-document-update-list');
 
 void doDocumentUpdateClear(Event e) {
   
@@ -242,7 +242,7 @@ void doDocumentCreate(Event e) {
   
 }
 /* Delete */
-InputElement cmisDocumentDelete =  query('#cmis-document-update-deleteId');
+InputElement cmisDocumentDelete =  querySelector('#cmis-document-update-deleteId');
 void outputDocumentDelete(jsonobject.JsonObject response) {
   
   /* Valid response indicates success, there is no other data returned */ 

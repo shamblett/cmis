@@ -13,9 +13,9 @@
 
 part of cmistest;
 
-InputElement cmisFolderInfo =  query('#cmis-folder-id'); 
-DivElement folderInfoAlertSection = query('#cmis-alertsection-folder');
-DivElement folderInfoListSection = query('#cmis-folder-list');
+InputElement cmisFolderInfo =  querySelector('#cmis-folder-id'); 
+DivElement folderInfoAlertSection = querySelector('#cmis-alertsection-folder');
+DivElement folderInfoListSection = querySelector('#cmis-folder-list');
 void doFolderInfoClear(Event e) {
   
   folderInfoListSection.children.clear();
@@ -501,10 +501,10 @@ void doFolderInfoCheckedOut(Event e) {
 }
 
 /* Create */
-InputElement cmisFolderUpdate =  query('#cmis-folder-update-name');
-InputElement cmisFolderParent = query('#cmis-folder-update-parent');
-DivElement folderUpdateAlertSection = query('#cmis-alertsection-folder-update');
-DivElement folderUpdateListSection = query('#cmis-folder-update-list');
+InputElement cmisFolderUpdate =  querySelector('#cmis-folder-update-name');
+InputElement cmisFolderParent = querySelector('#cmis-folder-update-parent');
+DivElement folderUpdateAlertSection = querySelector('#cmis-alertsection-folder-update');
+DivElement folderUpdateListSection = querySelector('#cmis-folder-update-list');
 void outputFolderCreate(jsonobject.JsonObject response) {
   
   String message = "Success! the folder ${cmisFolderUpdate.value} has been created";

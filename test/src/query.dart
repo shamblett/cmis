@@ -13,9 +13,9 @@
 
 part of cmistest;
 
-TextAreaElement queryStatement =  query('#cmis-query-statement'); 
-DivElement queryAlertSection = query('#cmis-alertsection-query');
-DivElement queryListSection = query('#cmis-query-list-section');
+TextAreaElement queryStatement =  querySelector('#cmis-query-statement'); 
+DivElement queryAlertSection = querySelector('#cmis-alertsection-query');
+DivElement queryListSection = querySelector('#cmis-query-list-section');
 void doQueryClear(Event e) {
   
   queryListSection.children.clear();
