@@ -44,25 +44,35 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
    * to return a JSON Object.
    * 
    */
-  void onError(html.HttpRequest response){
+  void onError(response){
     
     jsonResponse.jsonCmisResponse = new jsonobject.JsonObject();
-    
+     
     /* Process the error response */
-    if ( response.status != 0 ) {
+    if ( response.target.status != 0 ) {
       
-      jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject.fromJsonString(response.responseText);
-      generateErrorResponse(errorAsJson, response.status);
+      try {
+      
+        jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject.fromJsonString(response.target.responseText);
+        generateErrorResponse(errorAsJson, response.target.status);
+        
+      } catch(e) { 
+        
+        jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject();
+        errorAsJson.message = "JSON Decode failure";
+        generateErrorResponse(errorAsJson, response.target.status);
+        
+      }
       
     } else {
       
       jsonobject.JsonObject errorAsJson = new jsonobject.JsonObject();
-      generateErrorResponse(errorAsJson, response.status);
+      generateErrorResponse(errorAsJson, response.target.status);
       
     }
     
     /* Set the response headers */
-    allResponseHeaders = response.getAllResponseHeaders();
+    allResponseHeaders = response.target.getAllResponseHeaders();
   }
   
   /**
