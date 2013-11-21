@@ -64,18 +64,18 @@
     <hr/>   
     <div id="cmis-repositories-section">
     <div id="cmis-repository-list"></div>
-      <form class="form-inline">
+      <form class="form-horizontal" role="form">
      
         <fieldset>
           <legend>Repository Details</legend>
-          
+          <div class="form-group">
           <label for="cmis-repository-id">Using Repository-Id:</label>
-          <input class="input-xxlarge" type="text" id="cmis-repository-id" value=""/>
-          
+          <input class="form-control" type="text" id="cmis-repository-id" value=""/>
+          </div>
         </fieldset>
         
       </form>
-    
+      <br/>
       <button class="btn btn-primary" id="cmis-repository-info">Get Repository Information</button>
       <button class="btn btn-primary" id="cmis-repository-checkedoutdocs">Get Checked Out Documents</button>
       <button class="btn btn-primary" id="cmis-repository-info-clear">Clear</button>
@@ -86,18 +86,18 @@
     <hr/>  
     <div id="cmis-typeinfo-section">
     
-     <form class="form-inline">
+     <form class="form-horizontal" role="form">
      
         <fieldset>
           <legend>Type Information</legend>
-          
+           <div class="form-group">
           <label for="cmis-type-id">Type Id:</label>
-          <input type="text" id="cmis-type-id" value=""/>
-          
+          <input class="form-control" type="text" id="cmis-type-id" value=""/>
+          </div>
         </fieldset>
         
       </form>
-    
+      <br/>
       <button class="btn btn-primary" id="cmis-type-info-descendants">Get Type Descendants</button>
       <button class="btn btn-primary" id="cmis-type-info-children">Get Type Children</button>
       <button class="btn btn-primary" id="cmis-type-info-definition">Get Type Definition</button>
@@ -109,11 +109,11 @@
     <hr/>  
     <div id="cmis-rootinfo-section">
     
-     <form class="form-inline">
+     <form class="form-inline" role="form">
      
         <fieldset>
           <legend>Root Folder Information</legend>
-          
+          <div class="form-group">
           <label class="radio">
             <input type="radio" id="cmis-root-info-folder" name="cmis-rootinfo" value="folder"/>
             Folders
@@ -126,11 +126,11 @@
             <input type="radio" id="cmis-root-info-both" name="cmis-rootinfo" value="both" checked/>
             Both
            </label>
-          
+          </div>
         </fieldset>
         
       </form>
-    
+      <br/>
       <button class="btn btn-primary" id="cmis-root-info">Get Root Folder Contents</button>
       <button class="btn btn-primary" id="cmis-root-info-clear">Clear</button>
       <div id="cmis-rootinfo-list"></div>
@@ -139,19 +139,19 @@
     
     <div id="cmis-folderinfo-section">
     
-     <form class="form-inline">
+     <form class="form-horizontal" role="form">
      
         <fieldset>
           <legend>Folder Information</legend>
-          
+           <div class="form-group">
           <label for="cmis-folder-id">Folder Id:</label>
-          <input class="input-xxlarge" type="text" id="cmis-folder-id" value=""/>
+          <input class="form-control" type="text" id="cmis-folder-id" value=""/>
           <span class="help-block">This must be an ObjectId of type cmis:folder.</span>
-          
+          </div>
         </fieldset>
         
       </form>
-    
+      <br/>
       <button class="btn btn-primary" id="cmis-folder-get-children">Get Children</button>
       <button class="btn btn-primary" id="cmis-folder-get-parent">Get Parent</button>
       <button class="btn btn-primary" id="cmis-folder-get-descendants">Get Descendants</button>
@@ -165,18 +165,19 @@
     <hr/>  
     <div id="cmis-docinfo-section">
     
-     <form class="form-inline">
+     <form class="form-horizontal" role="form">
      
         <fieldset>
           <legend>Document Information</legend>
-          
+          <div class="form-group">
           <label for="cmis-docinfo-id">Document Id:</label>
-          <input class="input-xxlarge" type="text" id="cmis-docinfo-id" value=""/>
+          <input class="form-control" type="text" id="cmis-docinfo-id" value=""/>
           <span class="help-block">This must be an ObjectId of type cmis:document.</span>
+          </div>
         </fieldset>
         
       </form>
-    
+      <br/>
       <button class="btn btn-primary" id="cmis-docinfo-get">Get Document</button>
       <button class="btn btn-primary" id="cmis-docinfo-clear">Clear</button>
       <div id="cmis-docinfo-list"></div>
@@ -186,20 +187,27 @@
     <hr/>  
     
     <div id="cmis-folder-update-section">
-      <form class="form-horizontal">
+      <form class="form-horizontal" role="form">
         <fieldset>
           <legend>Create/Delete Folder</legend>
-        
-            <label for="cmis-folder-update-name">Name/Object Id:</label>
-            <input type="text" id="cmis-folder-update-name" value=""/>  
+            <div class="form-group">
+            <label class="col-lg-2 control-label" for="cmis-folder-update-name">Name/Object Id:</label>
+            <div class="col-lg-10">
+            <input class="form-control" type="text" id="cmis-folder-update-name" value=""/>
             <span class="help-block">Name for create, ObjectId for delete.</span>
-            <label for="cmis-folder-update-parent">Parent Path:</label>
-            <input type="text" id="cmis-folder-update-parent" value=""/>  
+            </div>
+            </div>  
+             <div class="form-group">
+            <label class="col-lg-2 control-label" for="cmis-folder-update-parent">Parent Path:</label>
+            <div class="col-lg-10">
+            <input class="form-control" type="text" id="cmis-folder-update-parent" value=""/>  
             <span class="help-block">Optional parent path for create.</span>        
-            
+            </div>
+            </div>
           </fieldset>
           
       </form>
+      <br/>
       <button class="btn btn-primary" id="cmis-folder-update-create">Create</button>
       <button class="btn btn-primary" id="cmis-folder-update-delete">Delete</button>
       <button class="btn btn-primary" id="cmis-folder-update-clear">Clear</button>
@@ -209,31 +217,44 @@
     
     <hr/>   
     <div id="cmis-document-update-section">
-      <form class="form-horizontal">
+      <form class="form-horizontal" role="form">
         <fieldset>
           <legend>Create/Delete Document</legend>
-        
-            <label for="cmis-document-update-name">Name:</label>
-            <input type="text" id="cmis-document-update-name" value=""/>
-        
-            <label for="cmis-document-update-text">Document Contents:</label>
-            <textarea id="cmis-document-update-text" ></textarea>
-            <span class="help-block">If set will be used before file name.</span>    
-            
-            <label for="cmis-document-update-fileName">Content File Name:</label>
-            <input type="file" id="cmis-document-update-fileName"/>
-            
-            <label for="cmis-document-update-folderPath">Folder Path:</label>
-            <input type="text" id="cmis-document-update-folderPath" value=""/>
-            <span class="help-block">Optional parent path for create.</span>       
-            
-            <label for="cmis-document-update-deleteId">Id:</label>
-            <input type="text" id="cmis-document-update-deleteId" value=""/>
+            <div class="form-group">
+            <label class="col-lg-2 control-label" for="cmis-document-update-name">Name:</label>
+            <div class="col-lg-10">
+            <input class="form-control" type="text" id="cmis-document-update-name" value=""/>
+            </div>
+            </div>
+            <div class="form-group">
+            <label class="col-lg-2 control-label"  for="cmis-document-update-text">Document Contents:</label>
+            <textarea class="col-lg-2 control-label" id="cmis-document-update-text" cols="80" rows="5"></textarea>
+            <span class="help-block">If set will be used before file name.</span>   
+            </div>       
+            <div class="form-group">
+            <label class="col-lg-2 control-label" for="cmis-document-update-fileName">Content File Name:</label>
+            <div class="col-lg-10">
+            <input class="form-control" type="file" id="cmis-document-update-fileName"/>
+            </div>
+            </div>
+            <div class="form-group">
+            <label class="col-lg-2 control-label" for="cmis-document-update-folderPath">Folder Path:</label>
+            <div class="col-lg-10">
+            <input class="form-control" type="text" id="cmis-document-update-folderPath" value=""/>
+            <span class="help-block">Optional parent path for create.</span>  
+            </div>
+            </div>
+            <div class="form-group">
+            <label class="col-lg-2 control-label" for="cmis-document-update-deleteId">Id:</label>
+            <div class="col-lg-10">
+            <input class="form-control"type="text" id="cmis-document-update-deleteId" value=""/>
             <span class="help-block">Document Id for delete.</span>       
-            
+            </div>
+            </div>
           </fieldset>
           
       </form>
+      <br/>
       <button class="btn btn-primary" id="cmis-document-update-create">Create</button>
       <button class="btn btn-primary" id="cmis-document-update-delete">Delete</button>
       <button class="btn btn-primary" id="cmis-document-update-clear">Clear</button>
@@ -244,12 +265,14 @@
     
     <hr/>   
     <div id="cmis-query-section">      
-      <form class="form-horizontal">
+      <form class="form-horizontal" role="form">
         <fieldset>
           <legend>Enter a query</legend>
-          <textarea id="cmis-query-statement" cols="80" rows="5">SELECT * from cmis:document
+          <div class="form-group">
+          <textarea class="col-lg-2 control-label"  id="cmis-query-statement" cols="80" rows="5">SELECT * from cmis:document
           </textarea>
           <span class="help-block">Limited by max items etc...</span>  
+          </div>
         </fieldset>
       </form>
       <button class="btn btn-primary" id="cmis-query-query">Do the query</button>
