@@ -207,10 +207,6 @@ class CmisSession{
       String authString = "Basic $encodedAuthString";
       cmisHeaders['Authorization'] = authString;
       
-    } else {
-      
-      throw new CmisException('HttpRequest() expects a non null user name and password');
-      
     }
     
     /* Execute the request*/
