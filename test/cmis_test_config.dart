@@ -11,7 +11,7 @@
  * 
  */
 bool configInUse = true;
-String configUrl = 'http://cmis.alfresco.com/cmisbrowser';
+String configUrl = 'http://crossorigin.me/http:/cmis.alfresco.com/cmisbrowser';
 String serviceUrl = ''; //Optional
 String configUser = 'admin';
 String configPassword = 'admin';
