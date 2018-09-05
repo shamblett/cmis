@@ -11,9 +11,9 @@
  * 
  */
 bool configInUse = true;
-String configUrl = 'http://xxx';
-String serviceUrl = 'http://xxx'; //Optional
-String configUser = 'xxx';
-String configPassword = 'xxx';
+String configUrl = 'http://cmis.alfresco.com/cmisbrowser';
+String serviceUrl = ''; //Optional
+String configUser = 'admin';
+String configPassword = 'admin';
 String configRepositoryId = ''; // Optional
-bool configProxy = true;
+bool configProxy = false;
