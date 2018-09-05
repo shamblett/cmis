@@ -2,3 +2,7 @@ packages/
 pubspec.lock
 test/packages/
 test/*xml*
+
+
+# Dart 2 additions
+.dart_tool/
