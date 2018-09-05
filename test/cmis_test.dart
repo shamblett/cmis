@@ -157,9 +157,9 @@ int main() {
     final ButtonElement queryBtnClear = querySelector('#cmis-query-clear');
     queryBtnClear.onClick.listen(doQueryClear);
 
-    dynamic end = expectAsync0(() {});
+    final dynamic end = expectAsync0(() {});
 
-    Timer timer = new Timer(Duration(seconds: 2000), end);
+    final Timer timer = new Timer(Duration(seconds: 2000), end);
     print(timer.isActive);
   });
 
