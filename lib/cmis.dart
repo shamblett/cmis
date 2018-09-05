@@ -9,7 +9,7 @@ library cmis;
 
 import 'dart:async';
 import 'dart:html' as html;
-import 'package:json_object/json_object.dart' as jsonobject;
+import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:mime/mime.dart';
 
 part 'src/Cmis.dart';
@@ -22,5 +22,3 @@ part 'src/CmisSession.dart';
 part 'src/httpAdapters/CmisHttpAdapter.dart';
 part 'src/httpAdapters/CmisNativeHttpAdapter.dart';
 part 'src/httpAdapters/CmisXmlHttpAdapter.dart';
-
-

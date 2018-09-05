@@ -17,43 +17,31 @@ part of cmistest;
 Cmis cmisClient = new Cmis();
 CmisSession cmisSession = null;
 
-
 /* Alert Handling */
 void clearAlertSection(DivElement section) {
-  
   section.children.clear();
-  
 }
 
-void addErrorAlert(DivElement section,
-                     String alertText) {
-  
+void addErrorAlert(DivElement section, String alertText) {
   DivElement alert = new DivElement();
   alert.classes.add("alert alert-error");
   alert.text = alertText;
   clearAlertSection(section);
   section.children.add(alert);
-  
 }
 
-void addInfoAlert(DivElement section,
-                  String alertText) {
-  
+void addInfoAlert(DivElement section, String alertText) {
   DivElement alert = new DivElement();
   alert.classes.add("alert alert-info");
   alert.text = alertText;
   clearAlertSection(section);
   section.children.add(alert);
-  
 }
 
-void addSuccessAlert(DivElement section,
-                     String alertText) {
-  
+void addSuccessAlert(DivElement section, String alertText) {
   DivElement alert = new DivElement();
   alert.classes.add("alert alert-success");
   alert.text = alertText;
   clearAlertSection(section);
   section.children.add(alert);
-  
 }

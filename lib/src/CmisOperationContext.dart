@@ -11,7 +11,6 @@
 part of cmis;
 
 class CmisOperationContext {
-  
   String propertyFilter = "*";
   int maxItems = 25;
   int skipCount = 0;
@@ -25,5 +24,4 @@ class CmisOperationContext {
   bool includePropertyDefinitions = true;
   bool searchAllVersions = true;
   bool succint = false;
-  
 }

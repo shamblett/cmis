@@ -9,9 +9,7 @@
 
 part of cmis;
 
-
 class CmisUserUtils {
-  
-    //TODO need to add these.
-  
+  //TODO need to add these.
+
 }

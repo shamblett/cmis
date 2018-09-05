@@ -16,5 +16,4 @@ String serviceUrl = 'http://xxx'; //Optional
 String configUser = 'xxx';
 String configPassword = 'xxx';
 String configRepositoryId = ''; // Optional
-bool configProxy = true; 
-
+bool configProxy = true;

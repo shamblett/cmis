@@ -13,7 +13,6 @@ part of cmis;
 class CmisException implements Exception {
   String _message = 'No Message Supplied';
   CmisException([this._message]);
-  
+
   String toString() => "CmisException: message = ${_message}";
 }
-
