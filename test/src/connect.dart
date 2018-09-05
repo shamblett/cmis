@@ -23,7 +23,7 @@ void doConnect(Event e) {
   repoId = null;
 
   /* Must have a url */
-  String url = cmisUrl.value;
+  final String url = cmisUrl.value;
   if (url.isEmpty) {
     addErrorAlert(connectAlertSection, "You must specify a URL");
     return;

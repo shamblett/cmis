@@ -1,7 +1,7 @@
 name: cmis
 version: 3.0.0
 author: S. Hamblett <steve.hamblett@linux.com>
-description: A browser based CMIS 1.1. browser binding compliant client.
+description: A browser based CMIS 1.1. browser binding compliant clientfor Dart.
 homepage: https://github.com/shamblett/cmis
 documentation: https://github.com/shamblett/cmis
 environment:

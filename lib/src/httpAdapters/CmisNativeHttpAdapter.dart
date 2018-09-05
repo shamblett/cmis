@@ -22,14 +22,11 @@
 part of cmis;
 
 class CmisNativeHttpAdapter implements CmisHttpAdapter {
-  /* The method used */
-  String _method = null;
-
   /* All responses are JSON Objects */
   dynamic jsonResponse = new jsonobject.JsonObjectLite();
 
   /* Completion callback */
-  var completion = null;
+  dynamic completion = null;
 
   /* Optional completer */
   CmisNativeHttpAdapter([this.completion]);
@@ -48,16 +45,17 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     /* Process the error response */
     if (response.target.status != 0) {
       try {
-        dynamic errorAsJson = new jsonobject.JsonObjectLite.fromJsonString(
-            response.target.responseText);
+        final dynamic errorAsJson =
+            new jsonobject.JsonObjectLite.fromJsonString(
+                response.target.responseText);
         generateErrorResponse(errorAsJson, response.target.status);
       } catch (e) {
-        dynamic errorAsJson = new jsonobject.JsonObjectLite();
+        final dynamic errorAsJson = new jsonobject.JsonObjectLite();
         errorAsJson.message = "JSON Decode failure";
         generateErrorResponse(errorAsJson, response.target.status);
       }
     } else {
-      dynamic errorAsJson = new jsonobject.JsonObjectLite();
+      final dynamic errorAsJson = new jsonobject.JsonObjectLite();
       generateErrorResponse(errorAsJson, response.target.status);
     }
 
@@ -65,9 +63,7 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
     allResponseHeaders = response.target.getAllResponseHeaders();
   }
 
-  /**
-   * Successful completion
-   */
+  /// Successful completion
   void onSuccess(html.HttpRequest response) {
     jsonResponse.jsonCmisResponse = new jsonobject.JsonObjectLite();
 
@@ -77,11 +73,11 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
      */
 
     try {
-      jsonobject.JsonObjectLite successAsJson =
+      final dynamic successAsJson =
           new jsonobject.JsonObjectLite.fromJsonString(response.responseText);
       generateSuccessResponse(successAsJson);
     } catch (e) {
-      jsonobject.JsonObjectLite successAsJson = new jsonobject.JsonObjectLite();
+      final dynamic successAsJson = new jsonobject.JsonObjectLite();
       successAsJson['rawText'] = response.responseText;
       generateSuccessResponse(successAsJson);
     }
@@ -97,7 +93,6 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
   void httpRequest(String method, String url,
       [String data = null, Map headers = null]) {
     /* Initialise */
-    _method = method;
 
     /* Query CMIS over HTTP */
     html.HttpRequest.request(url,
@@ -118,7 +113,6 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
   void httpFormRequest(String method, String url,
       [Map data = null, Map headers = null]) {
     /* Initialise */
-    _method = method;
 
     /* POST CMIS over HTTP */
     html.HttpRequest.postFormData(url, data,
@@ -135,7 +129,6 @@ class CmisNativeHttpAdapter implements CmisHttpAdapter {
   void httpFormDataRequest(String method, String url,
       [html.FormData formData = null, Map headers = null]) {
     /* Initialise */
-    _method = method;
 
     /* Query CMIS over HTTP */
     html.HttpRequest.request(url,

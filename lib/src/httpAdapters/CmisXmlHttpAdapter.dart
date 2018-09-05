@@ -22,14 +22,11 @@
 part of cmis;
 
 class CmisXmlHttpAdapter implements CmisHttpAdapter {
-  /* The method used */
-  String _method = null;
-
   /* All responses are JSON Objects */
   dynamic jsonResponse = new jsonobject.JsonObjectLite();
 
   /* Completion callback */
-  var completion = null;
+  dynamic completion = null;
 
   /* Optional completer */
   CmisXmlHttpAdapter([this.completion]);
@@ -37,10 +34,6 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
   /* All response headers */
   String allResponseHeaders = null;
 
-  /**
-   * Convert the incoming XML data to JSON 
-   */
-  jsonobject.JsonObjectLite _xml2Json(String xml) {}
   /*
    * We get an HttpRequestProgressEvent on error and process this
    * to return a JSON Object.
@@ -49,11 +42,11 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
   void onError(html.HttpRequest response) {
     /* Process the error response */
     if (response.status != 0) {
-      dynamic errorAsJson =
+      final dynamic errorAsJson =
           new jsonobject.JsonObjectLite.fromJsonString(response.responseText);
       generateErrorResponse(errorAsJson, response.status);
     } else {
-      dynamic errorAsJson = new jsonobject.JsonObjectLite();
+      final dynamic errorAsJson = new jsonobject.JsonObjectLite();
       generateErrorResponse(errorAsJson, response.status);
     }
 
@@ -61,12 +54,10 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
     allResponseHeaders = response.getAllResponseHeaders();
   }
 
-  /**
-   * Successful completion
-   */
+  /// Successful completion
   void onSuccess(html.HttpRequest response) {
     //TODO convert from XML
-    dynamic successAsJson =
+    final dynamic successAsJson =
         new jsonobject.JsonObjectLite.fromJsonString(response.responseText);
     generateSuccessResponse(successAsJson);
 
@@ -81,7 +72,6 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
   void httpRequest(String method, String url,
       [String data = null, Map headers = null]) {
     /* Initialise */
-    _method = method;
 
     /* Query CMIS over HTTP */
     html.HttpRequest.request(url,
@@ -102,7 +92,6 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
   void httpFormRequest(String method, String url,
       [Map data = null, Map headers = null]) {
     /* Initialise */
-    _method = method;
 
     /* POST CMIS over HTTP */
     html.HttpRequest.postFormData(url, data,
@@ -119,7 +108,6 @@ class CmisXmlHttpAdapter implements CmisHttpAdapter {
   void httpFormDataRequest(String method, String url,
       [html.FormData formData = null, Map headers = null]) {
     /* Initialise */
-    _method = method;
 
     /* Query CMIS over HTTP */
     html.HttpRequest.request(url,

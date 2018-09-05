@@ -20,24 +20,16 @@ class CmisTypeCache {
   /* The number of types to be cached */
   final int _maxSize = 10;
 
-  /* Methods */
-
-  /**
-   * Reset the type id maps 
-   */
+  /// Reset the type id maps
   void reset() {
     _types.clear();
     _lastAccessed.clear();
   }
 
-  /**
-   * Check if we have a type cached
-   */
+  /// Check if we have a type cached
   bool isTypeInCache(String key) => _types.containsKey(key);
 
-  /**
-   * Get a type for a supplied type id
-   */
+  /// Get a type for a supplied type id
   jsonobject.JsonObjectLite getType(String typeId) {
     if (_types.containsKey(typeId)) {
       return _types[typeId];
@@ -46,9 +38,7 @@ class CmisTypeCache {
     return null;
   }
 
-  /**
-   * Remove the oldest element from the type maps.
-   */
+  /// Remove the oldest element from the type maps.
   void removeOldestElement() {
     DateTime oldest = new DateTime.now();
     String oldestKey = null;
@@ -66,26 +56,20 @@ class CmisTypeCache {
     });
   }
 
-  /**
-   * Remove oldest elements from the type maps 
-   */
+  /// Remove oldest elements from the type maps
   void removeOldestElements() {
     while (_types.length >= _maxSize) {
       removeOldestElement();
     }
   }
 
-  /**
-   * Add a type to the cache
-   */
+  /// Add a type to the cache
   void addType(dynamic typeDef) {
     removeOldestElements();
     _types[typeDef.id] = typeDef;
     _lastAccessed[typeDef.id] = new DateTime.now();
   }
 
-  /**
-   * Get the size of the cache
-   */
+  /// Get the size of the cache
   int get size => _types.length;
 }

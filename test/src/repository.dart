@@ -19,32 +19,32 @@ DivElement repositoryAlertSection =
     querySelector('#cmis-alertsection-repository');
 DivElement repositoryDetailsSection = querySelector('#cmis-repository-details');
 void outputRepositoryInfo(dynamic response) {
-  dynamic repositoryInfo = response.jsonCmisResponse;
+  final dynamic repositoryInfo = response.jsonCmisResponse;
 
   repositoryDetailsSection.children.clear();
-  UListElement uList = new UListElement();
-  LIElement repoDescription = new LIElement();
+  final UListElement uList = new UListElement();
+  final LIElement repoDescription = new LIElement();
   repoDescription.innerHtml =
       "Repository Description : ${repositoryInfo.repositoryDescription}";
   uList.children.add(repoDescription);
-  LIElement vendorName = new LIElement();
+  final LIElement vendorName = new LIElement();
   vendorName.innerHtml = "Vendor Name :  ${repositoryInfo.vendorName}";
   uList.children.add(vendorName);
-  LIElement productName = new LIElement();
+  final LIElement productName = new LIElement();
   productName.innerHtml = "Product Name : ${repositoryInfo.productName}";
   uList.children.add(productName);
-  LIElement productVersion = new LIElement();
+  final LIElement productVersion = new LIElement();
   productVersion.innerHtml =
       "Product Version : ${repositoryInfo.productVersion}";
   uList.children.add(productVersion);
-  LIElement rootFolderId = new LIElement();
+  final LIElement rootFolderId = new LIElement();
   rootFolderId.innerHtml = "Root Folder Id : ${repositoryInfo.rootFolderId}";
   uList.children.add(rootFolderId);
   cmisSession.rootFolderId = repositoryInfo.rootFolderId;
-  LIElement rootFolderUrl = new LIElement();
+  final LIElement rootFolderUrl = new LIElement();
   rootFolderUrl.innerHtml = "Root Folder URL : ${repositoryInfo.rootFolderUrl}";
   uList.children.add(rootFolderUrl);
-  LIElement repositoryUrl = new LIElement();
+  final LIElement repositoryUrl = new LIElement();
   repositoryUrl.innerHtml = "Repository URL : ${repositoryInfo.repositoryUrl}";
   uList.children.add(repositoryUrl);
 
@@ -54,23 +54,23 @@ void outputRepositoryInfo(dynamic response) {
 DivElement repositoryListSection = querySelector('#cmis-repository-list');
 void outputRepositoryList(dynamic response) {
   void onRepoSelect(Event e) {
-    dynamic radioElement = e.target;
+    final dynamic radioElement = e.target;
     cmisRepositoryId.value = radioElement.value;
   }
 
-  dynamic repositoryInfo = response.jsonCmisResponse;
+  final dynamic repositoryInfo = response.jsonCmisResponse;
 
   repositoryListSection.children.clear();
   int id = 0;
   repositoryInfo.forEach((var key, Map value) {
-    DivElement div = new DivElement();
+    final DivElement div = new DivElement();
     div.classes.add("radio");
 
-    LabelElement repoLabel = new LabelElement();
+    final LabelElement repoLabel = new LabelElement();
     repoLabel.htmlFor = "cmis-repoId-$id";
     repoLabel.text = "${value['repositoryId']} -- ${value['repositoryName']}";
 
-    RadioButtonInputElement repoEntry = new RadioButtonInputElement();
+    final RadioButtonInputElement repoEntry = new RadioButtonInputElement();
     repoEntry.value = "${value['repositoryId']}";
     repoEntry.name = "repoId";
     repoEntry.id = "cmis-repoId-$id";
@@ -91,11 +91,11 @@ void doRepositoryInfoClear(Event e) {
 
 void doRepositoryInfo(Event e) {
   void completer() {
-    dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession.completionResponse;
 
     if (cmisResponse.error) {
-      dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      int errorCode = cmisResponse.errorCode;
+      final dynamic errorResponse = cmisResponse.jsonCmisResponse;
+      final int errorCode = cmisResponse.errorCode;
       String error = null;
       String reason = null;
       if (errorCode == 0) {
@@ -106,7 +106,8 @@ void doRepositoryInfo(Event e) {
         reason = "CMIS Server Response";
       }
 
-      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      final String message =
+          "Error - $error, Reason - $reason, Code - $errorCode";
       addErrorAlert(repositoryAlertSection, message);
     } else {
       if (cmisSession.repositoryId != null) {
@@ -128,31 +129,32 @@ void doRepositoryInfo(Event e) {
 }
 
 void outputCheckedOutDocs(dynamic response) {
-  UListElement uList = new UListElement();
+  final UListElement uList = new UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     /* Get the first 4 children */
     if (response.jsonCmisResponse.objects.isNotEmpty) {
-      dynamic properties = response.jsonCmisResponse.objects[0].properties;
+      final dynamic properties =
+          response.jsonCmisResponse.objects[0].properties;
 
-      LIElement displayName = new LIElement();
+      final LIElement displayName = new LIElement();
       displayName.innerHtml =
           "Display Name: ${properties['cmis:contentStreamFileName'].displayName}";
       uList.children.add(displayName);
-      LIElement id = new LIElement();
+      final LIElement id = new LIElement();
       id.innerHtml = "Id: ${properties['cmis:contentStreamFileName'].id}";
       uList.children.add(id);
-      LIElement docValue = new LIElement();
+      final LIElement docValue = new LIElement();
       docValue.innerHtml =
           "Value: ${properties['cmis:contentStreamFileName'].value}";
       uList.children.add(docValue);
     } else {
-      LIElement noChildren = new LIElement();
+      final LIElement noChildren = new LIElement();
       noChildren.innerHtml = "There are no checked out documents";
       uList.children.add(noChildren);
     }
   } else {
-    LIElement noChildren = new LIElement();
+    final LIElement noChildren = new LIElement();
     noChildren.innerHtml = "There are no checked out documents";
     uList.children.add(noChildren);
   }
@@ -162,11 +164,11 @@ void outputCheckedOutDocs(dynamic response) {
 
 void doCheckedOutDocs(Event e) {
   void completer() {
-    dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession.completionResponse;
 
     if (cmisResponse.error) {
-      dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      int errorCode = cmisResponse.errorCode;
+      final dynamic errorResponse = cmisResponse.jsonCmisResponse;
+      final int errorCode = cmisResponse.errorCode;
       String error = null;
       String reason = null;
       if (errorCode == 0) {
@@ -177,7 +179,8 @@ void doCheckedOutDocs(Event e) {
         reason = "CMIS Server Response";
       }
 
-      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      final String message =
+          "Error - $error, Reason - $reason, Code - $errorCode";
       addErrorAlert(typeAlertSection, message);
     } else {
       outputCheckedOutDocs(cmisResponse);

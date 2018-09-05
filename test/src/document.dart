@@ -23,12 +23,10 @@ void doDocInfoClear(Event e) {
 }
 
 void outputDocInfoList(dynamic response) {
-  UListElement uList = new UListElement();
-
   if (response.jsonCmisResponse.isNotEmpty) {
     if (response.jsonCmisResponse.containsKey('rawText')) {
-      String rawText = response.jsonCmisResponse.rawText;
-      PreElement theText = new PreElement();
+      final String rawText = response.jsonCmisResponse.rawText;
+      final PreElement theText = new PreElement();
       theText.innerHtml = rawText;
       docInfoListSection.children.add(theText);
     } else {
@@ -41,11 +39,11 @@ void outputDocInfoList(dynamic response) {
 
 void doDocInfo(Event e) {
   void completer() {
-    dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession.completionResponse;
 
     if (cmisResponse.error) {
-      dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      int errorCode = cmisResponse.errorCode;
+      final dynamic errorResponse = cmisResponse.jsonCmisResponse;
+      final int errorCode = cmisResponse.errorCode;
       String error = null;
       String reason = null;
       if (errorCode == 0) {
@@ -56,7 +54,8 @@ void doDocInfo(Event e) {
         reason = "CMIS Server Response";
       }
 
-      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      final String message =
+          "Error - $error, Reason - $reason, Code - $errorCode";
       addErrorAlert(docInfoAlertSection, message);
     } else {
       outputDocInfoList(cmisResponse);
@@ -91,39 +90,39 @@ void doDocumentUpdateClear(Event e) {
 
 /* Create */
 void outputDocumentCreate(dynamic response) {
-  String message =
+  final String message =
       "Success! the document ${cmisDocumentUpdate.value} has been created";
   addSuccessAlert(documentUpdateAlertSection, message);
-  UListElement uList = new UListElement();
+  final UListElement uList = new UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
-    dynamic properties = response.jsonCmisResponse.properties;
+    final dynamic properties = response.jsonCmisResponse.properties;
 
-    LIElement name = new LIElement();
+    final LIElement name = new LIElement();
     name.innerHtml = "Name: ${properties['cmis:name'].value}";
     uList.children.add(name);
-    LIElement objectId = new LIElement();
+    final LIElement objectId = new LIElement();
     objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
     uList.children.add(objectId);
-    LIElement objectTypeId = new LIElement();
+    final LIElement objectTypeId = new LIElement();
     objectTypeId.innerHtml =
         "Object Type Id: ${properties['cmis:objectTypeId'].value}";
     uList.children.add(objectTypeId);
     if (properties['cmis:parentId'] != null) {
-      LIElement parentId = new LIElement();
+      final LIElement parentId = new LIElement();
       parentId.innerHtml = "Parent Id: ${properties['cmis:parentId'].value}";
       uList.children.add(parentId);
     }
     if (properties['cmis:path'] != null) {
-      LIElement path = new LIElement();
+      final LIElement path = new LIElement();
       path.innerHtml = "Path: ${properties['cmis:path'].value}";
       uList.children.add(path);
     }
-    LIElement spacer = new LIElement();
+    final LIElement spacer = new LIElement();
     spacer.innerHtml = "  ....... ";
     uList.children.add(spacer);
   } else {
-    LIElement noChildren = new LIElement();
+    final LIElement noChildren = new LIElement();
     noChildren.innerHtml = "Oops no valid response from document create";
     uList.children.add(noChildren);
   }
@@ -133,11 +132,11 @@ void outputDocumentCreate(dynamic response) {
 
 void doDocumentCreate(Event e) {
   void completer() {
-    dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession.completionResponse;
 
     if (cmisResponse.error) {
-      dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      int errorCode = cmisResponse.errorCode;
+      final dynamic errorResponse = cmisResponse.jsonCmisResponse;
+      final int errorCode = cmisResponse.errorCode;
       String error = null;
       String reason = null;
       if (errorCode == 0) {
@@ -148,7 +147,8 @@ void doDocumentCreate(Event e) {
         reason = "CMIS Server Response";
       }
 
-      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      final String message =
+          "Error - $error, Reason - $reason, Code - $errorCode";
       addErrorAlert(documentUpdateAlertSection, message);
     } else {
       outputDocumentCreate(cmisResponse);
@@ -193,18 +193,18 @@ InputElement cmisDocumentDelete =
     querySelector('#cmis-document-update-deleteId');
 void outputDocumentDelete(dynamic response) {
   /* Valid response indicates success, there is no other data returned */
-  String message =
+  final String message =
       "Success! the document ${cmisDocumentDelete.value} has been deleted";
   addSuccessAlert(documentUpdateAlertSection, message);
 }
 
 void doDocumentDelete(Event e) {
   void completer() {
-    dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession.completionResponse;
 
     if (cmisResponse.error) {
-      dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      int errorCode = cmisResponse.errorCode;
+      final dynamic errorResponse = cmisResponse.jsonCmisResponse;
+      final int errorCode = cmisResponse.errorCode;
       String error = null;
       String reason = null;
       if (errorCode == 0) {
@@ -215,7 +215,8 @@ void doDocumentDelete(Event e) {
         reason = "CMIS Server Response";
       }
 
-      String message = "Error - $error, Reason - $reason, Code - $errorCode";
+      final String message =
+          "Error - $error, Reason - $reason, Code - $errorCode";
       addErrorAlert(documentUpdateAlertSection, message);
     } else {
       outputDocumentDelete(cmisResponse);
