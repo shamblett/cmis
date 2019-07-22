@@ -1,3 +1,6 @@
+## 4.0.0
+Issue 3
+
 ## 3.0.0
 
 Updated for Dart 2.0 release
