@@ -74,116 +74,123 @@
 
 part of cmis;
 
+/// CMIS session management
 class CmisSession {
-  /* Constructor */
-  CmisSession(this._urlPrefix, [this._serviceUrlPrefix, this._repId]) {
-    /* Get our HTTP adapter */
-    _httpAdapter = new CmisNativeHttpAdapter(null);
+  /// Default constructor
+  CmisSession(this._urlPrefix, [this._serviceUrlPrefix, this.repositoryId]) {
+    _httpAdapter = CmisBrowserHttpAdapter(null);
   }
 
-  /* CMIS data structures */
-  String _repId = null;
-  String _rootFolderId = null;
+  /// CMIS repository identifier
+  String repositoryId;
 
-  set repositoryId(String repoId) => _repId = repoId;
-  String get repositoryId => _repId;
-  set rootFolderId(String rootFolderId) => _rootFolderId = rootFolderId;
-  String get rootFolderId => _rootFolderId;
+  /// CMIS root folder
+  String rootFolderId;
 
-  String _urlPrefix = null;
-  String _serviceUrlPrefix = null;
+  String _urlPrefix;
+  String _serviceUrlPrefix;
+
+  /// URL
   String get url => _urlPrefix;
+
+  /// Service URL
   String get serviceUrl => _serviceUrlPrefix;
+
+  /// Root URL
   String get rootUrl => _getRootFolderUrl();
+
+  /// Root URL for proxy use
   String get returnedRootUrl => _getRootFolderUrl(true);
 
-  CmisOperationContext _opCtx = new CmisOperationContext();
-  CmisOperationContext get operationalContext => _opCtx;
-  set operationalContext(CmisOperationContext opCtx) => _opCtx = opCtx;
+  CmisOperationContext _opCtx = CmisOperationContext();
 
-  CmisTypeCache _typeCache = new CmisTypeCache();
-  Map _pagingContext = new Map<String, CmisPagingContext>();
+  CmisTypeCache _typeCache = CmisTypeCache();
+  Map<String, CmisPagingContext> _pagingContext =
+      Map<String, CmisPagingContext>();
 
-  int _depth = 5;
-  set depth(int depth) => _depth = depth;
-  int get depth => _depth;
+  /// Search depth
+  int depth = 5;
 
-  /* Authentication */
-  String _user = null;
-  String _password = null;
+  /// User name
+  String _user;
 
-  /* Proxy indicator */
-  bool _proxy = false;
-  bool get proxy => _proxy;
-  set proxy(bool proxy) => _proxy = proxy;
+  /// Password
+  String _password;
 
-  /* Http Adapter */
-  CmisNativeHttpAdapter _httpAdapter = null;
+  /// Proxy indicator
+  bool proxy = false;
 
-  /* Repository Information */
-  jsonobject.JsonObjectLite _repoInformation = null;
+  CmisBrowserHttpAdapter _httpAdapter;
+
+  jsonobject.JsonObjectLite<dynamic> _repoInformation;
 
   /// The internal HTTP request method. This wraps the
   /// HTTP adapter class.
-  Future _httpRequest(String method, String url,
-      {bool useServiceUrl: false,
-      jsonobject.JsonObjectLite data: null,
-      Map headers: null,
-      html.FormData formData: null}) async {
-    /* Build the request for the HttpAdapter */
-    final Map cmisHeaders = new Map<String, String>();
-    cmisHeaders["Accept"] = "application/json";
-    if (headers != null) cmisHeaders.addAll(headers);
-
-    /* Build the URL if we are not passed one. */
-    String cmisUrl = null;
-    Map httpData = new Map<String, String>();
-
-    cmisUrl = "$_urlPrefix/";
-    if ((_serviceUrlPrefix != null) && useServiceUrl) {
-      cmisUrl = "$_serviceUrlPrefix";
+  Future<void> _httpRequest(String method, String url,
+      {bool useServiceUrl = false,
+      jsonobject.JsonObjectLite<dynamic> data,
+      Map<String, String> headers,
+      html.FormData formData}) async {
+    // Build the request for the HttpAdapter */
+    final Map<String, String> cmisHeaders = Map<String, String>();
+    cmisHeaders['accept'] = 'application/json';
+    if (headers != null) {
+      cmisHeaders.addAll(headers);
     }
 
-    if (_repId != null) cmisUrl = "$cmisUrl$_repId/";
-    if (url != null) cmisUrl = "$cmisUrl$url";
+    // Build the URL if we are not passed one.
+    String cmisUrl;
+    Map<String, String> httpData = Map<String, String>();
 
-    /* Add any url parameters if this is a GET */
+    cmisUrl = '$_urlPrefix/';
+    if ((_serviceUrlPrefix != null) && useServiceUrl) {
+      cmisUrl = '$_serviceUrlPrefix';
+    }
+
+    if (repositoryId != null) {
+      cmisUrl = '$cmisUrl$repositoryId/';
+    }
+    if (url != null) {
+      cmisUrl = '$cmisUrl$url';
+    }
+
+    // Add any url parameters if this is a GET */
     if (method == 'GET') {
       if (data != null) {
-        data.forEach((key, value) {
+        data.forEach((dynamic key, dynamic value) {
           cmisUrl = _setURLParameter(cmisUrl, key, value);
         });
       }
     } else if (method == 'POST') {
-      /* Get the data as a map for POST */
+      // Get the data as a map for POST
       if (data != null) {
-        data.forEach((key, value) {
+        data.forEach((dynamic key, dynamic value) {
           httpData[key] = value.toString();
         });
       }
     } else {
-      /* Form data supplied */
+      // Form data supplied
       httpData = null;
     }
 
-    /* Check for authentication */
+    // Check for authentication
     if (_user != null) {
-      final String authStringToEncode = "$_user:$_password";
+      final String authStringToEncode = '$_user:$_password';
       final String encodedAuthString = html.window.btoa(authStringToEncode);
-      final String authString = "Basic $encodedAuthString";
-      cmisHeaders['Authorization'] = authString;
+      final String authString = 'Basic $encodedAuthString';
+      cmisHeaders['authorization'] = authString;
     }
 
-    /* Execute the request*/
+    // Execute the request
     if (method == 'GET') {
       _httpAdapter.httpRequest(
           method, cmisUrl, httpData.toString(), cmisHeaders);
     } else {
-      /* Method is POST, normal or form data */
+      // Method is POST, normal or form data
       if (data != null) {
         _httpAdapter.httpFormRequest(method, cmisUrl, httpData, cmisHeaders);
       } else {
-        /* Methods is POST, multi part request */
+        // Methods is POST, multi part request
         _httpAdapter.httpFormDataRequest(
             method, cmisUrl, formData, cmisHeaders);
       }
@@ -193,12 +200,13 @@ class CmisSession {
   /// Takes a URL and key/value pair for a URL parameter and adds this
   /// to the query parameters of the URL.
   String _setURLParameter(String url, String key, dynamic value) {
-    final originalUrl = Uri.parse(url);
-    final Map queryParams = originalUrl.queryParameters;
-    final Map newQueryParams = new Map<String, String>.from(queryParams);
+    final Uri originalUrl = Uri.parse(url);
+    final Map<String, String> queryParams = originalUrl.queryParameters;
+    final Map<String, String> newQueryParams =
+        Map<String, String>.from(queryParams);
     newQueryParams[key] = value.toString();
 
-    final newUrl = new Uri(
+    final Uri newUrl = Uri(
         scheme: originalUrl.scheme,
         userInfo: originalUrl.userInfo,
         host: originalUrl.host,
@@ -206,32 +214,29 @@ class CmisSession {
         path: originalUrl.path,
         queryParameters: newQueryParams);
 
-    final String returnUrl = newUrl.toString();
-    return returnUrl;
+    return newUrl.toString();
   }
 
   /// If we are using a proxy, URL's returned form the repository
   /// need to be adjusted to cater for this.
   String _caterForProxyServer(String url) {
-    /* Cut the passed in URL at the end of the repo id */
-    final String pattern = "$_repId/";
-    final List urlStrings = url.split(pattern);
-    final String proxiedUrl = urlStrings[1];
-    return proxiedUrl;
+    // Cut the passed in URL at the end of the repo id
+    final String pattern = '$repositoryId/';
+    final List<String> urlStrings = url.split(pattern);
+    return urlStrings[1];
   }
 
   /// Getter for the root folder URL checking for proxy use
   String _getRootFolderUrl([bool ignoreProxy = false]) {
-    /* Get the root folder URL for the selected repository */
-    dynamic repoInformation = new jsonobject.JsonObjectLite();
-    if (!_repoInformation.containsKey(_repId)) {
-      throw new CmisException(
-          'getRootFolderUrl() no repository information found');
+    // Get the root folder URL for the selected repository
+    dynamic repoInformation = jsonobject.JsonObjectLite<dynamic>();
+    if (!_repoInformation.containsKey(repositoryId)) {
+      throw CmisException('getRootFolderUrl() no repository information found');
     }
-    repoInformation = _repoInformation[_repId];
-    String rootUrl = null;
-    /* Ignore the proxy check if we want the root url from the repository */
-    if ((!ignoreProxy) && _proxy) {
+    repoInformation = _repoInformation[repositoryId];
+    String rootUrl;
+    // Ignore the proxy check if we want the root url from the repository
+    if ((!ignoreProxy) && proxy) {
       rootUrl = _caterForProxyServer(repoInformation.rootFolderUrl);
     } else {
       rootUrl = repoInformation.rootFolderUrl;
@@ -245,18 +250,20 @@ class CmisSession {
       _httpAdapter.completion = completion;
 
   /// Response getter for completion callbacks
-  jsonobject.JsonObjectLite get completionResponse => _httpAdapter.jsonResponse;
+  jsonobject.JsonObjectLite<dynamic> get completionResponse =>
+      _httpAdapter.jsonResponse;
 
-  /// Paging context
+  /// Add a paging context
   void addPagingContext(String elementId, int skipCount, int numItemsTotal) {
     _pagingContext[elementId] =
-        new CmisPagingContext(skipCount, numItemsTotal, _opCtx);
+        CmisPagingContext(skipCount, numItemsTotal, _opCtx);
   }
 
-  CmisPagingContext getPagingContext(String elementId) {
-    return _pagingContext[elementId];
-  }
+  /// Paging context
+  CmisPagingContext getPagingContext(String elementId) =>
+      _pagingContext[elementId];
 
+  /// Set the paging context offset
   bool setPagingContextOffset(String elementId, int offset) {
     if (_pagingContext.containsKey(elementId)) {
       _pagingContext[elementId].skipCount = offset;
@@ -266,6 +273,7 @@ class CmisSession {
     return false;
   }
 
+  /// Get the paging context offset
   int getPagingContextOffset(String elementId) {
     if (_pagingContext.containsKey(elementId)) {
       return _pagingContext[elementId].skipCount;
@@ -274,14 +282,15 @@ class CmisSession {
     return 0;
   }
 
+  /// Delete the paging context offset
   void deletePagingContext(String elementId) {
     _pagingContext.remove(elementId);
   }
 
   /// Get a list of repositories
   void getRepositories() {
-    /* Save any found repositories */
-    final savedCompleter = _httpAdapter.completion;
+    // Save any found repositories
+    final dynamic savedCompleter = _httpAdapter.completion;
 
     void localCompleter() {
       if (_httpAdapter.jsonResponse.error == false) {
@@ -298,46 +307,50 @@ class CmisSession {
   /// The client must set repositoryId as returned by getRepositories()
   /// before calling this.
   void getRepositoryInfo() {
-    if (_repId == null) {
-      throw new CmisException(
+    if (repositoryId == null) {
+      throw CmisException(
           'getRepositoryInfo() expects a non null repository Id');
     }
 
-    /* Get the repository information if we have it */
+    // Get the repository information if we have it
     if (_repoInformation != null) {
-      jsonobject.JsonObjectLite repoInformation =
-          new jsonobject.JsonObjectLite();
+      jsonobject.JsonObjectLite<dynamic> repoInformation =
+          jsonobject.JsonObjectLite<dynamic>();
       repoInformation = null;
-      _repoInformation.forEach((key, value) {
-        if (key == _repId) repoInformation = value;
+      _repoInformation.forEach((dynamic key, dynamic value) {
+        if (key == repositoryId) {
+          repoInformation = value;
+        }
       });
 
       if (repoInformation != null) {
-        /* Construct a success response */
+        // Construct a success response
         final dynamic successAsJson = repoInformation;
         _httpAdapter.generateSuccessResponse(successAsJson);
       } else {
-        /* No repository info, construct an error response */
-        final dynamic errorAsJson = new jsonobject.JsonObjectLite();
+        // No repository info, construct an error response
+        final dynamic errorAsJson = jsonobject.JsonObjectLite<dynamic>();
         _httpAdapter.generateErrorResponse(errorAsJson, 0);
       }
     } else {
       /* No repositories, construct an error response */
-      final dynamic errorAsJson = new jsonobject.JsonObjectLite();
+      final dynamic errorAsJson = jsonobject.JsonObjectLite<dynamic>();
       _httpAdapter.generateErrorResponse(errorAsJson, 0);
     }
 
-    /* Complete the call */
-    if (_httpAdapter.completion != null) _httpAdapter.completion();
+    // Complete the call
+    if (_httpAdapter.completion != null) {
+      _httpAdapter.completion();
+    }
   }
 
-  /// Get checked out documents for the repository
+  /// Get checked out documents from the repository
   void getCheckedOutDocs() {
-    if (_repId == null) {
-      throw new CmisException(
+    if (repositoryId == null) {
+      throw CmisException(
           'getCheckedOutDocs() expects a non null repository Id');
     }
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.cmisselector = 'checkedOut';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
     data.maxItems = _opCtx.maxItems;
@@ -351,14 +364,10 @@ class CmisSession {
     _httpRequest('GET', null, data: data);
   }
 
-  /**
-   * Root folder 
-   */
-
   /// Get the contents of the root folder
   void getRootFolderContents() {
-    if (_repId == null) {
-      throw new CmisException(
+    if (repositoryId == null) {
+      throw CmisException(
           'getRootFolderContents() expects a non null repository Id');
     }
 
@@ -367,67 +376,71 @@ class CmisSession {
     _httpRequest('GET', rootUrl, data: null);
   }
 
-  /**
-    * CMIS objects manipulation
-    */
-
   /// Create item, see the supporting documentation as to what this
   /// currently supports.
   void create(String name, String cmisAction,
-      {String typeId: null,
-      String parentId: null,
-      String parentPath: null,
-      String content: null,
-      String mimeType: null,
-      Map customProperties: null}) {
-    if (_repId == null) {
-      throw new CmisException('create() expects a non null repository Id');
+      {String typeId,
+      String parentId,
+      String parentPath,
+      String content,
+      String mimeType,
+      Map<String, String> customProperties}) {
+    if (repositoryId == null) {
+      throw CmisException('create() expects a non null repository Id');
     }
 
     String url = _getRootFolderUrl();
-    if (parentPath != null) url = "$url/$parentPath";
-    dynamic data = new jsonobject.JsonObjectLite();
-    html.FormData formData = new html.FormData();
+    if (parentPath != null) {
+      url = '$url/$parentPath';
+    }
+    dynamic data = jsonobject.JsonObjectLite<dynamic>();
+    html.FormData formData = html.FormData();
     bool useFormData = false;
 
-    /* Headers, we only create documents or folders */
-    final Map headers = new Map<String, String>();
+    // Headers, we only create documents or folders */
+    final Map<String, String> headers = Map<String, String>();
 
     if (typeId == 'cmis:folder') {
-      headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      headers['content-type'] = 'application/x-www-form-urlencoded';
     } else {
       useFormData = true;
     }
 
-    /* Properties for normal POST submit */
+    // Properties for normal POST submit
     if (!useFormData) {
       data.cmisaction = cmisAction;
-      final Map properties = new Map<String, String>();
+      final Map<String, String> properties = Map<String, String>();
       properties['cmis:name'] = name;
-      if (parentId != null) properties['objectId'] = parentId;
-      if (typeId != null) properties['cmis:objectTypeId'] = typeId;
-      if (content != null) properties['content'] = content;
+      if (parentId != null) {
+        properties['objectId'] = parentId;
+      }
+      if (typeId != null) {
+        properties['cmis:objectTypeId'] = typeId;
+      }
+      if (content != null) {
+        properties['content'] = content;
+      }
 
-      /* Add any supplied custom properties */
+      // Add any supplied custom properties
       if (customProperties != null) {
         properties.addAll(customProperties);
       }
 
-      /* Construct the final data set */
+      // Construct the final data set
       int index = 0;
-      final Map jsonMap = new Map<String, String>();
-      properties.forEach((key, value) {
-        final String propId = "propertyId[$index]";
-        final String propValue = "propertyValue[$index]";
-        jsonMap["$propId"] = key;
-        jsonMap["$propValue"] = value;
+      final Map<String, String> jsonMap = Map<String, String>();
+      properties.forEach((dynamic key, dynamic value) {
+        final String propId = 'propertyId[$index]';
+        final String propValue = 'propertyValue[$index]';
+        jsonMap['$propId'] = key;
+        jsonMap['$propValue'] = value;
         index++;
       });
 
       data.addAll(jsonMap);
       formData = null;
     } else {
-      /* Form data interface for stream/content interfaces */
+      // Form data interface for stream/content interfaces
       formData.append('cmisaction', cmisAction);
       formData.append('PropertyId[0]', 'cmis:name');
       formData.append('PropertyValue[0]', name);
@@ -439,9 +452,9 @@ class CmisSession {
         formData.append('PropertyId[2]', 'objectId');
         formData.append('PropertyValue[2]', parentId);
       }
-      final List blobParts = new List<String>();
+      final List<String> blobParts = List<String>();
       blobParts.add(content);
-      final html.Blob theBlob = new html.Blob(blobParts, mimeType);
+      final html.Blob theBlob = html.Blob(blobParts, mimeType);
       formData.appendBlob('content', theBlob);
       data = null;
     }
@@ -450,21 +463,21 @@ class CmisSession {
   }
 
   /// Delete item.
-  void delete(String objectId, [bool allVersions = false]) {
-    if (_repId == null) {
-      throw new CmisException('delete() expects a non null repository Id');
+  void delete(String objectId, {bool allVersions = false}) {
+    if (repositoryId == null) {
+      throw CmisException('delete() expects a non null repository Id');
     }
 
     final String url = _getRootFolderUrl();
 
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.cmisaction = 'delete';
     data.objectId = objectId;
     data.allVersions = allVersions.toString();
 
-    /* Headers, always the same for delete */
-    final Map headers = new Map<String, String>();
-    headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    // Headers, always the same for delete
+    final Map<String, String> headers = Map<String, String>();
+    headers['content-type'] = 'application/x-www-form-urlencoded';
 
     _httpRequest('POST', url, data: data, headers: headers);
   }
@@ -472,10 +485,10 @@ class CmisSession {
   /// Get document.
   ///  This returns the document contents as supplied by the repository.
   void getDocument(String documentId) {
-    if (_repId == null) {
-      throw new CmisException('getDocument() expects a non null repository Id');
+    if (repositoryId == null) {
+      throw CmisException('getDocument() expects a non null repository Id');
     }
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.objectId = documentId;
     final String rootUrl = _getRootFolderUrl();
 
@@ -483,13 +496,12 @@ class CmisSession {
   }
 
   /// Delete document
-  void deleteDocument(String objectId, [bool allVersions = false]) {
-    if (_repId == null) {
-      throw new CmisException(
-          'deleteDocument() expects a non null repository Id');
+  void deleteDocument(String objectId, {bool allVersions = false}) {
+    if (repositoryId == null) {
+      throw CmisException('deleteDocument() expects a non null repository Id');
     }
 
-    delete(objectId, allVersions);
+    delete(objectId, allVersions: allVersions);
   }
 
   /// Create document.
@@ -499,31 +511,34 @@ class CmisSession {
   /// If content is not null it takes precedent over file upload.
   /// Will take a supplied type id, defaults to document.
   void createDocument(String name,
-      {String typeId: null,
-      String content: null,
-      String folderPath: null,
-      String fileName: null,
-      html.File file: null,
-      Map customProperties: null}) {
-    if (_repId == null) {
-      throw new CmisException(
-          'createDocument() expects a non null repository Id');
+      {String typeId,
+      String content,
+      String folderPath,
+      String fileName,
+      html.File file,
+      Map<String, String> customProperties}) {
+    if (repositoryId == null) {
+      throw CmisException('createDocument() expects a non null repository Id');
     }
 
-    /* Declare the File Reader */
-    final html.FileReader reader = new html.FileReader();
+    // Declare the File Reader
+    final html.FileReader reader = html.FileReader();
 
-    /* Initialise */
+    // Initialise
     String intTypeId = typeId;
-    if (typeId == null) intTypeId = "cmis:document";
-    String mimeType = null;
-    if (fileName != null) mimeType = lookupMimeType(fileName);
+    if (typeId == null) {
+      intTypeId = 'cmis:document';
+    }
+    String mimeType;
+    if (fileName != null) {
+      mimeType = lookupMimeType(fileName);
+    }
 
-    /* File read completers */
+    // File read completers
     void fileRead() {
       final String content = reader.result.toString();
 
-      create(name, "createDocument",
+      create(name, 'createDocument',
           typeId: intTypeId,
           content: content,
           mimeType: mimeType,
@@ -532,24 +547,24 @@ class CmisSession {
     }
 
     void fileReadError() {
-      throw new CmisException('createDocument() error reading input file');
+      throw CmisException('createDocument() error reading input file');
     }
 
-    /* See if we have a filename or content, get the file contents if needed */
+    // See if we have a filename or content, get the file contents if needed
     if (content == null) {
-      if (fileName == null)
-        throw new CmisException(
-            'createDocument() expects content or a file name');
+      if (fileName == null) {
+        throw CmisException('createDocument() expects content or a file name');
+      }
 
-      /* Read the file */
-      reader.onLoadEnd.listen((e) => fileRead());
-      reader.onError.listen((e) => fileReadError());
+      // Read the file
+      reader.onLoadEnd.listen((dynamic e) => fileRead());
+      reader.onError.listen((dynamic e) => fileReadError());
 
-      /* We only do text here */
+      //  We only do text here */
       reader.readAsText(file);
     } else {
-      /* Create from content supplied as a string */
-      create(name, "createDocument",
+      // Create from content supplied as a string
+      create(name, 'createDocument',
           typeId: typeId,
           content: content,
           parentPath: folderPath,
@@ -559,12 +574,12 @@ class CmisSession {
 
   /// Get folder children
   void getFolderChildren(String folderId) {
-    if (_repId == null) {
-      throw new CmisException(
+    if (repositoryId == null) {
+      throw CmisException(
           'getFolderChildren() expects a non null repository Id');
     }
 
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.objectId = folderId;
     data.cmisselector = 'children';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
@@ -583,16 +598,16 @@ class CmisSession {
 
   /// Get folder descendants
   void getFolderDescendants(String folderId) {
-    if (_repId == null) {
-      throw new CmisException(
+    if (repositoryId == null) {
+      throw CmisException(
           'getFolderDescendantss() expects a non null repository Id');
     }
 
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.objectId = folderId;
     data.cmisselector = 'descendants';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
-    data.depth = _depth;
+    data.depth = depth;
     data.propertyFilter = _opCtx.propertyFilter;
     data.renditionFilter = _opCtx.renditionFilter;
     data.includePathSegment = _opCtx.includePathSegment;
@@ -607,15 +622,14 @@ class CmisSession {
   /// Get folder Tree.
   /// Note: not supported on all repositories.
   void getFolderTree(String folderId) {
-    if (_repId == null) {
-      throw new CmisException(
-          'getFolderTree() expects a non null repository Id');
+    if (repositoryId == null) {
+      throw CmisException('getFolderTree() expects a non null repository Id');
     }
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.objectId = folderId;
     data.cmisselector = 'folderTree';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
-    data.depth = _depth;
+    data.depth = depth;
     data.propertyFilter = _opCtx.propertyFilter;
     data.renditionFilter = _opCtx.renditionFilter;
     data.includePathSegment = _opCtx.includePathSegment;
@@ -629,11 +643,10 @@ class CmisSession {
 
   /// Get folder parent
   void getFolderParent(String folderId) {
-    if (_repId == null) {
-      throw new CmisException(
-          'getFolderParent() expects a non null repository Id');
+    if (repositoryId == null) {
+      throw CmisException('getFolderParent() expects a non null repository Id');
     }
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.objectId = folderId;
     data.cmisselector = 'parent';
     data.propertyFilter = _opCtx.propertyFilter;
@@ -645,12 +658,12 @@ class CmisSession {
 
   /// Get checked out documents in the supplied folder
   void getFolderCheckedOutDocs(String folderId) {
-    if (_repId == null) {
-      throw new CmisException(
+    if (repositoryId == null) {
+      throw CmisException(
           'getFolderCheckedOutDocs() expects a non null repository Id');
     }
 
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.objectId = folderId;
     data.cmisselector = 'checkedout';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
@@ -670,18 +683,19 @@ class CmisSession {
   /// Create folder.
   /// Will take a supplied type id, defaults to folder.
   void createFolder(String name,
-      {String typeId: null,
-      String parentId: null,
-      String parentPath: null,
-      Map customProperties: null}) {
-    if (_repId == null) {
-      throw new CmisException(
-          'createFolder() expects a non null repository Id');
+      {String typeId,
+      String parentId,
+      String parentPath,
+      Map<String, String> customProperties}) {
+    if (repositoryId == null) {
+      throw CmisException('createFolder() expects a non null repository Id');
     }
 
     String intTypeId = typeId;
-    if (typeId == null) intTypeId = "cmis:folder";
-    create(name, "createFolder",
+    if (typeId == null) {
+      intTypeId = 'cmis:folder';
+    }
+    create(name, 'createFolder',
         typeId: intTypeId,
         parentId: parentId,
         parentPath: parentPath,
@@ -689,14 +703,14 @@ class CmisSession {
   }
 
   /// Delete folder
-  void deleteFolder(String objectId, [bool allVersions = false]) {
-    delete(objectId, allVersions);
+  void deleteFolder(String objectId, {bool allVersions = false}) {
+    delete(objectId, allVersions: allVersions);
   }
 
   /// Get type definition
   void getTypeDefinition(String typeId) {
-    /* Add any found type to the cache */
-    final savedCompleter = _httpAdapter.completion;
+    // Add any found type to the cache */
+    final dynamic savedCompleter = _httpAdapter.completion;
 
     void localCompleter() {
       if (_httpAdapter.jsonResponse.error == false) {
@@ -705,65 +719,70 @@ class CmisSession {
       savedCompleter();
     }
 
-    if (_repId == null) {
-      throw new CmisException(
+    if (repositoryId == null) {
+      throw CmisException(
           'getTypeDefinitiion() expects a non null repository Id');
     }
     if (typeId == null) {
-      throw new CmisException('getTypeChildren() expects a type id');
+      throw CmisException('getTypeChildren() expects a type id');
     }
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.typeid = typeId;
     data.cmisselector = 'typeDefinition';
 
-    /* Try the cache initially */
+    // Try the cache initially
     final dynamic cachedTypeDef = _typeCache.getType(typeId);
     if (cachedTypeDef == null) {
-      /* Not found in cache get it from the server */
+      // Not found in cache get it from the server
       _httpAdapter.completion = localCompleter;
       _httpRequest('GET', null, data: data);
     } else {
       _httpAdapter.generateSuccessResponse(cachedTypeDef);
-      if (_httpAdapter.completion != null) _httpAdapter.completion();
+      if (_httpAdapter.completion != null) {
+        _httpAdapter.completion();
+      }
     }
   }
 
   /// Get type children
-  void getTypeChildren([String typeId = null]) {
-    if (_repId == null) {
-      throw new CmisException(
-          'getTypeChildren() expects a non null repository Id');
+  void getTypeChildren([String typeId]) {
+    if (repositoryId == null) {
+      throw CmisException('getTypeChildren() expects a non null repository Id');
     }
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.cmisSelector = 'typeChildren';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
     data.maxItems = _opCtx.maxItems;
     data.skipCount = _opCtx.skipCount;
-    if (typeId != null) data.typeId = typeId;
+    if (typeId != null) {
+      data.typeId = typeId;
+    }
     _httpRequest('GET', null, data: data);
   }
 
   /// Get type descendants
-  void getTypeDescendants([String typeId = null]) {
-    if (_repId == null) {
-      throw new CmisException(
+  void getTypeDescendants([String typeId]) {
+    if (repositoryId == null) {
+      throw CmisException(
           'getTypeDescendants() expects a non null repository Id');
     }
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.cmisselector = 'typeDescendants';
     data.includePropertyDefinitions = _opCtx.includePropertyDefinitions;
-    data.depth = _depth;
-    if (typeId != null) data.typeId = typeId;
+    data.depth = depth;
+    if (typeId != null) {
+      data.typeId = typeId;
+    }
     _httpRequest('GET', null, data: data);
   }
 
   /// CMIS query
   void query(String queryString) {
-    if (_repId == null) {
-      throw new CmisException('query() expects a non null repository Id');
+    if (repositoryId == null) {
+      throw CmisException('query() expects a non null repository Id');
     }
 
-    final dynamic data = new jsonobject.JsonObjectLite();
+    final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.cmisselector = 'query';
     data.q = queryString;
     data.maxItems = _opCtx.maxItems;
@@ -775,15 +794,13 @@ class CmisSession {
     _httpRequest('GET', null, data: data);
   }
 
-  /* Updates the login credentials in Cmis that will be used for all further
-   * requests to the CMIS server. Both user name and password must be set, even if one
-   * or the other is '' i.e empty. This must be called before the CMIS client
-   * can be used.
-   */
+  /// Updates the login credentials in Cmis that will be used for all further
+  /// requests to the CMIS server. Both user name and password must be set, even if one
+  /// or the other is '' i.e empty. This must be called before the CMIS client
+  /// can be used.
   void login(String user, String password) {
     if ((user == null) || (password == null)) {
-      throw new CmisException(
-          'Login() expects a non null user name and password');
+      throw CmisException('Login() expects a non null user name and password');
     }
 
     _user = user;

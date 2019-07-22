@@ -20,5 +20,4 @@ part 'src/cmis_type_cache.dart';
 part 'src/cmis_paging_context.dart';
 part 'src/cmis_session.dart';
 part 'src/httpadapters/cmis_http_adapter.dart';
-part 'src/httpadapters/cmis_native_http_adapter.dart';
-part 'src/httpadapters/cmis_xml_http_adapter.dart';
+part 'src/httpadapters/cmis_browser_http_adapter.dart';

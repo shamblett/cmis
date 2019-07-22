@@ -10,14 +10,16 @@
 
 part of cmis;
 
+/// CMIS type cache
 class CmisTypeCache {
-  /* A map from a type id to to a CMIS type definition */
-  Map _types = new Map<String, jsonobject.JsonObjectLite>();
+  // A map from a type id to to a CMIS type definition
+  Map<String, jsonobject.JsonObjectLite<dynamic>> _types =
+      Map<String, jsonobject.JsonObjectLite<dynamic>>();
 
-  /* A map from a type id to a time stamp when it was last used */
-  Map _lastAccessed = new Map<String, DateTime>();
+  // A map from a type id to a time stamp when it was last used
+  Map<String, DateTime> _lastAccessed = Map<String, DateTime>();
 
-  /* The number of types to be cached */
+  // The number of types to be cached */
   final int _maxSize = 10;
 
   /// Reset the type id maps
@@ -30,7 +32,7 @@ class CmisTypeCache {
   bool isTypeInCache(String key) => _types.containsKey(key);
 
   /// Get a type for a supplied type id
-  jsonobject.JsonObjectLite getType(String typeId) {
+  jsonobject.JsonObjectLite<dynamic> getType(String typeId) {
     if (_types.containsKey(typeId)) {
       return _types[typeId];
     }
@@ -40,17 +42,17 @@ class CmisTypeCache {
 
   /// Remove the oldest element from the type maps.
   void removeOldestElement() {
-    DateTime oldest = new DateTime.now();
-    String oldestKey = null;
+    DateTime oldest = DateTime.now();
+    String oldestKey;
 
-    /* Find the oldest entry */
-    _lastAccessed.forEach((key, value) {
+    // Find the oldest entry
+    _lastAccessed.forEach((dynamic key, dynamic value) {
       if (value.isBefore(oldest)) {
         oldest = value;
         oldestKey = key;
       }
 
-      /* Remove the oldest key */
+      // Remove the oldest key
       _types.remove(oldestKey);
       _lastAccessed.remove(oldestKey);
     });
@@ -67,7 +69,7 @@ class CmisTypeCache {
   void addType(dynamic typeDef) {
     removeOldestElements();
     _types[typeDef.id] = typeDef;
-    _lastAccessed[typeDef.id] = new DateTime.now();
+    _lastAccessed[typeDef.id] = DateTime.now();
   }
 
   /// Get the size of the cache

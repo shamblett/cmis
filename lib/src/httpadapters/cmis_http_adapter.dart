@@ -1,48 +1,49 @@
 /*
- * Packge : Cmis
- * Author : S. Hamblett <steve.hamblett@linux.com>
- * Date   : 01/07/2013
- * Copyright :  S.Hamblett@OSCF
- *
- * Provides a common interface for Cmis to connect over HTTP,
- * allowing for different HTTP adapters to be used. 
- */
+* Package : Cmis
+* Author : S. Hamblett <steve.hamblett@linux.com>
+* Date   : 01/07/2013
+* Copyright :  S.Hamblett@OSCF
+*
+* Provides a common interface for Cmis to connect over HTTP,
+* allowing for different HTTP adapters to be used.
+*/
 
 part of cmis;
 
+/// HTTP Adapter interface
 abstract class CmisHttpAdapter {
+  /// Default constructor
   CmisHttpAdapter();
 
-  /*
-   * Processes the HTTP request returning the server's response as
-   * a JSON Object
-   */
+  /// Processes the HTTP request returning the server's response as
+  /// a JSON Object
   void httpRequest(String method, String url,
-      [String data = null, Map headers = null]);
+      [String data, Map<String, String> headers]);
 
-  /*
-   * Processes the HTTP POST(Form)request returning the server's response as
-   * a JSON Object
-   */
+  /// Processes the HTTP POST(Form)request returning the server's response as
+  /// a JSON Object
   void httpFormRequest(String method, String url,
-      [Map data = null, Map headers = null]);
+      [Map<dynamic, dynamic> data, Map<String, String> headers]);
 
-  /*
-   * Processes the HTTP POST(Form Multi Part)request returning the server's response as
-   * a JSON Object
-   */
+  /// Processes the HTTP POST(Form Multi Part)request returning the server's response as
+  /// a JSON Object
   void httpFormDataRequest(String method, String url,
-      [html.FormData formData = null, Map headers = null]);
+      [html.FormData formData, Map<String, String> headers]);
 
-  /*
-   * Result Handling
-   */
+  /// Result Handling
+
+  /// Error
   void onError(html.HttpRequest response);
+
+  /// Success
   void onSuccess(html.HttpRequest response);
 
-  /*
-   * Psuedo respose generators
-   */
-  void generateErrorResponse(jsonobject.JsonObjectLite response, int status);
-  void generateSuccessResponse(jsonobject.JsonObjectLite response);
+  /// Psuedo respose generators
+
+  /// Error
+  void generateErrorResponse(
+      jsonobject.JsonObjectLite<dynamic> response, int status);
+
+  /// Success
+  void generateSuccessResponse(jsonobject.JsonObjectLite<dynamic> response);
 }

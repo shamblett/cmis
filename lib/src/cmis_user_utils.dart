@@ -9,6 +9,7 @@
 
 part of cmis;
 
+/// CMIS client user utilities
 class CmisUserUtils {
   //TODO need to add these.
 

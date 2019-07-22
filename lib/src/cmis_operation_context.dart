@@ -9,18 +9,20 @@
  */
 
 part of cmis;
+// ignore_for_file: public_member_api_docs
 
+/// CMIS operation context
 class CmisOperationContext {
-  String propertyFilter = "*";
+  String propertyFilter = '*';
   int maxItems = 25;
   int skipCount = 0;
   bool includeAcls = false;
   bool includeAllowableActions = false;
   bool includePolicies = false;
-  String includeRelationships = "none";
+  String includeRelationships = 'none';
   String renditionFilter = 'cmis:none';
   bool includePathSegment = false;
-  String orderBy = null;
+  String orderBy;
   bool includePropertyDefinitions = true;
   bool searchAllVersions = true;
   bool succint = false;

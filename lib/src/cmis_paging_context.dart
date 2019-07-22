@@ -10,25 +10,29 @@
 
 part of cmis;
 
+/// CMIS paging
 class CmisPagingContext {
+  /// Construct this with a skip count, total items and an operational context
+  CmisPagingContext(this.skipCount, this._totalItems, this._opCtx);
+
+  /// Unknown
   static const double cmisUnknown = -1.0;
 
-  int _skipCount = null;
-  int _totalItems = null;
-  CmisOperationContext _opCtx = null;
+  /// Skip count
+  int skipCount;
 
-  /// Construct this with a skipcount, total items and an operational context
-  CmisPagingContext(this._skipCount, this._totalItems, this._opCtx);
+  int _totalItems;
+  CmisOperationContext _opCtx;
 
   /// Get total item count
   int get totalItems => _totalItems == 0 ? 4294967295 : _totalItems;
 
   /// Get the current page
-  num get currentPage => ((_skipCount / _opCtx.maxItems) + 1).floor();
+  num get currentPage => ((skipCount / _opCtx.maxItems) + 1).floor();
 
   /// Get the total page count
   int getTotalPages() {
-    double totalPages = null;
+    double totalPages;
 
     if ((_totalItems == null) ||
         (_opCtx.maxItems == null) ||
@@ -45,24 +49,28 @@ class CmisPagingContext {
 
   /// Set the page to the previous page
   void setPreviousPage() {
-    _skipCount = _skipCount - _opCtx.maxItems;
-    if (_skipCount < 0) _skipCount = 0;
+    skipCount = skipCount - _opCtx.maxItems;
+    if (skipCount < 0) {
+      skipCount = 0;
+    }
   }
 
   /// Set the page to the next page
   void setNextPage() {
-    _skipCount = _skipCount + _opCtx.maxItems;
-    if (_skipCount >= _totalItems) _skipCount = _totalItems - _opCtx.maxItems;
+    skipCount = skipCount + _opCtx.maxItems;
+    if (skipCount >= _totalItems) {
+      skipCount = _totalItems - _opCtx.maxItems;
+    }
   }
 
   /// Set the first page
-  int firstPage() => _skipCount = 0;
+  int firstPage() => skipCount = 0;
 
   /// Set the last page
   void lastPage() {
     if (_totalItems != null) {
       final int totalPages = getTotalPages() - 1;
-      _skipCount = totalPages * _opCtx.maxItems;
+      skipCount = totalPages * _opCtx.maxItems;
     }
   }
 }

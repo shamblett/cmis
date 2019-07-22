@@ -1,5 +1,5 @@
 /*
- * Packge : Cmis
+ * Package : Cmis
  * Author : S. Hamblett <steve.hamblett@linux.com>
  * Date   : 01/07/2013
  * Copyright :  S.Hamblett@OSCF
@@ -29,48 +29,47 @@
 
 part of cmis;
 
+/// The CMIS client
 class Cmis {
-  /* Cmis session map */
-  Map _sessionMap = new Map<String, CmisSession>();
-
-  /* Empty constructor */
+  /// Default constructor
   Cmis();
 
-  /// Return either a new CmisSession or one from the cache if we have one
+  /// Cmis session map
+  Map<String, CmisSession> _sessionMap = Map<String, CmisSession>();
+
+  ///  Return either a new CmisSession or one from the cache if we have one
   CmisSession getCmisSession(String urlPrefix,
-      [String serviceUrlPrefix = null,
-      String userName = null,
-      String password = null,
-      String repId = null]) {
-    /* Check for an existing session */
+      [String serviceUrlPrefix,
+      String userName,
+      String password,
+      String repId]) {
+    /// Check for an existing session
     if (_sessionMap.containsKey(repId)) {
       return _sessionMap[repId];
     }
 
-    /* Generate a new one */
+    // Generate a new one
     final CmisSession newSession =
-        new CmisSession(urlPrefix, serviceUrlPrefix, repId);
+        CmisSession(urlPrefix, serviceUrlPrefix, repId);
 
-    /* Login if asked */
+    // Login if asked
     if ((userName != null) && (password != null)) {
       newSession.login(userName, password);
     }
 
-    /* Add to the map */
+    // Add to the map
     if (repId != null) {
       _sessionMap[repId] = newSession;
     }
 
-    /* Return the new session */
+    // Return the new session
     return newSession;
   }
 
-  /// Session existence
-  bool sessionExists(String repId) {
-    return _sessionMap.containsKey(repId);
-  }
+  ///  Session existence
+  bool sessionExists(String repId) => _sessionMap.containsKey(repId);
 
-  /// Session removal
+  ///  Session removal
   bool removeSession(String repId) {
     if (sessionExists(repId)) {
       _sessionMap.remove(repId);

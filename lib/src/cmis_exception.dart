@@ -10,9 +10,13 @@
 
 part of cmis;
 
+/// CMIS client exceptions
 class CmisException implements Exception {
-  String _message = 'No Message Supplied';
+  /// Default
   CmisException([this._message]);
 
-  String toString() => "CmisException: message = ${_message}";
+  String _message = 'No Message Supplied';
+
+  @override
+  String toString() => 'CmisException: message = $_message';
 }
