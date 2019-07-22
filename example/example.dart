@@ -6,6 +6,5 @@
  */
 
 /// Examples of usage to be found in the test suite
-int main() {
-  return 0;
-}
+int main() => 0;
+
