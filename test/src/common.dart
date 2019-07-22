@@ -13,34 +13,34 @@
 
 part of cmistest;
 
-/* Initialise */
-Cmis cmisClient = new Cmis();
-CmisSession cmisSession = null;
+// Initialise
+Cmis cmisClient = Cmis();
+CmisSession cmisSession;
 
-/* Alert Handling */
+// Alert Handling
 void clearAlertSection(DivElement section) {
   section.children.clear();
 }
 
 void addErrorAlert(DivElement section, String alertText) {
-  final DivElement alert = new DivElement();
-  alert.classes.add("alert&nbspalert-error");
+  final DivElement alert = DivElement();
+  alert.classes.add('alert&nbspalert-error');
   alert.text = alertText;
   clearAlertSection(section);
   section.children.add(alert);
 }
 
 void addInfoAlert(DivElement section, String alertText) {
-  final DivElement alert = new DivElement();
-  alert.classes.add("alert&nbspalert-info");
+  final DivElement alert = DivElement();
+  alert.classes.add('alert&nbspalert-info');
   alert.text = alertText;
   clearAlertSection(section);
   section.children.add(alert);
 }
 
 void addSuccessAlert(DivElement section, String alertText) {
-  final DivElement alert = new DivElement();
-  alert.classes.add("alert&nbspalert-success");
+  final DivElement alert = DivElement();
+  alert.classes.add('alert&nbspalert-success');
   alert.text = alertText;
   clearAlertSection(section);
   section.children.add(alert);

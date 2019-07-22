@@ -27,55 +27,54 @@ void doFolderUpdateClear(Event e) {
 }
 
 void outputFolderInfoCommon(dynamic response) {
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     if (response.jsonCmisResponse.objects.isNotEmpty) {
-      final List objects = response.jsonCmisResponse.objects;
+      final List<dynamic> objects = response.jsonCmisResponse.objects;
       final int numItems = response.jsonCmisResponse.numItems;
 
       if (numItems > 0) {
-        objects.forEach((dynamic object) {
+        for (dynamic object in objects) {
           final dynamic properties = object.object.properties;
-
-          final LIElement name = new LIElement();
-          name.innerHtml = "Name: ${properties['cmis:name'].value}";
+          final LIElement name = LIElement();
+          name.innerHtml = 'Name: ${properties['cmis:name'].value}';
           uList.children.add(name);
-          final LIElement objectId = new LIElement();
+          final LIElement objectId = LIElement();
           objectId.innerHtml =
-              "Object Id: ${properties['cmis:objectId'].value}";
+              'Object Id: ${properties['cmis:objectId'].value}';
           uList.children.add(objectId);
-          final LIElement objectTypeId = new LIElement();
+          final LIElement objectTypeId = LIElement();
           objectTypeId.innerHtml =
-              "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+              'Object Type Id: ${properties['cmis:objectTypeId'].value}';
           uList.children.add(objectTypeId);
           if (properties['cmis:parentId'] != null) {
-            final LIElement parentId = new LIElement();
+            final LIElement parentId = LIElement();
             parentId.innerHtml =
-                "Parent Id: ${properties['cmis:parentId'].value}";
+                'Parent Id: ${properties['cmis:parentId'].value}';
             uList.children.add(parentId);
           }
           if (properties['cmis:path'] != null) {
-            final LIElement path = new LIElement();
-            path.innerHtml = "Path: ${properties['cmis:path'].value}";
+            final LIElement path = LIElement();
+            path.innerHtml = 'Path: ${properties['cmis:path'].value}';
             uList.children.add(path);
           }
-          final LIElement spacer = new LIElement();
-          spacer.innerHtml = "  ....... ";
+          final LIElement spacer = LIElement();
+          spacer.innerHtml = '  ....... ';
           uList.children.add(spacer);
-        });
+        }
       } else {
-        final LIElement noChildren = new LIElement();
-        noChildren.innerHtml = "There are no objects in this folder";
+        final LIElement noChildren = LIElement();
+        noChildren.innerHtml = 'There are no objects in this folder';
         uList.children.add(noChildren);
       }
     } else {
-      final LIElement noChildren = new LIElement();
-      noChildren.innerHtml = "There are no objects in this folder";
+      final LIElement noChildren = LIElement();
+      noChildren.innerHtml = 'There are no objects in this folder';
       uList.children.add(noChildren);
     }
   } else {
-    addErrorAlert(folderInfoAlertSection, "This is not a folder type object");
+    addErrorAlert(folderInfoAlertSection, 'This is not a folder type object');
   }
 
   folderInfoListSection.children.add(uList);
@@ -89,18 +88,18 @@ void doFolderInfoChildren(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(folderInfoAlertSection, message);
     } else {
       outputFolderInfoCommon(cmisResponse);
@@ -110,7 +109,7 @@ void doFolderInfoChildren(Event e) {
   clearAlertSection(folderInfoAlertSection);
   cmisSession.resultCompletion = completer;
   if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, "You must supply a valid folder Id");
+    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
   } else {
     cmisSession.getFolderChildren(cmisFolderInfo.value.trim());
   }
@@ -118,41 +117,40 @@ void doFolderInfoChildren(Event e) {
 
 /* Descendants */
 void outputFolderInfoDescendants(dynamic response) {
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
-    final List objects = response.jsonCmisResponse.toList();
+    final List<dynamic> objects = response.jsonCmisResponse.toList();
 
-    objects.forEach((dynamic object) {
+    for (dynamic object in objects) {
       final dynamic properties = object.object.object.properties;
-
-      final LIElement name = new LIElement();
-      name.innerHtml = "Name: ${properties['cmis:name'].value}";
+      final LIElement name = LIElement();
+      name.innerHtml = 'Name: ${properties['cmis:name'].value}';
       uList.children.add(name);
-      final LIElement objectId = new LIElement();
-      objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
+      final LIElement objectId = LIElement();
+      objectId.innerHtml = 'Object Id: ${properties['cmis:objectId'].value}';
       uList.children.add(objectId);
-      final LIElement objectTypeId = new LIElement();
+      final LIElement objectTypeId = LIElement();
       objectTypeId.innerHtml =
-          "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+          'Object Type Id: ${properties['cmis:objectTypeId'].value}';
       uList.children.add(objectTypeId);
       if (properties['cmis:parentId'] != null) {
-        final LIElement parentId = new LIElement();
-        parentId.innerHtml = "Parent Id: ${properties['cmis:parentId'].value}";
+        final LIElement parentId = LIElement();
+        parentId.innerHtml = 'Parent Id: ${properties['cmis:parentId'].value}';
         uList.children.add(parentId);
       }
       if (properties['cmis:path'] != null) {
-        final LIElement path = new LIElement();
-        path.innerHtml = "Path: ${properties['cmis:path'].value}";
+        final LIElement path = LIElement();
+        path.innerHtml = 'Path: ${properties['cmis:path'].value}';
         uList.children.add(path);
       }
-      final LIElement spacer = new LIElement();
-      spacer.innerHtml = "  ....... ";
+      final LIElement spacer = LIElement();
+      spacer.innerHtml = '  ....... ';
       uList.children.add(spacer);
-    });
+    }
   } else {
-    final LIElement noChildren = new LIElement();
-    noChildren.innerHtml = "There are no objects in this folder";
+    final LIElement noChildren = LIElement();
+    noChildren.innerHtml = 'There are no objects in this folder';
     uList.children.add(noChildren);
   }
 
@@ -166,18 +164,18 @@ void doFolderInfoDescendants(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(folderInfoAlertSection, message);
     } else {
       outputFolderInfoDescendants(cmisResponse);
@@ -187,7 +185,7 @@ void doFolderInfoDescendants(Event e) {
   clearAlertSection(folderInfoAlertSection);
   cmisSession.resultCompletion = completer;
   if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, "You must supply a valid folder Id");
+    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
   } else {
     cmisSession.depth = 1;
     cmisSession.getFolderDescendants(cmisFolderInfo.value.trim());
@@ -196,37 +194,37 @@ void doFolderInfoDescendants(Event e) {
 
 /* Parent */
 void outputFolderInfoParent(dynamic response) {
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     final dynamic properties = response.jsonCmisResponse.properties;
 
-    final LIElement name = new LIElement();
-    name.innerHtml = "Name: ${properties['cmis:name'].value}";
+    final LIElement name = LIElement();
+    name.innerHtml = 'Name: ${properties['cmis:name'].value}';
     uList.children.add(name);
-    final LIElement objectId = new LIElement();
-    objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
+    final LIElement objectId = LIElement();
+    objectId.innerHtml = 'Object Id: ${properties['cmis:objectId'].value}';
     uList.children.add(objectId);
-    final LIElement objectTypeId = new LIElement();
+    final LIElement objectTypeId = LIElement();
     objectTypeId.innerHtml =
-        "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+        'Object Type Id: ${properties['cmis:objectTypeId'].value}';
     uList.children.add(objectTypeId);
     if (properties['cmis:parentId'] != null) {
-      final LIElement parentId = new LIElement();
-      parentId.innerHtml = "Parent Id: ${properties['cmis:parentId'].value}";
+      final LIElement parentId = LIElement();
+      parentId.innerHtml = 'Parent Id: ${properties['cmis:parentId'].value}';
       uList.children.add(parentId);
     }
     if (properties['cmis:path'] != null) {
-      final LIElement path = new LIElement();
-      path.innerHtml = "Path: ${properties['cmis:path'].value}";
+      final LIElement path = LIElement();
+      path.innerHtml = 'Path: ${properties['cmis:path'].value}';
       uList.children.add(path);
     }
-    final LIElement spacer = new LIElement();
-    spacer.innerHtml = "  ....... ";
+    final LIElement spacer = LIElement();
+    spacer.innerHtml = '  ....... ';
     uList.children.add(spacer);
   } else {
-    final LIElement noChildren = new LIElement();
-    noChildren.innerHtml = "This folder has no parent";
+    final LIElement noChildren = LIElement();
+    noChildren.innerHtml = 'This folder has no parent';
     uList.children.add(noChildren);
   }
 
@@ -240,18 +238,18 @@ void doFolderInfoParent(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(folderInfoAlertSection, message);
     } else {
       outputFolderInfoParent(cmisResponse);
@@ -261,7 +259,7 @@ void doFolderInfoParent(Event e) {
   clearAlertSection(folderInfoAlertSection);
   cmisSession.resultCompletion = completer;
   if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, "You must supply a valid folder Id");
+    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
   } else {
     cmisSession.getFolderParent(cmisFolderInfo.value.trim());
   }
@@ -275,18 +273,18 @@ void doFolderInfoTree(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(folderInfoAlertSection, message);
     } else {
       //TODO can't test this on Alfresco
@@ -297,7 +295,7 @@ void doFolderInfoTree(Event e) {
   clearAlertSection(folderInfoAlertSection);
   cmisSession.resultCompletion = completer;
   if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, "You must supply a valid folder Id");
+    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
   } else {
     cmisSession.getFolderTree(cmisFolderInfo.value.trim());
   }
@@ -305,47 +303,47 @@ void doFolderInfoTree(Event e) {
 
 /* Checked Out */
 void outputFolderInfoCheckedOut(dynamic response) {
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
-    final List objects = response.jsonCmisResponse.toList();
+    final List<dynamic> objects = response.jsonCmisResponse.toList();
     if ((objects.isNotEmpty) && (objects[0] != false)) {
-      objects.forEach((dynamic object) {
+      for (dynamic object in objects) {
         final dynamic properties = object.object.object.properties;
 
-        final LIElement name = new LIElement();
-        name.innerHtml = "Name: ${properties['cmis:name'].value}";
+        final LIElement name = LIElement();
+        name.innerHtml = 'Name: ${properties['cmis:name'].value}';
         uList.children.add(name);
-        final LIElement objectId = new LIElement();
-        objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
+        final LIElement objectId = LIElement();
+        objectId.innerHtml = 'Object Id: ${properties['cmis:objectId'].value}';
         uList.children.add(objectId);
-        final LIElement objectTypeId = new LIElement();
+        final LIElement objectTypeId = LIElement();
         objectTypeId.innerHtml =
-            "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+            'Object Type Id: ${properties['cmis:objectTypeId'].value}';
         uList.children.add(objectTypeId);
         if (properties['cmis:parentId'] != null) {
-          final LIElement parentId = new LIElement();
+          final LIElement parentId = LIElement();
           parentId.innerHtml =
-              "Parent Id: ${properties['cmis:parentId'].value}";
+              'Parent Id: ${properties['cmis:parentId'].value}';
           uList.children.add(parentId);
         }
         if (properties['cmis:path'] != null) {
-          final LIElement path = new LIElement();
-          path.innerHtml = "Path: ${properties['cmis:path'].value}";
+          final LIElement path = LIElement();
+          path.innerHtml = 'Path: ${properties['cmis:path'].value}';
           uList.children.add(path);
         }
-        final LIElement spacer = new LIElement();
-        spacer.innerHtml = "  ....... ";
+        final LIElement spacer = LIElement();
+        spacer.innerHtml = '  ....... ';
         uList.children.add(spacer);
-      });
+      }
     } else {
-      final LIElement noChildren = new LIElement();
-      noChildren.innerHtml = "There are no checked out docs in this folder";
+      final LIElement noChildren = LIElement();
+      noChildren.innerHtml = 'There are no checked out docs in this folder';
       uList.children.add(noChildren);
     }
   } else {
-    final LIElement noChildren = new LIElement();
-    noChildren.innerHtml = "There are no checked out docs in this folder";
+    final LIElement noChildren = LIElement();
+    noChildren.innerHtml = 'There are no checked out docs in this folder';
     uList.children.add(noChildren);
   }
 
@@ -359,18 +357,18 @@ void doFolderInfoCheckedOut(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(folderInfoAlertSection, message);
     } else {
       outputFolderInfoCheckedOut(cmisResponse);
@@ -380,7 +378,7 @@ void doFolderInfoCheckedOut(Event e) {
   clearAlertSection(folderInfoAlertSection);
   cmisSession.resultCompletion = completer;
   if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, "You must supply a valid folder Id");
+    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
   } else {
     cmisSession.getFolderCheckedOutDocs(cmisFolderInfo.value.trim());
   }
@@ -394,39 +392,39 @@ DivElement folderUpdateAlertSection =
 DivElement folderUpdateListSection = querySelector('#cmis-folder-update-list');
 void outputFolderCreate(dynamic response) {
   final String message =
-      "Success! the folder ${cmisFolderUpdate.value} has been created";
+      'Success! the folder ${cmisFolderUpdate.value} has been created';
   addSuccessAlert(folderUpdateAlertSection, message);
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     final dynamic properties = response.jsonCmisResponse.properties;
 
-    final LIElement name = new LIElement();
-    name.innerHtml = "Name: ${properties['cmis:name'].value}";
+    final LIElement name = LIElement();
+    name.innerHtml = 'Name: ${properties['cmis:name'].value}';
     uList.children.add(name);
-    final LIElement objectId = new LIElement();
-    objectId.innerHtml = "Object Id: ${properties['cmis:objectId'].value}";
+    final LIElement objectId = LIElement();
+    objectId.innerHtml = 'Object Id: ${properties['cmis:objectId'].value}';
     uList.children.add(objectId);
-    final LIElement objectTypeId = new LIElement();
+    final LIElement objectTypeId = LIElement();
     objectTypeId.innerHtml =
-        "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+        'Object Type Id: ${properties['cmis:objectTypeId'].value}';
     uList.children.add(objectTypeId);
     if (properties['cmis:parentId'] != null) {
-      final LIElement parentId = new LIElement();
-      parentId.innerHtml = "Parent Id: ${properties['cmis:parentId'].value}";
+      final LIElement parentId = LIElement();
+      parentId.innerHtml = 'Parent Id: ${properties['cmis:parentId'].value}';
       uList.children.add(parentId);
     }
     if (properties['cmis:path'] != null) {
-      final LIElement path = new LIElement();
-      path.innerHtml = "Path: ${properties['cmis:path'].value}";
+      final LIElement path = LIElement();
+      path.innerHtml = 'Path: ${properties['cmis:path'].value}';
       uList.children.add(path);
     }
-    final LIElement spacer = new LIElement();
-    spacer.innerHtml = "  ....... ";
+    final LIElement spacer = LIElement();
+    spacer.innerHtml = '  ....... ';
     uList.children.add(spacer);
   } else {
-    final LIElement noChildren = new LIElement();
-    noChildren.innerHtml = "Oops no valid response from folder create";
+    final LIElement noChildren = LIElement();
+    noChildren.innerHtml = 'Oops no valid response from folder create';
     uList.children.add(noChildren);
   }
 
@@ -440,18 +438,18 @@ void doFolderCreate(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(folderUpdateAlertSection, message);
     } else {
       outputFolderCreate(cmisResponse);
@@ -462,11 +460,12 @@ void doFolderCreate(Event e) {
   cmisSession.resultCompletion = completer;
   if (cmisFolderUpdate.value.isEmpty) {
     addErrorAlert(
-        folderUpdateAlertSection, "You must supply a valid folder name");
+        folderUpdateAlertSection, 'You must supply a valid folder name');
   } else {
-    String parentPath = null;
-    if (cmisFolderParent.value.isNotEmpty)
+    String parentPath;
+    if (cmisFolderParent.value.isNotEmpty) {
       parentPath = cmisFolderParent.value.trim();
+    }
     cmisSession.createFolder(cmisFolderUpdate.value.trim(),
         parentPath: parentPath);
   }
@@ -477,7 +476,7 @@ void outputFolderDelete(dynamic response) {
   /* Valid response indicates success, there is no other data returned */
 
   final String message =
-      "Success! the folder ${cmisFolderUpdate.value} has been deleted";
+      'Success! the folder ${cmisFolderUpdate.value} has been deleted';
   addSuccessAlert(folderUpdateAlertSection, message);
 }
 
@@ -488,18 +487,18 @@ void doFolderDelete(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(folderUpdateAlertSection, message);
     } else {
       outputFolderDelete(cmisResponse);
@@ -510,7 +509,7 @@ void doFolderDelete(Event e) {
   cmisSession.resultCompletion = completer;
   if (cmisFolderUpdate.value.isEmpty) {
     addErrorAlert(
-        folderUpdateAlertSection, "You must supply a valid Object Id");
+        folderUpdateAlertSection, 'You must supply a valid Object Id');
   } else {
     cmisSession.deleteFolder(cmisFolderUpdate.value.trim());
   }

@@ -17,7 +17,7 @@ InputElement cmisType = querySelector('#cmis-type-id');
 DivElement typeAlertSection = querySelector('#cmis-alertsection-type');
 DivElement typeListSection = querySelector('#cmis-type-list');
 void outputTypeListDescendants(dynamic response) {
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     /* Get a random type if no type id specified */
@@ -25,18 +25,18 @@ void outputTypeListDescendants(dynamic response) {
     int typeIndex = 0;
     if (cmisType.value.isEmpty) {
       final int length = response.jsonCmisResponse.length;
-      final Random randomizer = new Random();
+      final Random randomizer = Random();
       childIndex = randomizer.nextInt(length);
     }
-    /* Check for a 'children' property, if none announce this and go.
-     * We can't cater for all possibilties in this relatively simple test
-     * harness */
+    // Check for a 'children' property, if none announce this and go.
+    // We can't cater for all possibilities in this relatively simple test
+    // harness
     try {
-      final test = response.jsonCmisResponse[childIndex].children;
+      final dynamic test = response.jsonCmisResponse[childIndex].children;
       print(test);
-    } catch (e) {
-      final LIElement noDescendants = new LIElement();
-      noDescendants.innerHtml = "No 'children' property, try again";
+    } on Exception {
+      final LIElement noDescendants = LIElement();
+      noDescendants.innerHtml = 'No "children" property, try again';
       uList.children.add(noDescendants);
       typeListSection.children.add(uList);
       return;
@@ -46,48 +46,48 @@ void outputTypeListDescendants(dynamic response) {
         if (cmisType.value.isEmpty) {
           final int length =
               response.jsonCmisResponse[childIndex].children.length;
-          final Random randomizer = new Random();
+          final Random randomizer = Random();
           typeIndex = randomizer.nextInt(length);
         }
         final dynamic children =
             response.jsonCmisResponse[childIndex].children[typeIndex];
 
         final dynamic typeInfo = children.type;
-        final LIElement localName = new LIElement();
-        localName.innerHtml = "Local Name: ${typeInfo.localName}";
+        final LIElement localName = LIElement();
+        localName.innerHtml = 'Local Name: ${typeInfo.localName}';
         uList.children.add(localName);
-        final LIElement description = new LIElement();
-        description.innerHtml = "Description: ${typeInfo.description}";
+        final LIElement description = LIElement();
+        description.innerHtml = 'Description: ${typeInfo.description}';
         uList.children.add(description);
-        final LIElement id = new LIElement();
-        id.innerHtml = "Type Id: ${typeInfo.id}";
+        final LIElement id = LIElement();
+        id.innerHtml = 'Type Id: ${typeInfo.id}';
         uList.children.add(id);
-        final LIElement parentId = new LIElement();
-        parentId.innerHtml = "Parent Id: ${typeInfo.parentId}";
+        final LIElement parentId = LIElement();
+        parentId.innerHtml = 'Parent Id: ${typeInfo.parentId}';
         uList.children.add(parentId);
-        final LIElement spacer = new LIElement();
-        spacer.innerHtml = "  ....... ";
+        final LIElement spacer = LIElement();
+        spacer.innerHtml = '  ....... ';
         uList.children.add(spacer);
       } else {
-        final LIElement noDescendants = new LIElement();
+        final LIElement noDescendants = LIElement();
         noDescendants.innerHtml =
-            "The children record id empty in this repository";
+            'The children record id empty in this repository';
         uList.children.add(noDescendants);
       }
     } else {
-      final LIElement noDescendants = new LIElement();
+      final LIElement noDescendants = LIElement();
       noDescendants.innerHtml =
-          "There are no type children records in this repository";
+          'There are no type children records in this repository';
       uList.children.add(noDescendants);
     }
   } else {
-    final LIElement noDescendants = new LIElement();
+    final LIElement noDescendants = LIElement();
     if (cmisType.value.isEmpty) {
       noDescendants.innerHtml =
-          "There are no more type descendants in this repository";
+          'There are no more type descendants in this repository';
     } else {
       noDescendants.innerHtml =
-          "There are no more type descendants for this type";
+          'There are no more type descendants for this type';
     }
     uList.children.add(noDescendants);
   }
@@ -107,18 +107,18 @@ void doTypeInfoDescendants(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(typeAlertSection, message);
     } else {
       outputTypeListDescendants(cmisResponse);
@@ -136,48 +136,50 @@ void doTypeInfoDescendants(Event e) {
 }
 
 void outputTypeListChildren(dynamic response) {
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     /* Get the first 4 children */
     if (response.jsonCmisResponse.types.isNotEmpty) {
       final int length = response.jsonCmisResponse.types.length;
       if (length > 0) {
-        final List types = response.jsonCmisResponse.types;
+        final List<dynamic> types = response.jsonCmisResponse.types;
         int children = length;
-        if (children > 4) children = 4;
+        if (children > 4) {
+          children = 4;
+        }
         for (int i = 0; i <= children - 1; i++) {
-          final LIElement localName = new LIElement();
-          localName.innerHtml = "Local Name: ${types[i].localName}";
+          final LIElement localName = LIElement();
+          localName.innerHtml = 'Local Name: ${types[i].localName}';
           uList.children.add(localName);
-          final LIElement description = new LIElement();
-          description.innerHtml = "Description: ${types[i].description}";
+          final LIElement description = LIElement();
+          description.innerHtml = 'Description: ${types[i].description}';
           uList.children.add(description);
-          final LIElement id = new LIElement();
-          id.innerHtml = "Type Id: ${types[i].id}";
+          final LIElement id = LIElement();
+          id.innerHtml = 'Type Id: ${types[i].id}';
           uList.children.add(id);
-          final LIElement spacer = new LIElement();
-          spacer.innerHtml = "  ....... ";
+          final LIElement spacer = LIElement();
+          spacer.innerHtml = '  ....... ';
           uList.children.add(spacer);
         }
       } else {
-        final LIElement noChildren = new LIElement();
+        final LIElement noChildren = LIElement();
         noChildren.innerHtml =
-            "The children types are empty in this repository";
+            'The children types are empty in this repository';
         uList.children.add(noChildren);
       }
     } else {
-      final LIElement noChildren = new LIElement();
-      noChildren.innerHtml = "There are no children types";
+      final LIElement noChildren = LIElement();
+      noChildren.innerHtml = 'There are no children types';
       uList.children.add(noChildren);
     }
   } else {
-    final LIElement noChildren = new LIElement();
+    final LIElement noChildren = LIElement();
     if (cmisType.value.isEmpty) {
       noChildren.innerHtml =
-          "There are no more children types in this repository";
+          'There are no more children types in this repository';
     } else {
-      noChildren.innerHtml = "There are no more children types for this type";
+      noChildren.innerHtml = 'There are no more children types for this type';
     }
     uList.children.add(noChildren);
   }
@@ -192,18 +194,18 @@ void doTypeInfoChildren(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(typeAlertSection, message);
     } else {
       outputTypeListChildren(cmisResponse);
@@ -221,18 +223,18 @@ void doTypeInfoChildren(Event e) {
 }
 
 void outputTypeListDefinition(dynamic response) {
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
-    final LIElement localName = new LIElement();
-    localName.innerHtml = "Local Name: ${response.jsonCmisResponse.localName}";
+    final LIElement localName = LIElement();
+    localName.innerHtml = 'Local Name: ${response.jsonCmisResponse.localName}';
     uList.children.add(localName);
-    final LIElement queryName = new LIElement();
-    queryName.innerHtml = "Description: ${response.jsonCmisResponse.queryName}";
+    final LIElement queryName = LIElement();
+    queryName.innerHtml = 'Description: ${response.jsonCmisResponse.queryName}';
     uList.children.add(queryName);
   } else {
-    final LIElement noDefinition = new LIElement();
-    noDefinition.innerHtml = "There is no definition for this type";
+    final LIElement noDefinition = LIElement();
+    noDefinition.innerHtml = 'There is no definition for this type';
     uList.children.add(noDefinition);
   }
 
@@ -246,18 +248,18 @@ void doTypeInfoDefinition(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(typeAlertSection, message);
     } else {
       outputTypeListDefinition(cmisResponse);
@@ -266,7 +268,7 @@ void doTypeInfoDefinition(Event e) {
 
   clearAlertSection(typeAlertSection);
   if (cmisType.value.isEmpty) {
-    final String message = "You must supply a Type Id for this function";
+    const String message = 'You must supply a Type Id for this function';
     addErrorAlert(typeAlertSection, message);
     return;
   }

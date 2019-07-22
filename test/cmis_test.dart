@@ -13,9 +13,9 @@
 
 library cmistest;
 
+import 'dart:async';
 import 'dart:html';
 import 'dart:math';
-import 'dart:async';
 
 import 'package:cmis/cmis.dart';
 import 'package:test/test.dart';
@@ -31,8 +31,8 @@ part 'src/folder.dart';
 part 'src/query.dart';
 
 int main() {
-  test("1", () {
-    /* Initialise the page from the config file */
+  test('1', () {
+    // Initialise the page from the config file
     if (configInUse) {
       cmisRepositoryId.value = configRepositoryId;
       cmisUrl.value = configUrl;
@@ -42,13 +42,13 @@ int main() {
       cmisProxy.checked = configProxy;
     }
 
-    /* Get our working element set and add event handlers */
+    // Get our working element set and add event handlers
 
-    /* Connect */
+    // Connect
     final ButtonElement connectBtn = querySelector('#cmis-connect-btn');
     connectBtn.onClick.listen(doConnect);
 
-    /* Repository Info */
+    // Repository Info
     final ButtonElement repositoryInfoBtn =
         querySelector('#cmis-repository-info');
     repositoryInfoBtn.onClick.listen(doRepositoryInfo);
@@ -61,7 +61,7 @@ int main() {
         querySelector('#cmis-repository-info-clear');
     repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
 
-    /* Root Folder */
+    // Root Folder
     final ButtonElement rootInfoBtn = querySelector('#cmis-root-info');
     rootInfoBtn.onClick.listen(doRootInfo);
 
@@ -75,7 +75,7 @@ int main() {
         querySelector('#cmis-root-info-clear');
     rootInfoBtnClear.onClick.listen(doRootInfoClear);
 
-    /* Type information */
+    // Type information
     final ButtonElement typeInfoDescendantsBtn =
         querySelector('#cmis-type-info-descendants');
     typeInfoDescendantsBtn.onClick.listen(doTypeInfoDescendants);
@@ -92,14 +92,14 @@ int main() {
         querySelector('#cmis-type-info-clear');
     typeInfoBtnClear.onClick.listen(doTypeInfoClear);
 
-    /* Document Information */
+    // Document Information
     final ButtonElement docInfoBtn = querySelector('#cmis-docinfo-get');
     docInfoBtn.onClick.listen(doDocInfo);
 
     final ButtonElement docInfoBtnClear = querySelector('#cmis-docinfo-clear');
     docInfoBtnClear.onClick.listen(doDocInfoClear);
 
-    /* Document Update */
+    // Document Update
     final ButtonElement documentCreateBtn =
         querySelector('#cmis-document-update-create');
     documentCreateBtn.onClick.listen(doDocumentCreate);
@@ -112,7 +112,7 @@ int main() {
         querySelector('#cmis-document-update-clear');
     documentUpdateBtnClear.onClick.listen(doDocumentUpdateClear);
 
-    /* Folder Information */
+    // Folder Information
     final ButtonElement folderInfoChildrenBtn =
         querySelector('#cmis-folder-get-children');
     folderInfoChildrenBtn.onClick.listen(doFolderInfoChildren);
@@ -137,7 +137,7 @@ int main() {
         querySelector('#cmis-folder-clear');
     folderInfoBtnClear.onClick.listen(doFolderInfoClear);
 
-    /* Folder Update  */
+    // Folder Update
     final ButtonElement folderCreateBtn =
         querySelector('#cmis-folder-update-create');
     folderCreateBtn.onClick.listen(doFolderCreate);
@@ -150,7 +150,7 @@ int main() {
         querySelector('#cmis-folder-update-clear');
     folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
 
-    /* Query */
+    // Query
     final ButtonElement queryBtn = querySelector('#cmis-query-query');
     queryBtn.onClick.listen(doQuery);
 
@@ -159,7 +159,7 @@ int main() {
 
     final dynamic end = expectAsync0(() {});
 
-    final Timer timer = new Timer(Duration(seconds: 2000), end);
+    final Timer timer = Timer(Duration(seconds: 2000), end);
     print(timer.isActive);
   });
 

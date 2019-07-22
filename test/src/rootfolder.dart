@@ -29,15 +29,15 @@ void onRootFilterSelect(Event e) {
 }
 
 void outputRootInfo(dynamic response) {
-  final UListElement uList = new UListElement();
+  final UListElement uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     if (response.jsonCmisResponse.objects.isNotEmpty) {
-      final List objects = response.jsonCmisResponse.objects;
+      final List<dynamic> objects = response.jsonCmisResponse.objects;
       final int numItems = response.jsonCmisResponse.numItems;
 
       if (numItems > 0) {
-        objects.forEach((dynamic object) {
+        for (dynamic object in objects) {
           final dynamic properties = object.object.properties;
 
           /* Check for the type filter */
@@ -54,46 +54,46 @@ void outputRootInfo(dynamic response) {
           }
 
           if (outputInfo) {
-            final LIElement name = new LIElement();
-            name.innerHtml = "Name: ${properties['cmis:name'].value}";
+            final LIElement name = LIElement();
+            name.innerHtml = 'Name: ${properties['cmis:name'].value}';
             uList.children.add(name);
-            final LIElement objectId = new LIElement();
+            final LIElement objectId = LIElement();
             objectId.innerHtml =
-                "Object Id: ${properties['cmis:objectId'].value}";
+                'Object Id: ${properties['cmis:objectId'].value}';
             uList.children.add(objectId);
-            final LIElement objectTypeId = new LIElement();
+            final LIElement objectTypeId = LIElement();
             objectTypeId.innerHtml =
-                "Object Type Id: ${properties['cmis:objectTypeId'].value}";
+                'Object Type Id: ${properties['cmis:objectTypeId'].value}';
             uList.children.add(objectTypeId);
             if (properties['cmis:parentId'] != null) {
-              final LIElement parentId = new LIElement();
+              final LIElement parentId = LIElement();
               parentId.innerHtml =
-                  "Parent Id: ${properties['cmis:parentId'].value}";
+                  'Parent Id: ${properties['cmis:parentId'].value}';
               uList.children.add(parentId);
             }
             if (properties['cmis:path'] != null) {
-              final LIElement path = new LIElement();
-              path.innerHtml = "Path: ${properties['cmis:path'].value}";
+              final LIElement path = LIElement();
+              path.innerHtml = 'Path: ${properties['cmis:path'].value}';
               uList.children.add(path);
             }
-            final LIElement spacer = new LIElement();
-            spacer.innerHtml = "  ....... ";
+            final LIElement spacer = LIElement();
+            spacer.innerHtml = '  ....... ';
             uList.children.add(spacer);
           }
-        });
+        }
       } else {
-        final LIElement noChildren = new LIElement();
-        noChildren.innerHtml = "There are no objects in the root folder";
+        final LIElement noChildren = LIElement();
+        noChildren.innerHtml = 'There are no objects in the root folder';
         uList.children.add(noChildren);
       }
     } else {
-      final LIElement noChildren = new LIElement();
-      noChildren.innerHtml = "There are no objects in the root folder";
+      final LIElement noChildren = LIElement();
+      noChildren.innerHtml = 'There are no objects in the root folder';
       uList.children.add(noChildren);
     }
   } else {
-    final LIElement noChildren = new LIElement();
-    noChildren.innerHtml = "There are no objects in the root folder";
+    final LIElement noChildren = LIElement();
+    noChildren.innerHtml = 'There are no objects in the root folder';
     uList.children.add(noChildren);
   }
 
@@ -107,18 +107,18 @@ void doRootInfo(Event e) {
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
       final int errorCode = cmisResponse.errorCode;
-      String error = null;
-      String reason = null;
+      String error;
+      String reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
       } else {
         error = errorResponse.message;
-        reason = "CMIS Server Response";
+        reason = 'CMIS Server Response';
       }
 
       final String message =
-          "Error - $error, Reason - $reason, Code - $errorCode";
+          'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(rootInfoAlertSection, message);
     } else {
       outputRootInfo(cmisResponse);
