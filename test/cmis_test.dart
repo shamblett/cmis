@@ -11,6 +11,8 @@
  * 
  */
 
+@TestOn('chrome')
+
 library cmistest;
 
 import 'dart:async';

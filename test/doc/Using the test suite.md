@@ -6,7 +6,7 @@ connection to CMIS repositories, browsing of information thereof and the creatio
 deletion of documents and folders.
 
 Before starting please enter the details needed in the cmis_test_config file if
-you intend to use this as a shor cut to filling in the details on then test page.
+you intend to use this as a short cut to filling in the details on then test page.
 
 The testing has been carried out against the Alfresco CMIS browser binding test repository
 [here](http://cmis.alfresco.com/cmisbrowser) although any compliant repository can be used.

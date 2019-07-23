@@ -1,7 +1,7 @@
 name: cmis
 version: 4.0.0
 author: S. Hamblett <steve.hamblett@linux.com>
-description: A CMIS 1.1 complient browser and server based client for Dart.
+description: A CMIS 1.1 compliant browser and server based client for Dart.
 homepage: https://github.com/shamblett/cmis
 documentation: https://github.com/shamblett/cmis
 environment:
@@ -16,6 +16,6 @@ dev_dependencies:
   test: '^1.6.5'
   dart_style: '^1.2.9'
   dartdoc: '^0.28.4'
-  build_runner: '^1.6.1'
+  build_runner: '^1.6.2'
   build_test: '^0.10.8'
   build_web_compilers: '^2.1.4'
