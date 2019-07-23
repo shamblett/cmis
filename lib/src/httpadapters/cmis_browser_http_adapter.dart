@@ -19,7 +19,7 @@
  *                      
  */
 
-part of cmis;
+part of cmis_browser_client;
 
 /// Browser HTTP adapter
 class CmisBrowserHttpAdapter implements CmisHttpAdapter {

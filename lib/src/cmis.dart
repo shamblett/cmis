@@ -23,7 +23,7 @@
  * wants multiple instances of a repository that are independant then don't supply a repository
  * id in the getCmisSession method, or use different instantiations of this class.
  * 
- * This class is prmarily aimed at a single client usage where repositories can be easily 
+ * This class is primarily aimed at a single client usage where repositories can be easily
  * 'hot' swapped between rather than shared.  
  */
 
@@ -32,7 +32,10 @@ part of cmis;
 /// The CMIS client
 class Cmis {
   /// Default constructor
-  Cmis();
+  Cmis(this.httpAdapter);
+
+  /// HTTP Adapter
+  CmisHttpAdapter httpAdapter;
 
   /// Cmis session map
   Map<String, CmisSession> _sessionMap = Map<String, CmisSession>();
