@@ -13,21 +13,23 @@ part of cmis_browser_client;
 class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
   /// Encoded authentication string
   @override
-  String encodedAuthString(String authStringToEncode) => null;
+  String encodedAuthString(String authStringToEncode) =>
+      html.window.btoa(authStringToEncode);
 
   /// Form data
   @override
-  dynamic formData() => null;
+  dynamic formData() => html.FormData();
 
   /// Blob
   @override
-  dynamic blob(List<String> blobParts, String mimeType) => null;
+  dynamic blob(List<String> blobParts, String mimeType) =>
+      html.Blob(blobParts, mimeType);
 
   /// File reader
   @override
-  dynamic fileReader() => null;
+  dynamic fileReader() => html.FileReader();
 
   /// File
   @override
-  dynamic file() => null;
+  dynamic file() => html.File;
 }
