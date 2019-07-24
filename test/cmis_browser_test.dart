@@ -11,7 +11,7 @@
  * 
  */
 
-@TestOn('chrome')
+@TestOn('browser')
 
 library cmisbrowsertest;
 
