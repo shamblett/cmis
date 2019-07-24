@@ -32,10 +32,13 @@ part of cmis;
 /// The CMIS client
 class Cmis {
   /// Default constructor
-  Cmis(this.httpAdapter);
+  Cmis(this.httpAdapter, this.environmentSupport);
 
   /// HTTP Adapter
   CmisHttpAdapter httpAdapter;
+
+  /// Environment support
+  CmisEnvironmentSupport environmentSupport;
 
   /// Cmis session map
   Map<String, CmisSession> _sessionMap = Map<String, CmisSession>();
@@ -52,8 +55,8 @@ class Cmis {
     }
 
     // Generate a new one
-    final CmisSession newSession =
-        CmisSession(urlPrefix, serviceUrlPrefix, repId);
+    final CmisSession newSession = CmisSession(
+        urlPrefix, httpAdapter, environmentSupport, serviceUrlPrefix, repId);
 
     // Login if asked
     if ((userName != null) && (password != null)) {

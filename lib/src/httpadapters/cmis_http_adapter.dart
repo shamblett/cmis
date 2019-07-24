@@ -15,6 +15,18 @@ abstract class CmisHttpAdapter {
   /// Default constructor
   CmisHttpAdapter();
 
+  /// Constructor with completer
+  CmisHttpAdapter.withCompletion([this.completion]);
+
+  /// Completion callback
+  dynamic completion;
+
+  /// All responses are JSON Objects
+  dynamic jsonResponse;
+
+  /// All response headers
+  String allResponseHeaders;
+
   /// Processes the HTTP request returning the server's response as
   /// a JSON Object
   void httpRequest(String method, String url,

@@ -14,12 +14,17 @@ import 'package:cmis/cmis.dart';
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 
 part 'src/httpadapters/cmis_browser_http_adapter.dart';
+part 'src/environmentsupport/cmis_browser_environment_support.dart';
 
 /// The Cmis browser client
 class CmisBrowserClient extends Cmis {
   /// Default constructor
-  CmisBrowserClient() : super(browserHttpAdapter);
+  CmisBrowserClient() : super(browserHttpAdapter, browserEnvironmentSupport);
 
   /// Browser HTTP adapter
   static CmisBrowserHttpAdapter browserHttpAdapter = CmisBrowserHttpAdapter();
+
+  /// Browser environment support
+  static CmisBrowserEnvironmentSupport browserEnvironmentSupport =
+      CmisBrowserEnvironmentSupport();
 }

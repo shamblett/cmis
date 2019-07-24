@@ -22,18 +22,13 @@
 part of cmis_browser_client;
 
 /// Browser HTTP adapter
-class CmisBrowserHttpAdapter implements CmisHttpAdapter {
+class CmisBrowserHttpAdapter extends CmisHttpAdapter {
+  /// Default constructor
+  CmisBrowserHttpAdapter();
+
   /// Optional completer
-  CmisBrowserHttpAdapter([this.completion]);
-
-  /// All responses are JSON Objects
-  dynamic jsonResponse = jsonobject.JsonObjectLite<dynamic>();
-
-  /// Completion callback
-  dynamic completion;
-
-  /// All response headers
-  String allResponseHeaders;
+  CmisBrowserHttpAdapter.withCompleter([dynamic completion])
+      : super.withCompletion(completion);
 
   // We get an HttpRequestProgressEvent on error and process this
   //  to return a JSON Object.

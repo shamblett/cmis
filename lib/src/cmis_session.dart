@@ -77,9 +77,8 @@ part of cmis;
 /// CMIS session management
 class CmisSession {
   /// Default constructor
-  CmisSession(this._urlPrefix, [this._serviceUrlPrefix, this.repositoryId]) {
-    _httpAdapter = CmisBrowserHttpAdapter(null);
-  }
+  CmisSession(this._urlPrefix, this._httpAdapter, this._environmentSupport,
+      [this._serviceUrlPrefix, this.repositoryId]);
 
   /// CMIS repository identifier
   String repositoryId;
@@ -120,7 +119,8 @@ class CmisSession {
   /// Proxy indicator
   bool proxy = false;
 
-  CmisBrowserHttpAdapter _httpAdapter;
+  CmisHttpAdapter _httpAdapter;
+  CmisEnvironmentSupport _environmentSupport;
 
   jsonobject.JsonObjectLite<dynamic> _repoInformation;
 
@@ -130,7 +130,7 @@ class CmisSession {
       {bool useServiceUrl = false,
       jsonobject.JsonObjectLite<dynamic> data,
       Map<String, String> headers,
-      html.FormData formData}) async {
+      dynamic formData}) async {
     // Build the request for the HttpAdapter */
     final Map<String, String> cmisHeaders = Map<String, String>();
     cmisHeaders['accept'] = 'application/json';
@@ -176,7 +176,8 @@ class CmisSession {
     // Check for authentication
     if (_user != null) {
       final String authStringToEncode = '$_user:$_password';
-      final String encodedAuthString = html.window.btoa(authStringToEncode);
+      final String encodedAuthString =
+          _environmentSupport.encodedAuthString(authStringToEncode);
       final String authString = 'Basic $encodedAuthString';
       cmisHeaders['authorization'] = authString;
     }
@@ -394,7 +395,7 @@ class CmisSession {
       url = '$url/$parentPath';
     }
     dynamic data = jsonobject.JsonObjectLite<dynamic>();
-    html.FormData formData = html.FormData();
+    dynamic formData = _environmentSupport.formData();
     bool useFormData = false;
 
     // Headers, we only create documents or folders */
@@ -454,7 +455,7 @@ class CmisSession {
       }
       final List<String> blobParts = List<String>();
       blobParts.add(content);
-      final html.Blob theBlob = html.Blob(blobParts, mimeType);
+      final dynamic theBlob = _environmentSupport.blob(blobParts, mimeType);
       formData.appendBlob('content', theBlob);
       data = null;
     }
@@ -515,14 +516,14 @@ class CmisSession {
       String content,
       String folderPath,
       String fileName,
-      html.File file,
+      dynamic file,
       Map<String, String> customProperties}) {
     if (repositoryId == null) {
       throw CmisException('createDocument() expects a non null repository Id');
     }
 
     // Declare the File Reader
-    final html.FileReader reader = html.FileReader();
+    final dynamic reader = _environmentSupport.fileReader();
 
     // Initialise
     String intTypeId = typeId;
