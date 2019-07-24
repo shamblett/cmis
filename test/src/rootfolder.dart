@@ -11,7 +11,7 @@
  * 
  */
 
-part of cmistest;
+part of cmisbrowsertest;
 
 InputElement cmisRootInfoId = querySelector('#cmis-rootinfo-id');
 DivElement rootInfoAlertSection = querySelector('#cmis-alertsection-rootinfo');

@@ -11,10 +11,10 @@
  * 
  */
 
-part of cmistest;
+part of cmisbrowsertest;
 
 // Initialise
-Cmis cmisClient = Cmis();
+CmisBrowserClient cmisClient = CmisBrowserClient();
 CmisSession cmisSession;
 
 // Alert Handling

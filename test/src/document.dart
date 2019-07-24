@@ -11,7 +11,7 @@
  * 
  */
 
-part of cmistest;
+part of cmisbrowsertest;
 
 // Information
 InputElement cmisDocInfo = querySelector('#cmis-docinfo-id');

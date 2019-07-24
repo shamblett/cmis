@@ -64,12 +64,11 @@ class CmisBrowserHttpAdapter implements CmisHttpAdapter {
 
   /// Successful completion
   @override
-  void onSuccess(html.HttpRequest response) {
+  void onSuccess(dynamic response) {
     jsonResponse.jsonCmisResponse = jsonobject.JsonObjectLite<dynamic>();
 
     // If stringify fails we may have a document body returned, ie straight text,
     // in this case create a JsonObject with this as its value.
-
     try {
       final dynamic successAsJson =
           jsonobject.JsonObjectLite<dynamic>.fromJsonString(
@@ -119,7 +118,7 @@ class CmisBrowserHttpAdapter implements CmisHttpAdapter {
   /// via the completion callback.
   @override
   void httpFormDataRequest(String method, String url,
-      [html.FormData formData, Map<String, String> headers]) {
+      [dynamic formData, Map<String, String> headers]) {
     // Query CMIS over HTTP
     html.HttpRequest.request(url,
         method: method,

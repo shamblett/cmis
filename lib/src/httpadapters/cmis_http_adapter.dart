@@ -28,17 +28,17 @@ abstract class CmisHttpAdapter {
   /// Processes the HTTP POST(Form Multi Part)request returning the server's response as
   /// a JSON Object
   void httpFormDataRequest(String method, String url,
-      [html.FormData formData, Map<String, String> headers]);
+      [dynamic formData, Map<String, String> headers]);
 
-  /// Result Handling
+  // Result Handling
 
   /// Error
-  void onError(html.HttpRequest response);
+  void onError(dynamic response);
 
   /// Success
-  void onSuccess(html.HttpRequest response);
+  void onSuccess(dynamic response);
 
-  /// Psuedo respose generators
+  // Psuedo response generators
 
   /// Error
   void generateErrorResponse(

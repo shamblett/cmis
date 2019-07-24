@@ -11,7 +11,7 @@
  * 
  */
 
-part of cmistest;
+part of cmisbrowsertest;
 
 TextAreaElement queryStatement = querySelector('#cmis-query-statement');
 DivElement queryAlertSection = querySelector('#cmis-alertsection-query');

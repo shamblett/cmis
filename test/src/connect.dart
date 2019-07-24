@@ -11,7 +11,7 @@
  * 
  */
 
-part of cmistest;
+part of cmisbrowsertest;
 
 InputElement cmisUrl = querySelector('#cmis-url');
 InputElement cmisServiceUrl = querySelector('#cmis-service-url');

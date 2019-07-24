@@ -13,13 +13,13 @@
 
 @TestOn('chrome')
 
-library cmistest;
+library cmisbrowsertest;
 
 import 'dart:async';
 import 'dart:html';
 import 'dart:math';
 
-import 'package:cmis/cmis.dart';
+import 'package:cmis/cmis_browser_client.dart';
 import 'package:test/test.dart';
 import 'cmis_test_config.dart';
 

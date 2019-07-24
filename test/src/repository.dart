@@ -11,7 +11,7 @@
  * 
  */
 
-part of cmistest;
+part of cmisbrowsertest;
 
 dynamic cmisRepositoryId = querySelector('#cmis-repository-id');
 String repoId;

@@ -11,7 +11,7 @@
  * 
  */
 
-part of cmistest;
+part of cmisbrowsertest;
 
 InputElement cmisType = querySelector('#cmis-type-id');
 DivElement typeAlertSection = querySelector('#cmis-alertsection-type');

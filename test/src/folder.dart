@@ -11,7 +11,7 @@
  * 
  */
 
-part of cmistest;
+part of cmisbrowsertest;
 
 InputElement cmisFolderInfo = querySelector('#cmis-folder-id');
 DivElement folderInfoAlertSection = querySelector('#cmis-alertsection-folder');
