@@ -13,23 +13,26 @@ part of cmis_server_client;
 class CmisServerEnvironmentSupport extends CmisEnvironmentSupport {
   /// Encoded authentication string
   @override
-  String encodedAuthString(String authStringToEncode) => null;
-  //html.window.btoa(authStringToEncode);
+  String encodedAuthString(String authStringToEncode) =>
+      const Base64Encoder().convert(authStringToEncode.codeUnits);
 
   /// Form data
   @override
-  dynamic formData() => null; //html.FormData();
+  dynamic formData() => null;
 
   /// Blob
   @override
   dynamic blob(List<String> blobParts, String mimeType) => null;
-  //html.Blob(blobParts, mimeType);
 
   /// File reader
   @override
-  dynamic fileReader() => null; //html.FileReader();
+  dynamic fileReader() => null;
+
+  /// File contents
+  @override
+  String fileContents(String filename) => File(filename).readAsStringSync();
 
   /// File
   @override
-  dynamic file() => null; //html.File;
+  dynamic file() => null;
 }

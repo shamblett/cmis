@@ -29,6 +29,10 @@ class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
   @override
   dynamic fileReader() => html.FileReader();
 
+  /// File contents
+  @override
+  String fileContents(String filename) => null;
+
   /// File
   @override
   dynamic file() => html.File;

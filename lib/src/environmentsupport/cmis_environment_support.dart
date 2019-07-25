@@ -23,6 +23,9 @@ abstract class CmisEnvironmentSupport {
   /// File reader
   dynamic fileReader();
 
+  /// File contents
+  String fileContents(String filename);
+
   /// File
   dynamic file();
 }

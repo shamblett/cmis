@@ -404,7 +404,9 @@ class CmisSession {
     if (typeId == 'cmis:folder') {
       headers['content-type'] = 'application/x-www-form-urlencoded';
     } else {
-      useFormData = true;
+      if (formData != null) {
+        useFormData = true;
+      }
     }
 
     // Properties for normal POST submit
@@ -523,8 +525,12 @@ class CmisSession {
     }
 
     // Declare the File Reader
+    bool serverside = false;
     final dynamic reader = _environmentSupport.fileReader();
-
+    if (reader == null) {
+      // Server side
+      serverside = true;
+    }
     // Initialise
     String intTypeId = typeId;
     if (typeId == null) {
@@ -535,9 +541,21 @@ class CmisSession {
       mimeType = lookupMimeType(fileName);
     }
 
-    // File read completers
+    // File read completer
     void fileRead() {
       final String content = reader.result.toString();
+
+      create(name, 'createDocument',
+          typeId: intTypeId,
+          content: content,
+          mimeType: mimeType,
+          parentPath: folderPath,
+          customProperties: customProperties);
+    }
+
+    // File read for the server
+    void fileReadServer() {
+      final String content = _environmentSupport.fileContents(fileName);
 
       create(name, 'createDocument',
           typeId: intTypeId,
@@ -558,11 +576,15 @@ class CmisSession {
       }
 
       // Read the file
-      reader.onLoadEnd.listen((dynamic e) => fileRead());
-      reader.onError.listen((dynamic e) => fileReadError());
+      if (!serverside) {
+        reader.onLoadEnd.listen((dynamic e) => fileRead());
+        reader.onError.listen((dynamic e) => fileReadError());
 
-      //  We only do text here */
-      reader.readAsText(file);
+        //  We only do text here */
+        reader.readAsText(file);
+      } else {
+        fileReadServer();
+      }
     } else {
       // Create from content supplied as a string
       create(name, 'createDocument',

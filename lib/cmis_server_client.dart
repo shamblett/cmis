@@ -9,6 +9,8 @@
 
 library cmis_server_client;
 
+import 'dart:convert';
+import 'dart:io';
 import 'package:cmis/cmis.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
