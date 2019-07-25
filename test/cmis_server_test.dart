@@ -17,6 +17,7 @@ library cmisservertest;
 
 import 'dart:async';
 
+import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:cmis/cmis_server_client.dart';
 import 'package:cmis/cmis.dart';
 import 'package:test/test.dart';
@@ -44,6 +45,8 @@ int main() {
       cmisProxy = configProxy;
     }
 
+    dynamic cmisResponse;
+
     // Connect
     try {
       cmisSession = cmisClient.getCmisSession(
@@ -53,13 +56,14 @@ int main() {
     }
 
     void completer() {
-      final dynamic cmisResponse = cmisSession.completionResponse;
-        print(cmisResponse);
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count:1);
+    cmisSession.resultCompletion = expectAsync0(completer, count: 2);
 
     // Repository info
+    print('Getting repository Info');
     if (cmisRepositoryId.isEmpty) {
       cmisSession.getRepositories();
     } else {
@@ -68,9 +72,20 @@ int main() {
     }
 
     await Future<void>.delayed(Duration(seconds: 2));
+    final jsonobject.JsonObjectLite<dynamic> repo =
+        cmisResponse.jsonCmisResponse.toList()[0];
+    final String repositoryId = repo.toList()[0];
+    final String repositoryName = repo.toList()[1];
+    final String repositoryDescription = repo.toList()[2];
+    print(
+        'Repository : Id - $repositoryId, : name - $repositoryName, : description - $repositoryDescription');
+    cmisSession.repositoryId = repositoryId;
 
     // Root folder contents
+    print('Getting root folder contents');
     cmisSession.getRootFolderContents();
+
+    await Future<void>.delayed(Duration(seconds: 2));
 
     // Repository Info
 //    final ButtonElement repositoryInfoBtn =
