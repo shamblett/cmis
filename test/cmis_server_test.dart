@@ -64,12 +64,7 @@ int main() {
 
     // Repository info
     print('Getting repository Info');
-    if (cmisRepositoryId.isEmpty) {
-      cmisSession.getRepositories();
-    } else {
-      cmisSession.repositoryId = cmisRepositoryId;
-      cmisSession.getRepositoryInfo();
-    }
+    cmisSession.getRepositories();
 
     await Future<void>.delayed(Duration(seconds: 2));
     final jsonobject.JsonObjectLite<dynamic> repo =
