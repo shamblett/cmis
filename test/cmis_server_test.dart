@@ -33,7 +33,7 @@ int main() {
   String cmisPassword;
   bool cmisProxy;
 
-  test('1', () {
+  test('1', () async {
     // Initialise the page from the config file
     if (configInUse) {
       cmisRepositoryId = configRepositoryId;
@@ -57,8 +57,9 @@ int main() {
         print(cmisResponse);
     }
 
+    cmisSession.resultCompletion = expectAsync0(completer, count:1);
+
     // Repository info
-    cmisSession.resultCompletion = completer;
     if (cmisRepositoryId.isEmpty) {
       cmisSession.getRepositories();
     } else {
@@ -66,9 +67,10 @@ int main() {
       cmisSession.getRepositoryInfo();
     }
 
+    await Future<void>.delayed(Duration(seconds: 2));
+
     // Root folder contents
-    //cmisSession.resultCompletion = completer;
-    //cmisSession.getRootFolderContents();
+    cmisSession.getRootFolderContents();
 
     // Repository Info
 //    final ButtonElement repositoryInfoBtn =
@@ -178,11 +180,6 @@ int main() {
 //
 //    final ButtonElement queryBtnClear = querySelector('#cmis-query-clear');
 //    queryBtnClear.onClick.listen(doQueryClear);
-
-    final dynamic end = expectAsync0(() {});
-
-    final Timer timer = Timer(Duration(seconds: 2000), end);
-    print(timer.isActive);
   });
 
   return 0;
