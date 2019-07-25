@@ -38,7 +38,7 @@ int main() {
     // Initialise the page from the config file
     if (configInUse) {
       cmisRepositoryId.value = configRepositoryId;
-      cmisUrl.value = configUrl;
+      cmisUrl.value = configUrlBrowser;
       cmisServiceUrl.value = serviceUrl;
       cmisUser.value = configUser;
       cmisPassword.value = configPassword;
