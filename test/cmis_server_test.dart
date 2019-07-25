@@ -37,14 +37,12 @@ int main() {
     // Initialise the page from the config file
     if (configInUse) {
       cmisRepositoryId = configRepositoryId;
-      cmisUrl = configUrlBrowser;
+      cmisUrl = configUrlServer;
       cmisServiceUrl = serviceUrl;
       cmisUser = configUser;
       cmisPassword = configPassword;
       cmisProxy = configProxy;
     }
-
-    // Get our working element set and add event handlers
 
     // Connect
     try {
@@ -59,8 +57,18 @@ int main() {
         print(cmisResponse);
     }
 
+    // Repository info
     cmisSession.resultCompletion = completer;
-    cmisSession.getRootFolderContents();
+    if (cmisRepositoryId.isEmpty) {
+      cmisSession.getRepositories();
+    } else {
+      cmisSession.repositoryId = cmisRepositoryId;
+      cmisSession.getRepositoryInfo();
+    }
+
+    // Root folder contents
+    //cmisSession.resultCompletion = completer;
+    //cmisSession.getRootFolderContents();
 
     // Repository Info
 //    final ButtonElement repositoryInfoBtn =

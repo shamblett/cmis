@@ -143,7 +143,7 @@ class CmisSession {
     Map<String, String> httpData = Map<String, String>();
 
     cmisUrl = '$_urlPrefix/';
-    if ((_serviceUrlPrefix != null) && useServiceUrl) {
+    if ((_serviceUrlPrefix.isNotEmpty) && useServiceUrl) {
       cmisUrl = '$_serviceUrlPrefix';
     }
 

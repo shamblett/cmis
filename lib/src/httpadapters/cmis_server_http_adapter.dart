@@ -62,7 +62,7 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
     }
 
     // Set the response headers
-    allResponseHeaders = response.getAllResponseHeaders();
+    allResponseHeaders = response.headers.keys.toString();
   }
 
   /// Processes the HTTP request, returning the server's response

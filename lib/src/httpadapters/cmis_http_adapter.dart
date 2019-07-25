@@ -22,7 +22,7 @@ abstract class CmisHttpAdapter {
   dynamic completion;
 
   /// All responses are JSON Objects
-  dynamic jsonResponse;
+  dynamic jsonResponse = jsonobject.JsonObjectLite<dynamic>();
 
   /// All response headers
   String allResponseHeaders;
