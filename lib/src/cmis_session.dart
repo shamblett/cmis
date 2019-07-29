@@ -139,21 +139,18 @@ class CmisSession {
     }
 
     // Build the URL if we are not passed one.
-    String cmisUrl;
+    String cmisUrl = url;
     Map<String, String> httpData = Map<String, String>();
+    if (cmisUrl == null) {
+      cmisUrl = '$_urlPrefix/';
+      if ((_serviceUrlPrefix.isNotEmpty) && useServiceUrl) {
+        cmisUrl = '$_serviceUrlPrefix';
+      }
 
-    cmisUrl = '$_urlPrefix/';
-    if ((_serviceUrlPrefix.isNotEmpty) && useServiceUrl) {
-      cmisUrl = '$_serviceUrlPrefix';
+      if (repositoryId != null) {
+        cmisUrl = '$cmisUrl$repositoryId/';
+      }
     }
-
-    if (repositoryId != null) {
-      cmisUrl = '$cmisUrl$repositoryId/';
-    }
-    if (url != null) {
-      cmisUrl = '$cmisUrl$url';
-    }
-
     // Add any url parameters if this is a GET */
     if (method == 'GET') {
       if (data != null) {
