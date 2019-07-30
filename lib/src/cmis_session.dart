@@ -122,7 +122,8 @@ class CmisSession {
   CmisHttpAdapter _httpAdapter;
   CmisEnvironmentSupport _environmentSupport;
 
-  jsonobject.JsonObjectLite<dynamic> _repoInformation;
+  jsonobject.JsonObjectLite<dynamic> _repoInformation =
+      jsonobject.JsonObjectLite<dynamic>();
 
   /// The internal HTTP request method. This wraps the
   /// HTTP adapter class.
@@ -292,7 +293,8 @@ class CmisSession {
 
     void localCompleter() {
       if (_httpAdapter.jsonResponse.error == false) {
-        _repoInformation = _httpAdapter.jsonResponse.jsonCmisResponse;
+        _repoInformation = jsonobject.JsonObjectLite<dynamic>.fromJsonString(
+            _httpAdapter.jsonResponse.jsonCmisResponse.toString());
       }
       savedCompleter();
     }
@@ -311,16 +313,10 @@ class CmisSession {
     }
 
     // Get the repository information if we have it
+    jsonobject.JsonObjectLite<dynamic> repoInformation;
     if (_repoInformation != null) {
-      jsonobject.JsonObjectLite<dynamic> repoInformation =
-          jsonobject.JsonObjectLite<dynamic>();
-      repoInformation = null;
-      _repoInformation.forEach((dynamic key, dynamic value) {
-        if (key == repositoryId) {
-          repoInformation = value;
-        }
-      });
-
+      repoInformation = jsonobject.JsonObjectLite<dynamic>.fromJsonString(
+          _repoInformation.toString());
       if (repoInformation != null) {
         // Construct a success response
         final dynamic successAsJson = repoInformation;

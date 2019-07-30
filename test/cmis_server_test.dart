@@ -60,10 +60,10 @@ int main() {
       print(cmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 2);
+    cmisSession.resultCompletion = expectAsync0(completer, count: 5);
 
-    // Repository info
-    print('Getting repository Info');
+    // Repositories
+    print('Getting repositories');
     cmisSession.getRepositories();
 
     await Future<void>.delayed(Duration(seconds: 2));
@@ -80,21 +80,24 @@ int main() {
     print('Getting root folder contents');
     cmisSession.getRootFolderContents();
 
+    await Future<void>.delayed(Duration(seconds: 2));    // Repository Info
+    print('Getting repository info');
+    cmisSession.getRepositoryInfo();
+
     await Future<void>.delayed(Duration(seconds: 2));
 
-    // Repository Info
-//    final ButtonElement repositoryInfoBtn =
-//        querySelector('#cmis-repository-info');
-//    repositoryInfoBtn.onClick.listen(doRepositoryInfo);
-//
-//    final ButtonElement checkedOutDocsBtn =
-//        querySelector('#cmis-repository-checkedoutdocs');
-//    checkedOutDocsBtn.onClick.listen(doCheckedOutDocs);
-//
-//    final ButtonElement repositoryInfoBtnClear =
-//        querySelector('#cmis-repository-info-clear');
-//    repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
-//
+    // Checked out docs
+    print('Getting checked out docs');
+    cmisSession.getCheckedOutDocs();
+
+    await Future<void>.delayed(Duration(seconds: 2));
+
+    // Root folder contents
+    print('Getting root folder contents');
+    cmisSession.getRootFolderContents();
+
+    await Future<void>.delayed(Duration(seconds: 2));
+
 //    // Root Folder
 //    final ButtonElement rootInfoBtn = querySelector('#cmis-root-info');
 //    rootInfoBtn.onClick.listen(doRootInfo);
