@@ -15,8 +15,6 @@
 
 library cmisservertest;
 
-import 'dart:async';
-
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:cmis/cmis_server_client.dart';
 import 'package:cmis/cmis.dart';
@@ -34,83 +32,93 @@ int main() {
   String cmisPassword;
   bool cmisProxy;
 
-  test('1', () async {
-    // Initialise the page from the config file
-    if (configInUse) {
-      cmisRepositoryId = configRepositoryId;
-      cmisUrl = configUrlServer;
-      cmisServiceUrl = serviceUrl;
-      cmisUser = configUser;
-      cmisPassword = configPassword;
-      cmisProxy = configProxy;
-    }
+  // Initialise the page from the config file
+  if (configInUse) {
+    cmisRepositoryId = configRepositoryId;
+    cmisUrl = configUrlServer;
+    cmisServiceUrl = serviceUrl;
+    cmisUser = configUser;
+    cmisPassword = configPassword;
+    cmisProxy = configProxy;
+  }
 
-    dynamic cmisResponse;
-
-    // Connect
+  test('Connect', () async {
     try {
       cmisSession = cmisClient.getCmisSession(
           cmisUrl, serviceUrl, cmisUser, cmisPassword, cmisRepositoryId);
     } on Exception catch (e) {
       print(e);
     }
+  });
 
+  test('Repositories', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse);
+      final jsonobject.JsonObjectLite<dynamic> repo =
+          cmisResponse.jsonCmisResponse.toList()[0];
+      final String repositoryId = repo.toList()[0];
+      final String repositoryName = repo.toList()[1];
+      final String repositoryDescription = repo.toList()[2];
+      print(
+          'Repository : Id - $repositoryId, : name - $repositoryName, : description - $repositoryDescription');
+      cmisSession.repositoryId = repositoryId;
+    }
+
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting repositories');
+    cmisSession.getRepositories();
+  });
+
+  test('Root folder', () {
+    dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession.completionResponse;
       print(cmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 5);
-
-    // Repositories
-    print('Getting repositories');
-    cmisSession.getRepositories();
-
-    await Future<void>.delayed(Duration(seconds: 2));
-    final jsonobject.JsonObjectLite<dynamic> repo =
-        cmisResponse.jsonCmisResponse.toList()[0];
-    final String repositoryId = repo.toList()[0];
-    final String repositoryName = repo.toList()[1];
-    final String repositoryDescription = repo.toList()[2];
-    print(
-        'Repository : Id - $repositoryId, : name - $repositoryName, : description - $repositoryDescription');
-    cmisSession.repositoryId = repositoryId;
-
-    // Root folder contents
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting root folder contents');
     cmisSession.getRootFolderContents();
+  });
 
-    await Future<void>.delayed(Duration(seconds: 2));    // Repository Info
+  test('Repository info', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse);
+    }
+
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting repository info');
     cmisSession.getRepositoryInfo();
+  });
 
-    await Future<void>.delayed(Duration(seconds: 2));
+  test('Checked out docs', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse);
+    }
 
-    // Checked out docs
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting checked out docs');
     cmisSession.getCheckedOutDocs();
+  });
 
-    await Future<void>.delayed(Duration(seconds: 2));
+  test('Root folder contents', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse);
+    }
 
-    // Root folder contents
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting root folder contents');
     cmisSession.getRootFolderContents();
+  });
 
-    await Future<void>.delayed(Duration(seconds: 2));
-
-//    // Root Folder
-//    final ButtonElement rootInfoBtn = querySelector('#cmis-root-info');
-//    rootInfoBtn.onClick.listen(doRootInfo);
-//
-//    querySelector('#cmis-root-info-folder').onClick.listen(onRootFilterSelect);
-//    querySelector('#cmis-root-info-document')
-//        .onClick
-//        .listen(onRootFilterSelect);
-//    querySelector('#cmis-root-info-both').onClick.listen(onRootFilterSelect);
-//
-//    final ButtonElement rootInfoBtnClear =
-//        querySelector('#cmis-root-info-clear');
-//    rootInfoBtnClear.onClick.listen(doRootInfoClear);
 //
 //    // Type information
 //    final ButtonElement typeInfoDescendantsBtn =
@@ -193,7 +201,6 @@ int main() {
 //
 //    final ButtonElement queryBtnClear = querySelector('#cmis-query-clear');
 //    queryBtnClear.onClick.listen(doQueryClear);
-  });
 
   return 0;
 }
