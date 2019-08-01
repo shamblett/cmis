@@ -27,19 +27,15 @@ int main() {
   CmisSession cmisSession;
   String cmisRepositoryId;
   String cmisUrl;
-  String cmisServiceUrl;
   String cmisUser;
   String cmisPassword;
-  bool cmisProxy;
 
   // Initialise the page from the config file
   if (configInUse) {
     cmisRepositoryId = configRepositoryId;
     cmisUrl = configUrlServer;
-    cmisServiceUrl = serviceUrl;
     cmisUser = configUser;
     cmisPassword = configPassword;
-    cmisProxy = configProxy;
   }
 
   test('Connect', () async {
@@ -157,75 +153,6 @@ int main() {
     cmisSession.depth = 1;
     cmisSession.getTypeDefinition('cmis:folder');
   });
-
-//    final ButtonElement typeInfoBtnClear =
-//        querySelector('#cmis-type-info-clear');
-//    typeInfoBtnClear.onClick.listen(doTypeInfoClear);
-//
-//    // Document Information
-//    final ButtonElement docInfoBtn = querySelector('#cmis-docinfo-get');
-//    docInfoBtn.onClick.listen(doDocInfo);
-//
-//    final ButtonElement docInfoBtnClear = querySelector('#cmis-docinfo-clear');
-//    docInfoBtnClear.onClick.listen(doDocInfoClear);
-//
-//    // Document Update
-//    final ButtonElement documentCreateBtn =
-//        querySelector('#cmis-document-update-create');
-//    documentCreateBtn.onClick.listen(doDocumentCreate);
-//
-//    final ButtonElement documentDeleteBtn =
-//        querySelector('#cmis-document-update-delete');
-//    documentDeleteBtn.onClick.listen(doDocumentDelete);
-//
-//    final ButtonElement documentUpdateBtnClear =
-//        querySelector('#cmis-document-update-clear');
-//    documentUpdateBtnClear.onClick.listen(doDocumentUpdateClear);
-//
-//    // Folder Information
-//    final ButtonElement folderInfoChildrenBtn =
-//        querySelector('#cmis-folder-get-children');
-//    folderInfoChildrenBtn.onClick.listen(doFolderInfoChildren);
-//
-//    final ButtonElement folderInfoDescendantsBtn =
-//        querySelector('#cmis-folder-get-descendants');
-//    folderInfoDescendantsBtn.onClick.listen(doFolderInfoDescendants);
-//
-//    final ButtonElement folderInfoParentBtn =
-//        querySelector('#cmis-folder-get-parent');
-//    folderInfoParentBtn.onClick.listen(doFolderInfoParent);
-//
-//    final ButtonElement folderInfoTreeBtn =
-//        querySelector('#cmis-folder-get-tree');
-//    folderInfoTreeBtn.onClick.listen(doFolderInfoTree);
-//
-//    final ButtonElement folderInfoCheckedOutBtn =
-//        querySelector('#cmis-folder-get-checkedout');
-//    folderInfoCheckedOutBtn.onClick.listen(doFolderInfoCheckedOut);
-//
-//    final ButtonElement folderInfoBtnClear =
-//        querySelector('#cmis-folder-clear');
-//    folderInfoBtnClear.onClick.listen(doFolderInfoClear);
-//
-//    // Folder Update
-//    final ButtonElement folderCreateBtn =
-//        querySelector('#cmis-folder-update-create');
-//    folderCreateBtn.onClick.listen(doFolderCreate);
-//
-//    final ButtonElement folderDeleteBtn =
-//        querySelector('#cmis-folder-update-delete');
-//    folderDeleteBtn.onClick.listen(doFolderDelete);
-//
-//    final ButtonElement folderUpdateBtnClear =
-//        querySelector('#cmis-folder-update-clear');
-//    folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
-//
-//    // Query
-//    final ButtonElement queryBtn = querySelector('#cmis-query-query');
-//    queryBtn.onClick.listen(doQuery);
-//
-//    final ButtonElement queryBtnClear = querySelector('#cmis-query-clear');
-//    queryBtnClear.onClick.listen(doQueryClear);
 
   return 0;
 }
