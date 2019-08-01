@@ -1,4 +1,4 @@
-# CMIS - A browser based CMIS client written in Dart
+# CMIS - A browser and server side CMIS client written in Dart
 
 This package allows browsing of and data manipluation in CMIS V1.1 specification browser binding
 compliant CMIS servers such as the one hosted at [Alfresco](http://cmis.alfresco.com/cmisbrowser).
@@ -14,13 +14,13 @@ The specification used is supplied in the 'doc/specification' folder.
 The main API is contained in the Cmis and CmisSession classes along with usage
 information.
 
-Testing is achieved via an interactive test suite, full details are contained in the
+Testing is achieved via an interactive test suite for the browser client, full details are contained in the
 '/test/doc/Using The Test Suite document'. Detailed usage information and result parsing
 can be obtained by inspecting the test/src files that drive the test suite. The 'test/output/
 pictures' directory contains several screenshots of the output from the Alfresco test server
 above.
 
-Being browser based CORS restrictions apply, all testing was done via an Apache proxy server
+For the browser based client CORS restrictions apply, all testing was done via an Apache proxy server
 configuration of which is supplied in the 'test/doc/httpd-vhosts.conf' file. Please
 be aware of this before using thsi package.
 
