@@ -28,4 +28,7 @@ abstract class CmisEnvironmentSupport {
 
   /// File
   dynamic file();
+
+  /// Decode an encoded url string
+  String decodeUrl(String url);
 }

@@ -35,4 +35,8 @@ class CmisServerEnvironmentSupport extends CmisEnvironmentSupport {
   /// File
   @override
   dynamic file() => null;
+
+  /// Decode an encoded url string
+  @override
+  String decodeUrl(String url) => Uri.decodeFull(url);
 }

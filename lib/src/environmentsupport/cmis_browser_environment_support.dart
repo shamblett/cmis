@@ -36,4 +36,8 @@ class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
   /// File
   @override
   dynamic file() => html.File;
+
+  /// Decode an encoded url string
+  @override
+  String decodeUrl(String url) => url;
 }

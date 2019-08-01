@@ -213,7 +213,7 @@ class CmisSession {
         path: originalUrl.path,
         queryParameters: newQueryParams);
 
-    return newUrl.toString();
+    return _environmentSupport.decodeUrl(newUrl.toString());
   }
 
   /// If we are using a proxy, URL's returned form the repository

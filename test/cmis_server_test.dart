@@ -119,20 +119,45 @@ int main() {
     cmisSession.getRootFolderContents();
   });
 
-//
-//    // Type information
-//    final ButtonElement typeInfoDescendantsBtn =
-//        querySelector('#cmis-type-info-descendants');
-//    typeInfoDescendantsBtn.onClick.listen(doTypeInfoDescendants);
-//
-//    final ButtonElement typeInfoChildrenBtn =
-//        querySelector('#cmis-type-info-children');
-//    typeInfoChildrenBtn.onClick.listen(doTypeInfoChildren);
-//
-//    final ButtonElement typeInfoDefinitionBtn =
-//        querySelector('#cmis-type-info-definition');
-//    typeInfoDefinitionBtn.onClick.listen(doTypeInfoDefinition);
-//
+  test('Type descendants', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse.jsonCmisResponse);
+    }
+
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting type descendants');
+    cmisSession.depth = 1;
+    cmisSession.getTypeDescendants();
+  });
+
+  test('Type children', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse.jsonCmisResponse);
+    }
+
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting type children');
+    cmisSession.depth = 1;
+    cmisSession.getTypeChildren();
+  });
+
+  test('Type definition', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse.jsonCmisResponse);
+    }
+
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting type definition');
+    cmisSession.depth = 1;
+    cmisSession.getTypeDefinition('cmis:folder');
+  });
+
 //    final ButtonElement typeInfoBtnClear =
 //        querySelector('#cmis-type-info-clear');
 //    typeInfoBtnClear.onClick.listen(doTypeInfoClear);
