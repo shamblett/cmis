@@ -10,12 +10,15 @@
 
 part of cmis;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+
 /// CMIS client exceptions
 class CmisException implements Exception {
   /// Default
-  CmisException([this._message]);
+  CmisException([this._message = 'No Message Supplied']);
 
-  String _message = 'No Message Supplied';
+  final String _message;
 
   @override
   String toString() => 'CmisException: message = $_message';

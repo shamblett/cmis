@@ -29,6 +29,12 @@
 
 part of cmis;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: cascade_invocations
+// ignore_for_file: avoid_print
+// ignore_for_file: lines_longer_than_80_chars
+
 /// The CMIS client
 class Cmis {
   /// Default constructor
@@ -41,7 +47,7 @@ class Cmis {
   CmisEnvironmentSupport environmentSupport;
 
   /// Cmis session map
-  Map<String, CmisSession> _sessionMap = Map<String, CmisSession>();
+  final Map<String, CmisSession> _sessionMap = <String, CmisSession>{};
 
   ///  Return either a new CmisSession or one from the cache if we have one
   CmisSession getCmisSession(String urlPrefix,

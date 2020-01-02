@@ -21,6 +21,12 @@
 
 part of cmis_server_client;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: cascade_invocations
+
 /// Server HTTP adapter
 class CmisServerHttpAdapter extends CmisHttpAdapter {
   /// Default constructor
@@ -30,7 +36,7 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
   CmisServerHttpAdapter.withCompleter([dynamic completion])
       : super.withCompletion(completion);
 
-  http.Client _client = http.Client();
+  final http.Client _client = http.Client();
 
   // We get an HttpRequestProgressEvent on error and process this
   //  to return a JSON Object.

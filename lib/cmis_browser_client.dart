@@ -10,8 +10,8 @@
 library cmis_browser_client;
 
 import 'dart:html' as html;
-import 'package:cmis/cmis.dart';
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
+import 'cmis.dart';
 
 part 'src/httpadapters/cmis_browser_http_adapter.dart';
 part 'src/environmentsupport/cmis_browser_environment_support.dart';

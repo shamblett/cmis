@@ -10,14 +10,20 @@
 
 part of cmis;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: cascade_invocations
+
 /// CMIS type cache
 class CmisTypeCache {
   // A map from a type id to to a CMIS type definition
-  Map<String, jsonobject.JsonObjectLite<dynamic>> _types =
-      Map<String, jsonobject.JsonObjectLite<dynamic>>();
+  final Map<String, jsonobject.JsonObjectLite<dynamic>> _types =
+      <String, jsonobject.JsonObjectLite<dynamic>>{};
 
   // A map from a type id to a time stamp when it was last used
-  Map<String, DateTime> _lastAccessed = Map<String, DateTime>();
+  final Map<String, DateTime> _lastAccessed = <String, DateTime>{};
 
   // The number of types to be cached */
   final int _maxSize = 10;

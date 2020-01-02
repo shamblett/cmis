@@ -4,8 +4,8 @@
  * Date   : 05/07/2013
  * Copyright :  S.Hamblett@OSCF
  *
- * The Cmis class provides core functionality for interacting with CMIS servers from
- * the browser.
+ * The Cmis class provides core functionality for interacting with
+ * CMIS servers from the browser.
  * 
  * This is the CMIS client interactive test suite
  * 

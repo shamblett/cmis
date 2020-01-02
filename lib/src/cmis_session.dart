@@ -74,6 +74,12 @@
 
 part of cmis;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: cascade_invocations
+
 /// CMIS session management
 class CmisSession {
   /// Default constructor
@@ -86,8 +92,8 @@ class CmisSession {
   /// CMIS root folder
   String rootFolderId;
 
-  String _urlPrefix;
-  String _serviceUrlPrefix;
+  final String _urlPrefix;
+  final String _serviceUrlPrefix;
 
   /// URL
   String get url => _urlPrefix;
@@ -101,11 +107,11 @@ class CmisSession {
   /// Root URL for proxy use
   String get returnedRootUrl => _getRootFolderUrl(true);
 
-  CmisOperationContext _opCtx = CmisOperationContext();
+  final CmisOperationContext _opCtx = CmisOperationContext();
 
-  CmisTypeCache _typeCache = CmisTypeCache();
-  Map<String, CmisPagingContext> _pagingContext =
-      Map<String, CmisPagingContext>();
+  final CmisTypeCache _typeCache = CmisTypeCache();
+  final Map<String, CmisPagingContext> _pagingContext =
+      <String, CmisPagingContext>{};
 
   /// Search depth
   int depth = 5;
@@ -119,8 +125,8 @@ class CmisSession {
   /// Proxy indicator
   bool proxy = false;
 
-  CmisHttpAdapter _httpAdapter;
-  CmisEnvironmentSupport _environmentSupport;
+  final CmisHttpAdapter _httpAdapter;
+  final CmisEnvironmentSupport _environmentSupport;
 
   jsonobject.JsonObjectLite<dynamic> _repoInformation =
       jsonobject.JsonObjectLite<dynamic>();
@@ -133,7 +139,7 @@ class CmisSession {
       Map<String, String> headers,
       dynamic formData}) async {
     // Build the request for the HttpAdapter */
-    final Map<String, String> cmisHeaders = Map<String, String>();
+    final Map<String, String> cmisHeaders = <String, String>{};
     cmisHeaders['accept'] = 'application/json';
     if (headers != null) {
       cmisHeaders.addAll(headers);
@@ -141,7 +147,7 @@ class CmisSession {
 
     // Build the URL if we are not passed one.
     String cmisUrl = url;
-    Map<String, String> httpData = Map<String, String>();
+    Map<String, String> httpData = <String, String>{};
     if (cmisUrl == null) {
       cmisUrl = '$_urlPrefix/';
       if ((_serviceUrlPrefix.isNotEmpty) && useServiceUrl) {
@@ -245,6 +251,7 @@ class CmisSession {
   }
 
   /// Completion callback
+  // ignore: avoid_setters_without_getters
   set resultCompletion(dynamic completion) =>
       _httpAdapter.completion = completion;
 
@@ -392,7 +399,7 @@ class CmisSession {
     bool useFormData = false;
 
     // Headers, we only create documents or folders */
-    final Map<String, String> headers = Map<String, String>();
+    final Map<String, String> headers = <String, String>{};
 
     if (typeId == 'cmis:folder') {
       headers['content-type'] = 'application/x-www-form-urlencoded';
@@ -405,7 +412,7 @@ class CmisSession {
     // Properties for normal POST submit
     if (!useFormData) {
       data.cmisaction = cmisAction;
-      final Map<String, String> properties = Map<String, String>();
+      final Map<String, String> properties = <String, String>{};
       properties['cmis:name'] = name;
       if (parentId != null) {
         properties['objectId'] = parentId;
@@ -424,7 +431,7 @@ class CmisSession {
 
       // Construct the final data set
       int index = 0;
-      final Map<String, String> jsonMap = Map<String, String>();
+      final Map<String, String> jsonMap = <String, String>{};
       properties.forEach((dynamic key, dynamic value) {
         final String propId = 'propertyId[$index]';
         final String propValue = 'propertyValue[$index]';
@@ -448,7 +455,7 @@ class CmisSession {
         formData.append('PropertyId[2]', 'objectId');
         formData.append('PropertyValue[2]', parentId);
       }
-      final List<String> blobParts = List<String>();
+      final List<String> blobParts = <String>[];
       blobParts.add(content);
       final dynamic theBlob = _environmentSupport.blob(blobParts, mimeType);
       formData.appendBlob('content', theBlob);
@@ -472,7 +479,7 @@ class CmisSession {
     data.allVersions = allVersions.toString();
 
     // Headers, always the same for delete
-    final Map<String, String> headers = Map<String, String>();
+    final Map<String, String> headers = <String, String>{};
     headers['content-type'] = 'application/x-www-form-urlencoded';
 
     _httpRequest('POST', url, data: data, headers: headers);

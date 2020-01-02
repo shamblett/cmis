@@ -13,6 +13,14 @@
 
 part of cmisbrowsertest;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: cascade_invocations
+// ignore_for_file: avoid_print
+// ignore_for_file: avoid_types_on_closure_parameters
+
 dynamic cmisRepositoryId = querySelector('#cmis-repository-id');
 String repoId;
 DivElement repositoryAlertSection =

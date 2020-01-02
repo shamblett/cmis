@@ -13,6 +13,14 @@
 
 part of cmisbrowsertest;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: cascade_invocations
+// ignore_for_file: avoid_print
+// ignore_for_file: avoid_types_on_closure_parameters
+
 InputElement cmisRootInfoId = querySelector('#cmis-rootinfo-id');
 DivElement rootInfoAlertSection = querySelector('#cmis-alertsection-rootinfo');
 DivElement rootInfoListSection = querySelector('#cmis-rootinfo-list');
@@ -37,7 +45,7 @@ void outputRootInfo(dynamic response) {
       final int numItems = response.jsonCmisResponse.numItems;
 
       if (numItems > 0) {
-        for (dynamic object in objects) {
+        for (final dynamic object in objects) {
           final dynamic properties = object.object.properties;
 
           /* Check for the type filter */

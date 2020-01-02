@@ -12,11 +12,17 @@ import 'package:json_object_lite/json_object_lite.dart';
 import 'package:cmis/cmis_server_client.dart';
 import 'package:cmis/cmis.dart';
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: cascade_invocations
+// ignore_for_file: avoid_print
+
 CmisSession cmisSession;
 
 // Cmis get repositories function wrapped in a future wrapper
 Future<JsonObjectLite<dynamic>> getRepositories() async {
-  final Completer<JsonObjectLite<dynamic>> completer = Completer<JsonObjectLite<dynamic>>();
+  final Completer<JsonObjectLite<dynamic>> completer =
+      Completer<JsonObjectLite<dynamic>>();
 
   void localcompleter() {
     final dynamic cmisResponse = cmisSession.completionResponse;
@@ -33,8 +39,9 @@ Future<JsonObjectLite<dynamic>> getRepositories() async {
 
 Future<void> main() async {
   /// Examples of usage can be found in the test suite
-  /// Currently this client uses a completion callback mechanism, this can easily be converted into
-  /// a future based interface by wrapping the client calls, see below
+  /// Currently this client uses a completion callback mechanism,
+  /// this can easily be converted into a future based interface
+  /// by wrapping the client calls, see below.
 
   // Initialise
   final CmisServerClient cmisClient = CmisServerClient();
@@ -55,6 +62,4 @@ Future<void> main() async {
   await getRepositories();
   // or ... JsonObjectLite<dynamic> info = await getRepositories();
   print('Repository id is : ${cmisSession.repositoryId}');
-
 }
-

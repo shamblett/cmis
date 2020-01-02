@@ -13,6 +13,13 @@
 
 part of cmisbrowsertest;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: cascade_invocations
+// ignore_for_file: avoid_print
+
 InputElement cmisFolderInfo = querySelector('#cmis-folder-id');
 DivElement folderInfoAlertSection = querySelector('#cmis-alertsection-folder');
 DivElement folderInfoListSection = querySelector('#cmis-folder-list');
@@ -35,7 +42,7 @@ void outputFolderInfoCommon(dynamic response) {
       final int numItems = response.jsonCmisResponse.numItems;
 
       if (numItems > 0) {
-        for (dynamic object in objects) {
+        for (final dynamic object in objects) {
           final dynamic properties = object.object.properties;
           final LIElement name = LIElement();
           name.innerHtml = 'Name: ${properties['cmis:name'].value}';
@@ -122,7 +129,7 @@ void outputFolderInfoDescendants(dynamic response) {
   if (response.jsonCmisResponse.isNotEmpty) {
     final List<dynamic> objects = response.jsonCmisResponse.toList();
 
-    for (dynamic object in objects) {
+    for (final dynamic object in objects) {
       final dynamic properties = object.object.object.properties;
       final LIElement name = LIElement();
       name.innerHtml = 'Name: ${properties['cmis:name'].value}';
@@ -287,6 +294,7 @@ void doFolderInfoTree(Event e) {
           'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(folderInfoAlertSection, message);
     } else {
+      // ignore: flutter_style_todos
       //TODO can't test this on Alfresco
       outputFolderInfoCommon(cmisResponse);
     }
@@ -308,7 +316,7 @@ void outputFolderInfoCheckedOut(dynamic response) {
   if (response.jsonCmisResponse.isNotEmpty) {
     final List<dynamic> objects = response.jsonCmisResponse.toList();
     if ((objects.isNotEmpty) && (objects[0] != false)) {
-      for (dynamic object in objects) {
+      for (final dynamic object in objects) {
         final dynamic properties = object.object.object.properties;
 
         final LIElement name = LIElement();

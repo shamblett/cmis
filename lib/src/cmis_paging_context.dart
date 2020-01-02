@@ -10,19 +10,22 @@
 
 part of cmis;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+
 /// CMIS paging
 class CmisPagingContext {
   /// Construct this with a skip count, total items and an operational context
   CmisPagingContext(this.skipCount, this._totalItems, this._opCtx);
 
   /// Unknown
-  static const double cmisUnknown = -1.0;
+  static const double cmisUnknown = -1;
 
   /// Skip count
   int skipCount;
 
-  int _totalItems;
-  CmisOperationContext _opCtx;
+  final int _totalItems;
+  final CmisOperationContext _opCtx;
 
   /// Get total item count
   int get totalItems => _totalItems == 0 ? 4294967295 : _totalItems;

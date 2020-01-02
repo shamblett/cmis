@@ -10,6 +10,12 @@
 
 part of cmis;
 
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: unnecessary_final
+// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: cascade_invocations
+
 /// HTTP Adapter interface
 abstract class CmisHttpAdapter {
   /// Default constructor
@@ -37,8 +43,8 @@ abstract class CmisHttpAdapter {
   void httpFormRequest(String method, String url,
       [Map<dynamic, dynamic> data, Map<String, String> headers]);
 
-  /// Processes the HTTP POST(Form Multi Part)request returning the server's response as
-  /// a JSON Object
+  /// Processes the HTTP POST(Form Multi Part)request returning
+  /// the server's response as a JSON Object.
   void httpFormDataRequest(String method, String url,
       [dynamic formData, Map<String, String> headers]);
 
