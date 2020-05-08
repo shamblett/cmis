@@ -74,12 +74,6 @@
 
 part of cmis;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-
 /// CMIS session management
 class CmisSession {
   /// Default constructor
@@ -92,8 +86,8 @@ class CmisSession {
   /// CMIS root folder
   String rootFolderId;
 
-  final String _urlPrefix;
-  final String _serviceUrlPrefix;
+  final _urlPrefix;
+  final _serviceUrlPrefix;
 
   /// URL
   String get url => _urlPrefix;
@@ -139,15 +133,15 @@ class CmisSession {
       Map<String, String> headers,
       dynamic formData}) async {
     // Build the request for the HttpAdapter */
-    final Map<String, String> cmisHeaders = <String, String>{};
+    final cmisHeaders = <String, String>{};
     cmisHeaders['accept'] = 'application/json';
     if (headers != null) {
       cmisHeaders.addAll(headers);
     }
 
     // Build the URL if we are not passed one.
-    String cmisUrl = url;
-    Map<String, String> httpData = <String, String>{};
+    var cmisUrl = url;
+    var httpData = <String, String>{};
     if (cmisUrl == null) {
       cmisUrl = '$_urlPrefix/';
       if ((_serviceUrlPrefix.isNotEmpty) && useServiceUrl) {
@@ -179,10 +173,10 @@ class CmisSession {
 
     // Check for authentication
     if (_user != null) {
-      final String authStringToEncode = '$_user:$_password';
-      final String encodedAuthString =
+      final authStringToEncode = '$_user:$_password';
+      final encodedAuthString =
           _environmentSupport.encodedAuthString(authStringToEncode);
-      final String authString = 'Basic $encodedAuthString';
+      final authString = 'Basic $encodedAuthString';
       cmisHeaders['authorization'] = authString;
     }
 
@@ -205,13 +199,12 @@ class CmisSession {
   /// Takes a URL and key/value pair for a URL parameter and adds this
   /// to the query parameters of the URL.
   String _setURLParameter(String url, String key, dynamic value) {
-    final Uri originalUrl = Uri.parse(url);
-    final Map<String, String> queryParams = originalUrl.queryParameters;
-    final Map<String, String> newQueryParams =
-        Map<String, String>.from(queryParams);
+    final originalUrl = Uri.parse(url);
+    final queryParams = originalUrl.queryParameters;
+    final newQueryParams = Map<String, String>.from(queryParams);
     newQueryParams[key] = value.toString();
 
-    final Uri newUrl = Uri(
+    final newUrl = Uri(
         scheme: originalUrl.scheme,
         userInfo: originalUrl.userInfo,
         host: originalUrl.host,
@@ -226,8 +219,8 @@ class CmisSession {
   /// need to be adjusted to cater for this.
   String _caterForProxyServer(String url) {
     // Cut the passed in URL at the end of the repo id
-    final String pattern = '$repositoryId/';
-    final List<String> urlStrings = url.split(pattern);
+    final pattern = '$repositoryId/';
+    final urlStrings = url.split(pattern);
     return urlStrings[1];
   }
 
@@ -251,7 +244,6 @@ class CmisSession {
   }
 
   /// Completion callback
-  // ignore: avoid_setters_without_getters
   set resultCompletion(dynamic completion) =>
       _httpAdapter.completion = completion;
 
@@ -372,7 +364,7 @@ class CmisSession {
           'getRootFolderContents() expects a non null repository Id');
     }
 
-    final String rootUrl = _getRootFolderUrl();
+    final rootUrl = _getRootFolderUrl();
 
     _httpRequest('GET', rootUrl, data: null);
   }
@@ -390,16 +382,16 @@ class CmisSession {
       throw CmisException('create() expects a non null repository Id');
     }
 
-    String url = _getRootFolderUrl();
+    var url = _getRootFolderUrl();
     if (parentPath != null) {
       url = '$url/$parentPath';
     }
     dynamic data = jsonobject.JsonObjectLite<dynamic>();
     dynamic formData = _environmentSupport.formData();
-    bool useFormData = false;
+    var useFormData = false;
 
     // Headers, we only create documents or folders */
-    final Map<String, String> headers = <String, String>{};
+    final headers = <String, String>{};
 
     if (typeId == 'cmis:folder') {
       headers['content-type'] = 'application/x-www-form-urlencoded';
@@ -412,7 +404,7 @@ class CmisSession {
     // Properties for normal POST submit
     if (!useFormData) {
       data.cmisaction = cmisAction;
-      final Map<String, String> properties = <String, String>{};
+      final properties = <String, String>{};
       properties['cmis:name'] = name;
       if (parentId != null) {
         properties['objectId'] = parentId;
@@ -430,11 +422,11 @@ class CmisSession {
       }
 
       // Construct the final data set
-      int index = 0;
-      final Map<String, String> jsonMap = <String, String>{};
+      var index = 0;
+      final jsonMap = <String, String>{};
       properties.forEach((dynamic key, dynamic value) {
-        final String propId = 'propertyId[$index]';
-        final String propValue = 'propertyValue[$index]';
+        final propId = 'propertyId[$index]';
+        final propValue = 'propertyValue[$index]';
         jsonMap['$propId'] = key;
         jsonMap['$propValue'] = value;
         index++;
@@ -455,7 +447,7 @@ class CmisSession {
         formData.append('PropertyId[2]', 'objectId');
         formData.append('PropertyValue[2]', parentId);
       }
-      final List<String> blobParts = <String>[];
+      final blobParts = <String>[];
       blobParts.add(content);
       final dynamic theBlob = _environmentSupport.blob(blobParts, mimeType);
       formData.appendBlob('content', theBlob);
@@ -471,7 +463,7 @@ class CmisSession {
       throw CmisException('delete() expects a non null repository Id');
     }
 
-    final String url = _getRootFolderUrl();
+    final url = _getRootFolderUrl();
 
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.cmisaction = 'delete';
@@ -479,7 +471,7 @@ class CmisSession {
     data.allVersions = allVersions.toString();
 
     // Headers, always the same for delete
-    final Map<String, String> headers = <String, String>{};
+    final headers = <String, String>{};
     headers['content-type'] = 'application/x-www-form-urlencoded';
 
     _httpRequest('POST', url, data: data, headers: headers);
@@ -493,7 +485,7 @@ class CmisSession {
     }
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.objectId = documentId;
-    final String rootUrl = _getRootFolderUrl();
+    final rootUrl = _getRootFolderUrl();
 
     _httpRequest('GET', rootUrl, data: data);
   }
@@ -525,14 +517,14 @@ class CmisSession {
     }
 
     // Declare the File Reader
-    bool serverside = false;
+    var serverside = false;
     final dynamic reader = _environmentSupport.fileReader();
     if (reader == null) {
       // Server side
       serverside = true;
     }
     // Initialise
-    String intTypeId = typeId;
+    var intTypeId = typeId;
     if (typeId == null) {
       intTypeId = 'cmis:document';
     }
@@ -543,7 +535,7 @@ class CmisSession {
 
     // File read completer
     void fileRead() {
-      final String content = reader.result.toString();
+      final content = reader.result.toString();
 
       create(name, 'createDocument',
           typeId: intTypeId,
@@ -555,7 +547,7 @@ class CmisSession {
 
     // File read for the server
     void fileReadServer() {
-      final String content = _environmentSupport.fileContents(fileName);
+      final content = _environmentSupport.fileContents(fileName);
 
       create(name, 'createDocument',
           typeId: intTypeId,
@@ -614,7 +606,7 @@ class CmisSession {
     data.includeAllowableActions = _opCtx.includeAllowableActions;
     data.includeRelationships = _opCtx.includeRelationships;
     data.succint = _opCtx.succint;
-    final String rootUrl = _getRootFolderUrl();
+    final rootUrl = _getRootFolderUrl();
 
     _httpRequest('GET', rootUrl, data: data);
   }
@@ -637,7 +629,7 @@ class CmisSession {
     data.includeAllowableActions = _opCtx.includeAllowableActions;
     data.includeRelationships = _opCtx.includeRelationships;
     data.succint = _opCtx.succint;
-    final String rootUrl = _getRootFolderUrl();
+    final rootUrl = _getRootFolderUrl();
 
     _httpRequest('GET', rootUrl, data: data);
   }
@@ -659,7 +651,7 @@ class CmisSession {
     data.includeAllowableActions = _opCtx.includeAllowableActions;
     data.includeRelationships = _opCtx.includeRelationships;
     data.succint = _opCtx.succint;
-    final String rootUrl = _getRootFolderUrl();
+    final rootUrl = _getRootFolderUrl();
 
     _httpRequest('GET', rootUrl, data: data);
   }
@@ -674,7 +666,7 @@ class CmisSession {
     data.cmisselector = 'parent';
     data.propertyFilter = _opCtx.propertyFilter;
     data.succint = _opCtx.succint;
-    final String rootUrl = _getRootFolderUrl();
+    final rootUrl = _getRootFolderUrl();
 
     _httpRequest('GET', rootUrl, data: data);
   }
@@ -698,7 +690,7 @@ class CmisSession {
     data.includeAllowableActions = _opCtx.includeAllowableActions;
     data.includeRelationships = _opCtx.includeRelationships;
     data.succint = _opCtx.succint;
-    final String rootUrl = _getRootFolderUrl();
+    final rootUrl = _getRootFolderUrl();
 
     _httpRequest('GET', rootUrl, data: data);
   }
@@ -714,7 +706,7 @@ class CmisSession {
       throw CmisException('createFolder() expects a non null repository Id');
     }
 
-    String intTypeId = typeId;
+    var intTypeId = typeId;
     if (typeId == null) {
       intTypeId = 'cmis:folder';
     }

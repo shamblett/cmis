@@ -13,13 +13,6 @@
 
 part of cmisbrowsertest;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-// ignore_for_file: avoid_print
-
 TextAreaElement queryStatement = querySelector('#cmis-query-statement');
 DivElement queryAlertSection = querySelector('#cmis-alertsection-query');
 DivElement queryListSection = querySelector('#cmis-query-list-section');
@@ -29,22 +22,22 @@ void doQueryClear(Event e) {
 }
 
 void outputQueryList(dynamic response) {
-  final PreElement preElement = PreElement();
-  final UListElement uList = UListElement();
+  final preElement = PreElement();
+  final uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
-    final List<dynamic> results = response.jsonCmisResponse.results;
+    final results = response.jsonCmisResponse.results;
     if (results.isNotEmpty) {
       preElement.innerHtml = results.toString();
       queryListSection.children.add(preElement);
     } else {
-      final LIElement noChildren = LIElement();
+      final noChildren = LIElement();
       noChildren.innerHtml = 'The query has returned no items';
       uList.children.add(noChildren);
       queryListSection.children.add(uList);
     }
   } else {
-    final LIElement noChildren = LIElement();
+    final noChildren = LIElement();
     noChildren.innerHtml = 'There query has returned no items';
     uList.children.add(noChildren);
     queryListSection.children.add(uList);
@@ -68,8 +61,7 @@ void doQuery(Event e) {
         reason = 'CMIS Server Response';
       }
 
-      final String message =
-          'Error - $error, Reason - $reason, Code - $errorCode';
+      final message = 'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(queryAlertSection, message);
     } else {
       outputQueryList(cmisResponse);

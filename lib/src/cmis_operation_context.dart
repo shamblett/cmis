@@ -9,7 +9,6 @@
  */
 
 part of cmis;
-// ignore_for_file: public_member_api_docs
 
 /// CMIS operation context
 class CmisOperationContext {

@@ -13,14 +13,6 @@
 
 part of cmisbrowsertest;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-// ignore_for_file: avoid_print
-// ignore_for_file: avoid_types_on_closure_parameters
-
 dynamic cmisRepositoryId = querySelector('#cmis-repository-id');
 String repoId;
 DivElement repositoryAlertSection =
@@ -30,29 +22,29 @@ void outputRepositoryInfo(dynamic response) {
   final dynamic repositoryInfo = response.jsonCmisResponse;
 
   repositoryDetailsSection.children.clear();
-  final UListElement uList = UListElement();
-  final LIElement repoDescription = LIElement();
+  final uList = UListElement();
+  final repoDescription = LIElement();
   repoDescription.innerHtml =
       'Repository Description : ${repositoryInfo.repositoryDescription}';
   uList.children.add(repoDescription);
-  final LIElement vendorName = LIElement();
+  final vendorName = LIElement();
   vendorName.innerHtml = 'Vendor Name :  ${repositoryInfo.vendorName}';
   uList.children.add(vendorName);
-  final LIElement productName = LIElement();
+  final productName = LIElement();
   productName.innerHtml = 'Product Name : ${repositoryInfo.productName}';
   uList.children.add(productName);
-  final LIElement productVersion = LIElement();
+  final productVersion = LIElement();
   productVersion.innerHtml =
       'Product Version : ${repositoryInfo.productVersion}';
   uList.children.add(productVersion);
-  final LIElement rootFolderId = LIElement();
+  final rootFolderId = LIElement();
   rootFolderId.innerHtml = 'Root Folder Id : ${repositoryInfo.rootFolderId}';
   uList.children.add(rootFolderId);
   cmisSession.rootFolderId = repositoryInfo.rootFolderId;
-  final LIElement rootFolderUrl = LIElement();
+  final rootFolderUrl = LIElement();
   rootFolderUrl.innerHtml = 'Root Folder URL : ${repositoryInfo.rootFolderUrl}';
   uList.children.add(rootFolderUrl);
-  final LIElement repositoryUrl = LIElement();
+  final repositoryUrl = LIElement();
   repositoryUrl.innerHtml = 'Repository URL : ${repositoryInfo.repositoryUrl}';
   uList.children.add(repositoryUrl);
 
@@ -69,16 +61,16 @@ void outputRepositoryList(dynamic response) {
   final dynamic repositoryInfo = response.jsonCmisResponse;
 
   repositoryListSection.children.clear();
-  int id = 0;
+  var id = 0;
   repositoryInfo.forEach((dynamic key, Map<dynamic, dynamic> value) {
-    final DivElement div = DivElement();
+    final div = DivElement();
     div.classes.add('radio');
 
-    final LabelElement repoLabel = LabelElement();
+    final repoLabel = LabelElement();
     repoLabel.htmlFor = 'cmis-repoId-$id';
     repoLabel.text = '${value['repositoryId']} -- ${value['repositoryName']}';
 
-    final RadioButtonInputElement repoEntry = RadioButtonInputElement();
+    final repoEntry = RadioButtonInputElement();
     repoEntry.value = '${value['repositoryId']}';
     repoEntry.name = 'repoId';
     repoEntry.id = 'cmis-repoId-$id';
@@ -114,8 +106,7 @@ void doRepositoryInfo(Event e) {
         reason = 'CMIS Server Response';
       }
 
-      final String message =
-          'Error - $error, Reason - $reason, Code - $errorCode';
+      final message = 'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(repositoryAlertSection, message);
     } else {
       if (cmisSession.repositoryId != null) {
@@ -137,7 +128,7 @@ void doRepositoryInfo(Event e) {
 }
 
 void outputCheckedOutDocs(dynamic response) {
-  final UListElement uList = UListElement();
+  final uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     /* Get the first 4 children */
@@ -145,24 +136,24 @@ void outputCheckedOutDocs(dynamic response) {
       final dynamic properties =
           response.jsonCmisResponse.objects[0].properties;
 
-      final LIElement displayName = LIElement();
+      final displayName = LIElement();
       displayName.innerHtml =
           'Display Name: ${properties['cmis:contentStreamFileName'].displayName}';
       uList.children.add(displayName);
-      final LIElement id = LIElement();
+      final id = LIElement();
       id.innerHtml = 'Id: ${properties['cmis:contentStreamFileName'].id}';
       uList.children.add(id);
-      final LIElement docValue = LIElement();
+      final docValue = LIElement();
       docValue.innerHtml =
           'Value: ${properties['cmis:contentStreamFileName'].value}';
       uList.children.add(docValue);
     } else {
-      final LIElement noChildren = LIElement();
+      final noChildren = LIElement();
       noChildren.innerHtml = 'There are no checked out documents';
       uList.children.add(noChildren);
     }
   } else {
-    final LIElement noChildren = LIElement();
+    final noChildren = LIElement();
     noChildren.innerHtml = 'There are no checked out documents';
     uList.children.add(noChildren);
   }
@@ -187,8 +178,7 @@ void doCheckedOutDocs(Event e) {
         reason = 'CMIS Server Response';
       }
 
-      final String message =
-          'Error - $error, Reason - $reason, Code - $errorCode';
+      final message = 'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(typeAlertSection, message);
     } else {
       outputCheckedOutDocs(cmisResponse);

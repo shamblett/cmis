@@ -10,9 +10,6 @@
 
 part of cmis;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-
 /// CMIS paging
 class CmisPagingContext {
   /// Construct this with a skip count, total items and an operational context
@@ -72,7 +69,7 @@ class CmisPagingContext {
   /// Set the last page
   void lastPage() {
     if (_totalItems != null) {
-      final int totalPages = getTotalPages() - 1;
+      final totalPages = getTotalPages() - 1;
       skipCount = totalPages * _opCtx.maxItems;
     }
   }

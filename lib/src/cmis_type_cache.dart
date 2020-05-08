@@ -10,12 +10,6 @@
 
 part of cmis;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-
 /// CMIS type cache
 class CmisTypeCache {
   // A map from a type id to to a CMIS type definition
@@ -48,7 +42,7 @@ class CmisTypeCache {
 
   /// Remove the oldest element from the type maps.
   void removeOldestElement() {
-    DateTime oldest = DateTime.now();
+    var oldest = DateTime.now();
     String oldestKey;
 
     // Find the oldest entry

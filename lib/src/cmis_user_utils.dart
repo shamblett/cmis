@@ -10,8 +10,4 @@
 part of cmis;
 
 /// CMIS client user utilities
-class CmisUserUtils {
-  // ignore: flutter_style_todos
-  //TODO need to add these.
-
-}
+class CmisUserUtils {}

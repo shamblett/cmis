@@ -13,13 +13,6 @@
 
 part of cmisbrowsertest;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-// ignore_for_file: avoid_print
-
 // Information
 InputElement cmisDocInfo = querySelector('#cmis-docinfo-id');
 DivElement docInfoAlertSection = querySelector('#cmis-alertsection-docinfo');
@@ -32,8 +25,8 @@ void doDocInfoClear(Event e) {
 void outputDocInfoList(dynamic response) {
   if (response.jsonCmisResponse.isNotEmpty) {
     if (response.jsonCmisResponse.containsKey('rawText')) {
-      final String rawText = response.jsonCmisResponse.rawText;
-      final PreElement theText = PreElement();
+      final rawText = response.jsonCmisResponse.rawText;
+      final theText = PreElement();
       theText.innerHtml = rawText;
       docInfoListSection.children.add(theText);
       addErrorAlert(docInfoAlertSection, 'This is not a document type object');
@@ -60,8 +53,7 @@ void doDocInfo(Event e) {
         reason = 'CMIS Server Response';
       }
 
-      final String message =
-          'Error - $error, Reason - $reason, Code - $errorCode';
+      final message = 'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(docInfoAlertSection, message);
     } else {
       outputDocInfoList(cmisResponse);
@@ -96,39 +88,39 @@ void doDocumentUpdateClear(Event e) {
 
 /* Create */
 void outputDocumentCreate(dynamic response) {
-  final String message =
+  final message =
       'Success! the document ${cmisDocumentUpdate.value} has been created';
   addSuccessAlert(documentUpdateAlertSection, message);
-  final UListElement uList = UListElement();
+  final uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     final dynamic properties = response.jsonCmisResponse.properties;
 
-    final LIElement name = LIElement();
+    final name = LIElement();
     name.innerHtml = 'Name: ${properties['cmis:name'].value}';
     uList.children.add(name);
-    final LIElement objectId = LIElement();
+    final objectId = LIElement();
     objectId.innerHtml = 'Object Id: ${properties['cmis:objectId'].value}';
     uList.children.add(objectId);
-    final LIElement objectTypeId = LIElement();
+    final objectTypeId = LIElement();
     objectTypeId.innerHtml =
         'Object Type Id: ${properties['cmis:objectTypeId'].value}';
     uList.children.add(objectTypeId);
     if (properties['cmis:parentId'] != null) {
-      final LIElement parentId = LIElement();
+      final parentId = LIElement();
       parentId.innerHtml = 'Parent Id: ${properties['cmis:parentId'].value}';
       uList.children.add(parentId);
     }
     if (properties['cmis:path'] != null) {
-      final LIElement path = LIElement();
+      final path = LIElement();
       path.innerHtml = 'Path: ${properties['cmis:path'].value}';
       uList.children.add(path);
     }
-    final LIElement spacer = LIElement();
+    final spacer = LIElement();
     spacer.innerHtml = '  ....... ';
     uList.children.add(spacer);
   } else {
-    final LIElement noChildren = LIElement();
+    final noChildren = LIElement();
     noChildren.innerHtml = 'Oops no valid response from document create';
     uList.children.add(noChildren);
   }
@@ -153,8 +145,7 @@ void doDocumentCreate(Event e) {
         reason = 'CMIS Server Response';
       }
 
-      final String message =
-          'Error - $error, Reason - $reason, Code - $errorCode';
+      final message = 'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(documentUpdateAlertSection, message);
     } else {
       outputDocumentCreate(cmisResponse);
@@ -200,7 +191,7 @@ InputElement cmisDocumentDelete =
     querySelector('#cmis-document-update-deleteId');
 void outputDocumentDelete(dynamic response) {
   /* Valid response indicates success, there is no other data returned */
-  final String message =
+  final message =
       'Success! the document ${cmisDocumentDelete.value} has been deleted';
   addSuccessAlert(documentUpdateAlertSection, message);
 }
@@ -222,8 +213,7 @@ void doDocumentDelete(Event e) {
         reason = 'CMIS Server Response';
       }
 
-      final String message =
-          'Error - $error, Reason - $reason, Code - $errorCode';
+      final message = 'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(documentUpdateAlertSection, message);
     } else {
       outputDocumentDelete(cmisResponse);

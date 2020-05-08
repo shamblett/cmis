@@ -11,8 +11,6 @@
  * 
  */
 
-@TestOn('vm')
-
 library cmisservertest;
 
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
@@ -21,16 +19,11 @@ import 'package:cmis/cmis.dart';
 import 'package:test/test.dart';
 import 'cmis_test_config.dart';
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-// ignore_for_file: avoid_print
+@TestOn('vm')
 
 int main() {
   // Initialise
-  final CmisServerClient cmisClient = CmisServerClient();
+  final cmisClient = CmisServerClient();
   CmisSession cmisSession;
   String cmisRepositoryId;
   String cmisUrl;

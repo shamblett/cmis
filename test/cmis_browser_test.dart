@@ -33,13 +33,6 @@ part 'src/document.dart';
 part 'src/folder.dart';
 part 'src/query.dart';
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-// ignore_for_file: avoid_print
-
 int main() {
   test('1', () {
     // Initialise the page from the config file
@@ -169,7 +162,7 @@ int main() {
 
     final dynamic end = expectAsync0(() {});
 
-    final Timer timer = Timer(const Duration(seconds: 2000), end);
+    final timer = Timer(const Duration(seconds: 2000), end);
     print(timer.isActive);
   });
 

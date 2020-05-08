@@ -13,13 +13,6 @@
 
 part of cmisbrowsertest;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-// ignore_for_file: avoid_print
-
 // Initialise
 CmisBrowserClient cmisClient = CmisBrowserClient();
 CmisSession cmisSession;
@@ -30,7 +23,7 @@ void clearAlertSection(DivElement section) {
 }
 
 void addErrorAlert(DivElement section, String alertText) {
-  final DivElement alert = DivElement();
+  final alert = DivElement();
   alert.classes.add('alert&nbspalert-error');
   alert.text = alertText;
   clearAlertSection(section);
@@ -38,7 +31,7 @@ void addErrorAlert(DivElement section, String alertText) {
 }
 
 void addInfoAlert(DivElement section, String alertText) {
-  final DivElement alert = DivElement();
+  final alert = DivElement();
   alert.classes.add('alert&nbspalert-info');
   alert.text = alertText;
   clearAlertSection(section);
@@ -46,7 +39,7 @@ void addInfoAlert(DivElement section, String alertText) {
 }
 
 void addSuccessAlert(DivElement section, String alertText) {
-  final DivElement alert = DivElement();
+  final alert = DivElement();
   alert.classes.add('alert&nbspalert-success');
   alert.text = alertText;
   clearAlertSection(section);

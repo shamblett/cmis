@@ -29,12 +29,6 @@
 
 part of cmis;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: cascade_invocations
-// ignore_for_file: avoid_print
-// ignore_for_file: lines_longer_than_80_chars
-
 /// The CMIS client
 class Cmis {
   /// Default constructor
@@ -61,7 +55,7 @@ class Cmis {
     }
 
     // Generate a new one
-    final CmisSession newSession = CmisSession(
+    final newSession = CmisSession(
         urlPrefix, httpAdapter, environmentSupport, serviceUrlPrefix, repId);
 
     // Login if asked

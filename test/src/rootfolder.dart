@@ -13,14 +13,6 @@
 
 part of cmisbrowsertest;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: cascade_invocations
-// ignore_for_file: avoid_print
-// ignore_for_file: avoid_types_on_closure_parameters
-
 InputElement cmisRootInfoId = querySelector('#cmis-rootinfo-id');
 DivElement rootInfoAlertSection = querySelector('#cmis-alertsection-rootinfo');
 DivElement rootInfoListSection = querySelector('#cmis-rootinfo-list');
@@ -37,7 +29,7 @@ void onRootFilterSelect(Event e) {
 }
 
 void outputRootInfo(dynamic response) {
-  final UListElement uList = UListElement();
+  final uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
     if (response.jsonCmisResponse.objects.isNotEmpty) {
@@ -49,7 +41,7 @@ void outputRootInfo(dynamic response) {
           final dynamic properties = object.object.properties;
 
           /* Check for the type filter */
-          bool outputInfo = false;
+          var outputInfo = false;
 
           if (rootFilterSelection == 'both') {
             outputInfo = true;
@@ -62,45 +54,45 @@ void outputRootInfo(dynamic response) {
           }
 
           if (outputInfo) {
-            final LIElement name = LIElement();
+            final name = LIElement();
             name.innerHtml = 'Name: ${properties['cmis:name'].value}';
             uList.children.add(name);
-            final LIElement objectId = LIElement();
+            final objectId = LIElement();
             objectId.innerHtml =
                 'Object Id: ${properties['cmis:objectId'].value}';
             uList.children.add(objectId);
-            final LIElement objectTypeId = LIElement();
+            final objectTypeId = LIElement();
             objectTypeId.innerHtml =
                 'Object Type Id: ${properties['cmis:objectTypeId'].value}';
             uList.children.add(objectTypeId);
             if (properties['cmis:parentId'] != null) {
-              final LIElement parentId = LIElement();
+              final parentId = LIElement();
               parentId.innerHtml =
                   'Parent Id: ${properties['cmis:parentId'].value}';
               uList.children.add(parentId);
             }
             if (properties['cmis:path'] != null) {
-              final LIElement path = LIElement();
+              final path = LIElement();
               path.innerHtml = 'Path: ${properties['cmis:path'].value}';
               uList.children.add(path);
             }
-            final LIElement spacer = LIElement();
+            final spacer = LIElement();
             spacer.innerHtml = '  ....... ';
             uList.children.add(spacer);
           }
         }
       } else {
-        final LIElement noChildren = LIElement();
+        final noChildren = LIElement();
         noChildren.innerHtml = 'There are no objects in the root folder';
         uList.children.add(noChildren);
       }
     } else {
-      final LIElement noChildren = LIElement();
+      final noChildren = LIElement();
       noChildren.innerHtml = 'There are no objects in the root folder';
       uList.children.add(noChildren);
     }
   } else {
-    final LIElement noChildren = LIElement();
+    final noChildren = LIElement();
     noChildren.innerHtml = 'There are no objects in the root folder';
     uList.children.add(noChildren);
   }
@@ -125,8 +117,7 @@ void doRootInfo(Event e) {
         reason = 'CMIS Server Response';
       }
 
-      final String message =
-          'Error - $error, Reason - $reason, Code - $errorCode';
+      final message = 'Error - $error, Reason - $reason, Code - $errorCode';
       addErrorAlert(rootInfoAlertSection, message);
     } else {
       outputRootInfo(cmisResponse);

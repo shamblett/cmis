@@ -10,9 +10,6 @@
 
 part of cmis;
 
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: unnecessary_final
-
 /// CMIS client exceptions
 class CmisException implements Exception {
   /// Default

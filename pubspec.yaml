@@ -1,9 +1,9 @@
 name: cmis
-version: 4.0.1
+version: 4.0.2
 description: A CMIS 1.1 compliant browser and server based client for Dart.
 homepage: https://github.com/shamblett/cmis
 environment:
-  sdk: '>=2.0.0-dev <3.0.0'
+  sdk: '>=2.0.0 <3.0.0'
 
 dependencies:
   json_object_lite: '^2.0.0'
@@ -12,9 +12,10 @@ dependencies:
 
 dev_dependencies:
   bootjack: '^1.0.1'
-  test: '^1.6.5'
-  dart_style: '^1.2.9'
-  dartdoc: '^0.28.4'
-  build_runner: '^1.6.2'
-  build_test: '^0.10.8'
-  build_web_compilers: '^2.1.4'
+  test: '^1.14.2'
+  pana: '^0.13.5'
+  pedantic: '^1.9.0'
+  build_runner: '^1.8.0'
+  build_test: '^0.10.12+1'
+  build_web_compilers: '^2.8.0'
+
