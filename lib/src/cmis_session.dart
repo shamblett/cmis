@@ -143,13 +143,13 @@ class CmisSession {
     var cmisUrl = url;
     var httpData = <String, String>{};
     if (cmisUrl == null) {
-      cmisUrl = '$_urlPrefix/';
+      cmisUrl = '$_urlPrefix';
       if ((_serviceUrlPrefix.isNotEmpty) && useServiceUrl) {
         cmisUrl = '$_serviceUrlPrefix';
       }
 
-      if (repositoryId != null) {
-        cmisUrl = '$cmisUrl$repositoryId/';
+      if (repositoryId != null && repositoryId.isNotEmpty) {
+        cmisUrl = '/$cmisUrl$repositoryId/';
       }
     }
     // Add any url parameters if this is a GET */
