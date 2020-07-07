@@ -149,7 +149,7 @@ class CmisSession {
       }
 
       if (repositoryId != null && repositoryId.isNotEmpty) {
-        cmisUrl = '/$cmisUrl$repositoryId/';
+        cmisUrl = '$cmisUrl/$repositoryId';
       }
     }
     // Add any url parameters if this is a GET */

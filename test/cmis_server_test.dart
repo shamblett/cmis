@@ -154,5 +154,18 @@ int main() {
     cmisSession.getTypeDefinition('cmis:folder');
   });
 
+  test('Query ', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession.completionResponse;
+      print(cmisResponse.jsonCmisResponse);
+    }
+
+    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    print('Running CMIS query');
+    cmisSession.depth = 1;
+    cmisSession.query('SELECT * FROM cmis:document');
+  });
+
   return 0;
 }
