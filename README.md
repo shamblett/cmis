@@ -1,7 +1,7 @@
 # CMIS - A browser and server side CMIS client written in Dart
 
 This package allows browsing of and data manipluation in CMIS V1.1 specification browser binding
-compliant CMIS servers such as the one hosted at [Alfresco](http://cmis.alfresco.com/cmisbrowser).
+compliant CMIS servers such as the one hosted at [Alfresco](https://cmis.alfresco.com/cmisbrowser).
 
 This version of the implementation allows only data inspection, querying and Create/Delete of folders
 and documents. An implementation Matrix mapping functionality of this package to the CMIS specification
