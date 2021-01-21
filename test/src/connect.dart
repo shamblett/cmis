@@ -14,11 +14,13 @@
 part of cmisbrowsertest;
 
 InputElement? cmisUrl = querySelector('#cmis-url') as InputElement?;
-InputElement? cmisServiceUrl = querySelector('#cmis-service-url') as InputElement?;
+InputElement? cmisServiceUrl =
+    querySelector('#cmis-service-url') as InputElement?;
 InputElement? cmisUser = querySelector('#cmis-user') as InputElement?;
 InputElement? cmisPassword = querySelector('#cmis-password') as InputElement?;
 InputElement? cmisProxy = querySelector('#cmis-proxy') as InputElement?;
-DivElement? connectAlertSection = querySelector('#cmis-alertsection-connect') as DivElement?;
+DivElement? connectAlertSection =
+    querySelector('#cmis-alertsection-connect') as DivElement?;
 void doConnect(Event e) {
   repoId = null;
 
@@ -30,15 +32,15 @@ void doConnect(Event e) {
   }
   var serviceUrl = cmisServiceUrl!.value!;
   if (serviceUrl.isEmpty) {
-    serviceUrl = null;
+    serviceUrl = '';
   }
   var userName = cmisUser!.value!;
   if (userName.isEmpty) {
-    userName = null;
+    userName = '';
   }
   var password = cmisPassword!.value!;
   if (password.isEmpty) {
-    password = null;
+    password = '';
   }
   if (!cmisRepositoryId.value.isEmpty) {
     repoId = cmisRepositoryId.value;

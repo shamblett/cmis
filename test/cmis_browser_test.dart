@@ -48,24 +48,24 @@ int main() {
     // Get our working element set and add event handlers
 
     // Connect
-    final ButtonElement connectBtn = querySelector('#cmis-connect-btn') as ButtonElement;
+    final connectBtn = querySelector('#cmis-connect-btn') as ButtonElement;
     connectBtn.onClick.listen(doConnect);
 
     // Repository Info
-    final ButtonElement repositoryInfoBtn =
+    final repositoryInfoBtn =
         querySelector('#cmis-repository-info') as ButtonElement;
     repositoryInfoBtn.onClick.listen(doRepositoryInfo);
 
-    final ButtonElement checkedOutDocsBtn =
+    final checkedOutDocsBtn =
         querySelector('#cmis-repository-checkedoutdocs') as ButtonElement;
     checkedOutDocsBtn.onClick.listen(doCheckedOutDocs);
 
-    final ButtonElement repositoryInfoBtnClear =
+    final repositoryInfoBtnClear =
         querySelector('#cmis-repository-info-clear') as ButtonElement;
     repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
 
     // Root Folder
-    final ButtonElement rootInfoBtn = querySelector('#cmis-root-info') as ButtonElement;
+    final rootInfoBtn = querySelector('#cmis-root-info') as ButtonElement;
     rootInfoBtn.onClick.listen(doRootInfo);
 
     querySelector('#cmis-root-info-folder')!.onClick.listen(onRootFilterSelect);
@@ -74,90 +74,91 @@ int main() {
         .listen(onRootFilterSelect);
     querySelector('#cmis-root-info-both')!.onClick.listen(onRootFilterSelect);
 
-    final ButtonElement rootInfoBtnClear =
+    final rootInfoBtnClear =
         querySelector('#cmis-root-info-clear') as ButtonElement;
     rootInfoBtnClear.onClick.listen(doRootInfoClear);
 
     // Type information
-    final ButtonElement typeInfoDescendantsBtn =
+    final typeInfoDescendantsBtn =
         querySelector('#cmis-type-info-descendants') as ButtonElement;
     typeInfoDescendantsBtn.onClick.listen(doTypeInfoDescendants);
 
-    final ButtonElement typeInfoChildrenBtn =
+    final typeInfoChildrenBtn =
         querySelector('#cmis-type-info-children') as ButtonElement;
     typeInfoChildrenBtn.onClick.listen(doTypeInfoChildren);
 
-    final ButtonElement typeInfoDefinitionBtn =
+    final typeInfoDefinitionBtn =
         querySelector('#cmis-type-info-definition') as ButtonElement;
     typeInfoDefinitionBtn.onClick.listen(doTypeInfoDefinition);
 
-    final ButtonElement typeInfoBtnClear =
+    final typeInfoBtnClear =
         querySelector('#cmis-type-info-clear') as ButtonElement;
     typeInfoBtnClear.onClick.listen(doTypeInfoClear);
 
     // Document Information
-    final ButtonElement docInfoBtn = querySelector('#cmis-docinfo-get') as ButtonElement;
+    final docInfoBtn = querySelector('#cmis-docinfo-get') as ButtonElement;
     docInfoBtn.onClick.listen(doDocInfo);
 
-    final ButtonElement docInfoBtnClear = querySelector('#cmis-docinfo-clear') as ButtonElement;
+    final docInfoBtnClear =
+        querySelector('#cmis-docinfo-clear') as ButtonElement;
     docInfoBtnClear.onClick.listen(doDocInfoClear);
 
     // Document Update
-    final ButtonElement documentCreateBtn =
+    final documentCreateBtn =
         querySelector('#cmis-document-update-create') as ButtonElement;
     documentCreateBtn.onClick.listen(doDocumentCreate);
 
-    final ButtonElement documentDeleteBtn =
+    final documentDeleteBtn =
         querySelector('#cmis-document-update-delete') as ButtonElement;
     documentDeleteBtn.onClick.listen(doDocumentDelete);
 
-    final ButtonElement documentUpdateBtnClear =
+    final documentUpdateBtnClear =
         querySelector('#cmis-document-update-clear') as ButtonElement;
     documentUpdateBtnClear.onClick.listen(doDocumentUpdateClear);
 
     // Folder Information
-    final ButtonElement folderInfoChildrenBtn =
+    final folderInfoChildrenBtn =
         querySelector('#cmis-folder-get-children') as ButtonElement;
     folderInfoChildrenBtn.onClick.listen(doFolderInfoChildren);
 
-    final ButtonElement folderInfoDescendantsBtn =
+    final folderInfoDescendantsBtn =
         querySelector('#cmis-folder-get-descendants') as ButtonElement;
     folderInfoDescendantsBtn.onClick.listen(doFolderInfoDescendants);
 
-    final ButtonElement folderInfoParentBtn =
+    final folderInfoParentBtn =
         querySelector('#cmis-folder-get-parent') as ButtonElement;
     folderInfoParentBtn.onClick.listen(doFolderInfoParent);
 
-    final ButtonElement folderInfoTreeBtn =
+    final folderInfoTreeBtn =
         querySelector('#cmis-folder-get-tree') as ButtonElement;
     folderInfoTreeBtn.onClick.listen(doFolderInfoTree);
 
-    final ButtonElement folderInfoCheckedOutBtn =
+    final folderInfoCheckedOutBtn =
         querySelector('#cmis-folder-get-checkedout') as ButtonElement;
     folderInfoCheckedOutBtn.onClick.listen(doFolderInfoCheckedOut);
 
-    final ButtonElement folderInfoBtnClear =
+    final folderInfoBtnClear =
         querySelector('#cmis-folder-clear') as ButtonElement;
     folderInfoBtnClear.onClick.listen(doFolderInfoClear);
 
     // Folder Update
-    final ButtonElement folderCreateBtn =
+    final folderCreateBtn =
         querySelector('#cmis-folder-update-create') as ButtonElement;
     folderCreateBtn.onClick.listen(doFolderCreate);
 
-    final ButtonElement folderDeleteBtn =
+    final folderDeleteBtn =
         querySelector('#cmis-folder-update-delete') as ButtonElement;
     folderDeleteBtn.onClick.listen(doFolderDelete);
 
-    final ButtonElement folderUpdateBtnClear =
+    final folderUpdateBtnClear =
         querySelector('#cmis-folder-update-clear') as ButtonElement;
     folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
 
     // Query
-    final ButtonElement queryBtn = querySelector('#cmis-query-query') as ButtonElement;
+    final queryBtn = querySelector('#cmis-query-query') as ButtonElement;
     queryBtn.onClick.listen(doQuery);
 
-    final ButtonElement queryBtnClear = querySelector('#cmis-query-clear') as ButtonElement;
+    final queryBtnClear = querySelector('#cmis-query-clear') as ButtonElement;
     queryBtnClear.onClick.listen(doQueryClear);
 
     final dynamic end = expectAsync0(() {});

@@ -13,9 +13,12 @@
 
 part of cmisbrowsertest;
 
-InputElement? cmisFolderInfo = querySelector('#cmis-folder-id') as InputElement?;
-DivElement? folderInfoAlertSection = querySelector('#cmis-alertsection-folder') as DivElement?;
-DivElement? folderInfoListSection = querySelector('#cmis-folder-list') as DivElement?;
+InputElement? cmisFolderInfo =
+    querySelector('#cmis-folder-id') as InputElement?;
+DivElement? folderInfoAlertSection =
+    querySelector('#cmis-alertsection-folder') as DivElement?;
+DivElement? folderInfoListSection =
+    querySelector('#cmis-folder-list') as DivElement?;
 void doFolderInfoClear(Event e) {
   folderInfoListSection!.children.clear();
   folderInfoAlertSection!.children.clear();
@@ -379,11 +382,14 @@ void doFolderInfoCheckedOut(Event e) {
 }
 
 /* Create */
-InputElement? cmisFolderUpdate = querySelector('#cmis-folder-update-name') as InputElement?;
-InputElement? cmisFolderParent = querySelector('#cmis-folder-update-parent') as InputElement?;
+InputElement? cmisFolderUpdate =
+    querySelector('#cmis-folder-update-name') as InputElement?;
+InputElement? cmisFolderParent =
+    querySelector('#cmis-folder-update-parent') as InputElement?;
 DivElement? folderUpdateAlertSection =
     querySelector('#cmis-alertsection-folder-update') as DivElement?;
-DivElement? folderUpdateListSection = querySelector('#cmis-folder-update-list') as DivElement?;
+DivElement? folderUpdateListSection =
+    querySelector('#cmis-folder-update-list') as DivElement?;
 void outputFolderCreate(dynamic response) {
   final message =
       'Success! the folder ${cmisFolderUpdate!.value} has been created';
@@ -459,8 +465,8 @@ void doFolderCreate(Event e) {
     if (cmisFolderParent!.value!.isNotEmpty) {
       parentPath = cmisFolderParent!.value!.trim();
     }
-    cmisSession!.createFolder(cmisFolderUpdate!.value!.trim(),
-        parentPath: parentPath);
+    cmisSession!
+        .createFolder(cmisFolderUpdate!.value!.trim(), parentPath: parentPath);
   }
 }
 

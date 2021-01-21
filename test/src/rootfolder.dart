@@ -13,9 +13,12 @@
 
 part of cmisbrowsertest;
 
-InputElement? cmisRootInfoId = querySelector('#cmis-rootinfo-id') as InputElement?;
-DivElement? rootInfoAlertSection = querySelector('#cmis-alertsection-rootinfo') as DivElement?;
-DivElement? rootInfoListSection = querySelector('#cmis-rootinfo-list') as DivElement?;
+InputElement? cmisRootInfoId =
+    querySelector('#cmis-rootinfo-id') as InputElement?;
+DivElement? rootInfoAlertSection =
+    querySelector('#cmis-alertsection-rootinfo') as DivElement?;
+DivElement? rootInfoListSection =
+    querySelector('#cmis-rootinfo-list') as DivElement?;
 String? rootFilterSelection = 'both';
 
 void doRootInfoClear(Event e) {

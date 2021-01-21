@@ -20,7 +20,6 @@ import 'package:test/test.dart';
 import 'cmis_test_config.dart';
 
 @TestOn('vm')
-
 int main() {
   // Initialise
   final cmisClient = CmisServerClient();

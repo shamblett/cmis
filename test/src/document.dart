@@ -15,8 +15,10 @@ part of cmisbrowsertest;
 
 // Information
 InputElement? cmisDocInfo = querySelector('#cmis-docinfo-id') as InputElement?;
-DivElement? docInfoAlertSection = querySelector('#cmis-alertsection-docinfo') as DivElement?;
-DivElement? docInfoListSection = querySelector('#cmis-docinfo-list') as DivElement?;
+DivElement? docInfoAlertSection =
+    querySelector('#cmis-alertsection-docinfo') as DivElement?;
+DivElement? docInfoListSection =
+    querySelector('#cmis-docinfo-list') as DivElement?;
 void doDocInfoClear(Event e) {
   docInfoListSection!.children.clear();
   docInfoAlertSection!.children.clear();
@@ -70,12 +72,14 @@ void doDocInfo(Event e) {
 }
 
 /* Update */
-InputElement? cmisDocumentUpdate = querySelector('#cmis-document-update-name') as InputElement?;
+InputElement? cmisDocumentUpdate =
+    querySelector('#cmis-document-update-name') as InputElement?;
 InputElement? cmisDocumentFolderPath =
     querySelector('#cmis-document-update-folderPath') as InputElement?;
 FileUploadInputElement? cmisDocumentContentFileName =
     querySelector('#cmis-document-update-fileName') as FileUploadInputElement?;
-TextAreaElement? cmisDocumentText = querySelector('#cmis-document-update-text') as TextAreaElement?;
+TextAreaElement? cmisDocumentText =
+    querySelector('#cmis-document-update-text') as TextAreaElement?;
 DivElement? documentUpdateAlertSection =
     querySelector('#cmis-alertsection-document-update') as DivElement?;
 DivElement? documentUpdateListSection =

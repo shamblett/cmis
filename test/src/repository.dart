@@ -17,7 +17,8 @@ dynamic cmisRepositoryId = querySelector('#cmis-repository-id');
 String? repoId;
 DivElement? repositoryAlertSection =
     querySelector('#cmis-alertsection-repository') as DivElement?;
-DivElement? repositoryDetailsSection = querySelector('#cmis-repository-details') as DivElement?;
+DivElement? repositoryDetailsSection =
+    querySelector('#cmis-repository-details') as DivElement?;
 void outputRepositoryInfo(dynamic response) {
   final dynamic repositoryInfo = response.jsonCmisResponse;
 
@@ -51,7 +52,8 @@ void outputRepositoryInfo(dynamic response) {
   repositoryDetailsSection!.children.add(uList);
 }
 
-DivElement? repositoryListSection = querySelector('#cmis-repository-list') as DivElement?;
+DivElement? repositoryListSection =
+    querySelector('#cmis-repository-list') as DivElement?;
 void outputRepositoryList(dynamic response) {
   void onRepoSelect(Event e) {
     final dynamic radioElement = e.target;

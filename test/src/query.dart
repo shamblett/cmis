@@ -13,9 +13,12 @@
 
 part of cmisbrowsertest;
 
-TextAreaElement? queryStatement = querySelector('#cmis-query-statement') as TextAreaElement?;
-DivElement? queryAlertSection = querySelector('#cmis-alertsection-query') as DivElement?;
-DivElement? queryListSection = querySelector('#cmis-query-list-section') as DivElement?;
+TextAreaElement? queryStatement =
+    querySelector('#cmis-query-statement') as TextAreaElement?;
+DivElement? queryAlertSection =
+    querySelector('#cmis-alertsection-query') as DivElement?;
+DivElement? queryListSection =
+    querySelector('#cmis-query-list-section') as DivElement?;
 void doQueryClear(Event e) {
   queryListSection!.children.clear();
   queryAlertSection!.children.clear();

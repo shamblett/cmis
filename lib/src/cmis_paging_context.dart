@@ -34,9 +34,7 @@ class CmisPagingContext {
   int getTotalPages() {
     double totalPages;
 
-    if ((_totalItems == null) ||
-        (_opCtx.maxItems == null) ||
-        (_opCtx.maxItems == 0)) {
+    if ((_opCtx.maxItems == 0)) {
       totalPages = cmisUnknown;
     } else {
       totalPages =
@@ -68,9 +66,7 @@ class CmisPagingContext {
 
   /// Set the last page
   void lastPage() {
-    if (_totalItems != null) {
-      final totalPages = getTotalPages() - 1;
-      skipCount = totalPages * _opCtx.maxItems;
-    }
+    final totalPages = getTotalPages() - 1;
+    skipCount = totalPages * _opCtx.maxItems;
   }
 }

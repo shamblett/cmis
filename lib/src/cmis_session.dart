@@ -313,10 +313,10 @@ class CmisSession {
 
     // Get the repository information if we have it
     jsonobject.JsonObjectLite<dynamic> repoInformation;
-    if (_repoInformation != null) {
+    if (_repoInformation.isNotEmpty) {
       repoInformation = jsonobject.JsonObjectLite<dynamic>.fromJsonString(
           _repoInformation.toString());
-      if (repoInformation != null) {
+      if (repoInformation.isNotEmpty) {
         // Construct a success response
         final dynamic successAsJson = repoInformation;
         _httpAdapter.generateSuccessResponse(successAsJson);
@@ -738,7 +738,7 @@ class CmisSession {
       throw CmisException(
           'getTypeDefinitiion() expects a non null repository Id');
     }
-    if (typeId == null) {
+    if (typeId.isNotEmpty) {
       throw CmisException('getTypeChildren() expects a type id');
     }
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
@@ -814,10 +814,6 @@ class CmisSession {
   /// or the other is '' i.e empty. This must be called before the CMIS client
   /// can be used.
   void login(String user, String password) {
-    if ((user == null) || (password == null)) {
-      throw CmisException('Login() expects a non null user name and password');
-    }
-
     _user = user;
     _password = password;
   }

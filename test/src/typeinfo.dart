@@ -14,7 +14,8 @@
 part of cmisbrowsertest;
 
 InputElement? cmisType = querySelector('#cmis-type-id') as InputElement?;
-DivElement? typeAlertSection = querySelector('#cmis-alertsection-type') as DivElement?;
+DivElement? typeAlertSection =
+    querySelector('#cmis-alertsection-type') as DivElement?;
 DivElement? typeListSection = querySelector('#cmis-type-list') as DivElement?;
 void outputTypeListDescendants(dynamic response) {
   final uList = UListElement();
