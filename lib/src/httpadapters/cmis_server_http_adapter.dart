@@ -68,32 +68,32 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
   /// Processes the HTTP request, returning the server's response
   /// via the completion callback.
   @override
-  void httpRequest(String method, String url,
-      [String data, Map<String, String> headers]) {
+  void httpRequest(String method, String? url,
+      [String? data, Map<String, String>? headers]) {
     // Query CMIS over HTTP
     if (method == 'GET') {
       _client
-          .get(url, headers: headers)
+          .get(url, headers: headers!)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     } else if (method == 'PUT') {
       _client
-          .put(url, headers: headers, body: data)
+          .put(url, headers: headers!, body: data)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     } else if (method == 'POST') {
       _client
-          .post(url, headers: headers, body: data)
+          .post(url, headers: headers!, body: data)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     } else if (method == 'HEAD') {
       _client
-          .head(url, headers: headers)
+          .head(url, headers: headers!)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     } else if (method == 'DELETE') {
       _client
-          .delete(url, headers: headers)
+          .delete(url, headers: headers!)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     }
@@ -101,13 +101,13 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
 
   /// Not used on the server
   @override
-  void httpFormRequest(String method, String url,
-      [Map<dynamic, dynamic> data, Map<String, String> headers]) {}
+  void httpFormRequest(String method, String? url,
+      [Map<dynamic, dynamic>? data, Map<String, String>? headers]) {}
 
   /// Not used on the server
   @override
-  void httpFormDataRequest(String method, String url,
-      [dynamic formData, Map<String, String> headers]) {}
+  void httpFormDataRequest(String method, String? url,
+      [dynamic formData, Map<String, String>? headers]) {}
 
   /// Error response
   @override

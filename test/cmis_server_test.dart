@@ -24,11 +24,11 @@ import 'cmis_test_config.dart';
 int main() {
   // Initialise
   final cmisClient = CmisServerClient();
-  CmisSession cmisSession;
-  String cmisRepositoryId;
-  String cmisUrl;
-  String cmisUser;
-  String cmisPassword;
+  CmisSession? cmisSession;
+  String? cmisRepositoryId;
+  String? cmisUrl;
+  String? cmisUser;
+  String? cmisPassword;
 
   // Initialise the page from the config file
   if (configInUse) {
@@ -50,121 +50,121 @@ int main() {
   test('Repositories', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse);
       final jsonobject.JsonObjectLite<dynamic> repo =
           cmisResponse.jsonCmisResponse.toList()[0];
-      final String repositoryId = repo.toList()[0];
-      final String repositoryName = repo.toList()[1];
-      final String repositoryDescription = repo.toList()[2];
+      final String? repositoryId = repo.toList()[0];
+      final String? repositoryName = repo.toList()[1];
+      final String? repositoryDescription = repo.toList()[2];
       print(
           'Repository : Id - $repositoryId, : name - $repositoryName, : description - $repositoryDescription');
-      cmisSession.repositoryId = repositoryId;
+      cmisSession!.repositoryId = repositoryId;
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting repositories');
-    cmisSession.getRepositories();
+    cmisSession!.getRepositories();
   });
 
   test('Root folder', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting root folder contents');
-    cmisSession.getRootFolderContents();
+    cmisSession!.getRootFolderContents();
   });
 
   test('Repository info', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting repository info');
-    cmisSession.getRepositoryInfo();
+    cmisSession!.getRepositoryInfo();
   });
 
   test('Checked out docs', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting checked out docs');
-    cmisSession.getCheckedOutDocs();
+    cmisSession!.getCheckedOutDocs();
   });
 
   test('Root folder contents', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting root folder contents');
-    cmisSession.getRootFolderContents();
+    cmisSession!.getRootFolderContents();
   });
 
   test('Type descendants', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse.jsonCmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting type descendants');
-    cmisSession.depth = 1;
-    cmisSession.getTypeDescendants();
+    cmisSession!.depth = 1;
+    cmisSession!.getTypeDescendants();
   });
 
   test('Type children', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse.jsonCmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting type children');
-    cmisSession.depth = 1;
-    cmisSession.getTypeChildren();
+    cmisSession!.depth = 1;
+    cmisSession!.getTypeChildren();
   });
 
   test('Type definition', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse.jsonCmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting type definition');
-    cmisSession.depth = 1;
-    cmisSession.getTypeDefinition('cmis:folder');
+    cmisSession!.depth = 1;
+    cmisSession!.getTypeDefinition('cmis:folder');
   });
 
   test('Query ', () {
     dynamic cmisResponse;
     void completer() {
-      cmisResponse = cmisSession.completionResponse;
+      cmisResponse = cmisSession!.completionResponse;
       print(cmisResponse.jsonCmisResponse);
     }
 
-    cmisSession.resultCompletion = expectAsync0(completer, count: 1);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Running CMIS query');
-    cmisSession.depth = 1;
-    cmisSession.query('SELECT * FROM cmis:document');
+    cmisSession!.depth = 1;
+    cmisSession!.query('SELECT * FROM cmis:document');
   });
 
   return 0;

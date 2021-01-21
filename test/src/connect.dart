@@ -13,30 +13,30 @@
 
 part of cmisbrowsertest;
 
-InputElement cmisUrl = querySelector('#cmis-url');
-InputElement cmisServiceUrl = querySelector('#cmis-service-url');
-InputElement cmisUser = querySelector('#cmis-user');
-InputElement cmisPassword = querySelector('#cmis-password');
-InputElement cmisProxy = querySelector('#cmis-proxy');
-DivElement connectAlertSection = querySelector('#cmis-alertsection-connect');
+InputElement? cmisUrl = querySelector('#cmis-url') as InputElement?;
+InputElement? cmisServiceUrl = querySelector('#cmis-service-url') as InputElement?;
+InputElement? cmisUser = querySelector('#cmis-user') as InputElement?;
+InputElement? cmisPassword = querySelector('#cmis-password') as InputElement?;
+InputElement? cmisProxy = querySelector('#cmis-proxy') as InputElement?;
+DivElement? connectAlertSection = querySelector('#cmis-alertsection-connect') as DivElement?;
 void doConnect(Event e) {
   repoId = null;
 
   // Must have a url
-  final url = cmisUrl.value;
+  final url = cmisUrl!.value!;
   if (url.isEmpty) {
-    addErrorAlert(connectAlertSection, 'You must specify a URL');
+    addErrorAlert(connectAlertSection!, 'You must specify a URL');
     return;
   }
-  var serviceUrl = cmisServiceUrl.value;
+  var serviceUrl = cmisServiceUrl!.value!;
   if (serviceUrl.isEmpty) {
     serviceUrl = null;
   }
-  var userName = cmisUser.value;
+  var userName = cmisUser!.value!;
   if (userName.isEmpty) {
     userName = null;
   }
-  var password = cmisPassword.value;
+  var password = cmisPassword!.value!;
   if (password.isEmpty) {
     password = null;
   }
@@ -48,12 +48,12 @@ void doConnect(Event e) {
     cmisSession =
         cmisClient.getCmisSession(url, serviceUrl, userName, password, repoId);
 
-    if (cmisProxy.value == 'yes') {
-      cmisSession.proxy = true;
+    if (cmisProxy!.value == 'yes') {
+      cmisSession!.proxy = true;
     }
 
-    addSuccessAlert(connectAlertSection, 'Cmis Session successfully created');
+    addSuccessAlert(connectAlertSection!, 'Cmis Session successfully created');
   } on Exception catch (e) {
-    addErrorAlert(connectAlertSection, e.toString());
+    addErrorAlert(connectAlertSection!, e.toString());
   }
 }

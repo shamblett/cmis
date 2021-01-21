@@ -25,22 +25,22 @@ abstract class CmisHttpAdapter {
   dynamic jsonResponse = jsonobject.JsonObjectLite<dynamic>();
 
   /// All response headers
-  String allResponseHeaders;
+  String? allResponseHeaders;
 
   /// Processes the HTTP request returning the server's response as
   /// a JSON Object
-  void httpRequest(String method, String url,
-      [String data, Map<String, String> headers]);
+  void httpRequest(String method, String? url,
+      [String? data, Map<String, String>? headers]);
 
   /// Processes the HTTP POST(Form)request returning the server's response as
   /// a JSON Object
-  void httpFormRequest(String method, String url,
-      [Map<dynamic, dynamic> data, Map<String, String> headers]);
+  void httpFormRequest(String method, String? url,
+      [Map<dynamic, dynamic>? data, Map<String, String>? headers]);
 
   /// Processes the HTTP POST(Form Multi Part)request returning
   /// the server's response as a JSON Object.
-  void httpFormDataRequest(String method, String url,
-      [dynamic formData, Map<String, String> headers]);
+  void httpFormDataRequest(String method, String? url,
+      [dynamic formData, Map<String, String>? headers]);
 
   // Result Handling
 

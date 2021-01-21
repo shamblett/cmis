@@ -14,12 +14,12 @@
 part of cmisbrowsertest;
 
 // Information
-InputElement cmisDocInfo = querySelector('#cmis-docinfo-id');
-DivElement docInfoAlertSection = querySelector('#cmis-alertsection-docinfo');
-DivElement docInfoListSection = querySelector('#cmis-docinfo-list');
+InputElement? cmisDocInfo = querySelector('#cmis-docinfo-id') as InputElement?;
+DivElement? docInfoAlertSection = querySelector('#cmis-alertsection-docinfo') as DivElement?;
+DivElement? docInfoListSection = querySelector('#cmis-docinfo-list') as DivElement?;
 void doDocInfoClear(Event e) {
-  docInfoListSection.children.clear();
-  docInfoAlertSection.children.clear();
+  docInfoListSection!.children.clear();
+  docInfoAlertSection!.children.clear();
 }
 
 void outputDocInfoList(dynamic response) {
@@ -28,23 +28,23 @@ void outputDocInfoList(dynamic response) {
       final rawText = response.jsonCmisResponse.rawText;
       final theText = PreElement();
       theText.innerHtml = rawText;
-      docInfoListSection.children.add(theText);
-      addErrorAlert(docInfoAlertSection, 'This is not a document type object');
+      docInfoListSection!.children.add(theText);
+      addErrorAlert(docInfoAlertSection!, 'This is not a document type object');
     }
   } else {
-    addErrorAlert(docInfoAlertSection, 'This is not a document type object');
+    addErrorAlert(docInfoAlertSection!, 'This is not a document type object');
   }
 }
 
 void doDocInfo(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -54,43 +54,43 @@ void doDocInfo(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(docInfoAlertSection, message);
+      addErrorAlert(docInfoAlertSection!, message);
     } else {
       outputDocInfoList(cmisResponse);
     }
   }
 
-  clearAlertSection(docInfoAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisDocInfo.value.isEmpty) {
-    addErrorAlert(docInfoAlertSection, 'You must supply a valid document Id');
+  clearAlertSection(docInfoAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisDocInfo!.value!.isEmpty) {
+    addErrorAlert(docInfoAlertSection!, 'You must supply a valid document Id');
   } else {
-    cmisSession.getDocument(cmisDocInfo.value.trim());
+    cmisSession!.getDocument(cmisDocInfo!.value!.trim());
   }
 }
 
 /* Update */
-InputElement cmisDocumentUpdate = querySelector('#cmis-document-update-name');
-InputElement cmisDocumentFolderPath =
-    querySelector('#cmis-document-update-folderPath');
-FileUploadInputElement cmisDocumentContentFileName =
-    querySelector('#cmis-document-update-fileName');
-TextAreaElement cmisDocumentText = querySelector('#cmis-document-update-text');
-DivElement documentUpdateAlertSection =
-    querySelector('#cmis-alertsection-document-update');
-DivElement documentUpdateListSection =
-    querySelector('#cmis-document-update-list');
+InputElement? cmisDocumentUpdate = querySelector('#cmis-document-update-name') as InputElement?;
+InputElement? cmisDocumentFolderPath =
+    querySelector('#cmis-document-update-folderPath') as InputElement?;
+FileUploadInputElement? cmisDocumentContentFileName =
+    querySelector('#cmis-document-update-fileName') as FileUploadInputElement?;
+TextAreaElement? cmisDocumentText = querySelector('#cmis-document-update-text') as TextAreaElement?;
+DivElement? documentUpdateAlertSection =
+    querySelector('#cmis-alertsection-document-update') as DivElement?;
+DivElement? documentUpdateListSection =
+    querySelector('#cmis-document-update-list') as DivElement?;
 
 void doDocumentUpdateClear(Event e) {
-  documentUpdateListSection.children.clear();
-  documentUpdateAlertSection.children.clear();
+  documentUpdateListSection!.children.clear();
+  documentUpdateAlertSection!.children.clear();
 }
 
 /* Create */
 void outputDocumentCreate(dynamic response) {
   final message =
-      'Success! the document ${cmisDocumentUpdate.value} has been created';
-  addSuccessAlert(documentUpdateAlertSection, message);
+      'Success! the document ${cmisDocumentUpdate!.value} has been created';
+  addSuccessAlert(documentUpdateAlertSection!, message);
   final uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
@@ -125,18 +125,18 @@ void outputDocumentCreate(dynamic response) {
     uList.children.add(noChildren);
   }
 
-  documentUpdateListSection.children.add(uList);
+  documentUpdateListSection!.children.add(uList);
 }
 
 void doDocumentCreate(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -146,39 +146,39 @@ void doDocumentCreate(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(documentUpdateAlertSection, message);
+      addErrorAlert(documentUpdateAlertSection!, message);
     } else {
       outputDocumentCreate(cmisResponse);
     }
   }
 
-  clearAlertSection(documentUpdateAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisDocumentUpdate.value.isEmpty) {
+  clearAlertSection(documentUpdateAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisDocumentUpdate!.value!.isEmpty) {
     addErrorAlert(
-        documentUpdateAlertSection, 'You must supply a valid document name');
+        documentUpdateAlertSection!, 'You must supply a valid document name');
   } else {
-    String folderPath;
-    String fileName;
-    String content;
-    File inputFile;
+    String? folderPath;
+    String? fileName;
+    String? content;
+    File? inputFile;
 
-    if (cmisDocumentFolderPath.value.isNotEmpty) {
-      folderPath = cmisDocumentFolderPath.value.trim();
+    if (cmisDocumentFolderPath!.value!.isNotEmpty) {
+      folderPath = cmisDocumentFolderPath!.value!.trim();
     }
-    if (cmisDocumentText.value.isNotEmpty) {
-      content = cmisDocumentText.value;
+    if (cmisDocumentText!.value!.isNotEmpty) {
+      content = cmisDocumentText!.value;
     } else {
-      if (cmisDocumentContentFileName.value.isNotEmpty) {
-        fileName = cmisDocumentContentFileName.value;
-        inputFile = cmisDocumentContentFileName.files[0];
+      if (cmisDocumentContentFileName!.value!.isNotEmpty) {
+        fileName = cmisDocumentContentFileName!.value;
+        inputFile = cmisDocumentContentFileName!.files![0];
       } else {
-        addErrorAlert(documentUpdateAlertSection,
+        addErrorAlert(documentUpdateAlertSection!,
             'You must supply either content or a file name');
       }
     }
 
-    cmisSession.createDocument(cmisDocumentUpdate.value.trim(),
+    cmisSession!.createDocument(cmisDocumentUpdate!.value!.trim(),
         folderPath: folderPath,
         content: content,
         fileName: fileName,
@@ -187,24 +187,24 @@ void doDocumentCreate(Event e) {
 }
 
 /* Delete */
-InputElement cmisDocumentDelete =
-    querySelector('#cmis-document-update-deleteId');
+InputElement? cmisDocumentDelete =
+    querySelector('#cmis-document-update-deleteId') as InputElement?;
 void outputDocumentDelete(dynamic response) {
   /* Valid response indicates success, there is no other data returned */
   final message =
-      'Success! the document ${cmisDocumentDelete.value} has been deleted';
-  addSuccessAlert(documentUpdateAlertSection, message);
+      'Success! the document ${cmisDocumentDelete!.value} has been deleted';
+  addSuccessAlert(documentUpdateAlertSection!, message);
 }
 
 void doDocumentDelete(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -214,18 +214,18 @@ void doDocumentDelete(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(documentUpdateAlertSection, message);
+      addErrorAlert(documentUpdateAlertSection!, message);
     } else {
       outputDocumentDelete(cmisResponse);
     }
   }
 
-  clearAlertSection(documentUpdateAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisDocumentDelete.value.isEmpty) {
+  clearAlertSection(documentUpdateAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisDocumentDelete!.value!.isEmpty) {
     addErrorAlert(
-        documentUpdateAlertSection, 'You must supply a valid Object Id');
+        documentUpdateAlertSection!, 'You must supply a valid Object Id');
   } else {
-    cmisSession.deleteDocument(cmisDocumentDelete.value.trim());
+    cmisSession!.deleteDocument(cmisDocumentDelete!.value!.trim());
   }
 }

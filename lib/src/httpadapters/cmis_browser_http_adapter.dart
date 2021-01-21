@@ -82,10 +82,10 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
   /// Processes the HTTP request, returning the server's response
   /// via the completion callback.
   @override
-  void httpRequest(String method, String url,
-      [String data, Map<String, String> headers]) {
+  void httpRequest(String method, String? url,
+      [String? data, Map<String, String>? headers]) {
     // Query CMIS over HTTP
-    html.HttpRequest.request(url,
+    html.HttpRequest.request(url!,
         method: method,
         withCredentials: false,
         responseType: null,
@@ -99,10 +99,10 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
   /// Processes the HTTP POST(Form)request, returning the server's response
   /// via the completion callback.
   @override
-  void httpFormRequest(String method, String url,
-      [Map<dynamic, dynamic> data, Map<String, String> headers]) {
+  void httpFormRequest(String method, String? url,
+      [Map<dynamic, dynamic>? data, Map<String, String>? headers]) {
     // POST CMIS over HTTP
-    html.HttpRequest.postFormData(url, data,
+    html.HttpRequest.postFormData(url!, data as Map<String, String>,
         withCredentials: false, responseType: null, requestHeaders: headers)
       ..then(onSuccess)
       ..catchError(onError)
@@ -112,10 +112,10 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
   /// Processes the HTTP POST(Form Multi Part) request, returning the server's response
   /// via the completion callback.
   @override
-  void httpFormDataRequest(String method, String url,
-      [dynamic formData, Map<String, String> headers]) {
+  void httpFormDataRequest(String method, String? url,
+      [dynamic formData, Map<String, String>? headers]) {
     // Query CMIS over HTTP
-    html.HttpRequest.request(url,
+    html.HttpRequest.request(url!,
         method: method,
         withCredentials: false,
         responseType: null,
@@ -128,7 +128,7 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
 
   /// Error response
   @override
-  void generateErrorResponse(dynamic response, int status) {
+  void generateErrorResponse(dynamic response, int? status) {
     /* Generate the error response */
     jsonResponse.error = true;
     jsonResponse.jsonCmisResponse = response;

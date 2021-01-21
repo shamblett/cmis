@@ -13,9 +13,9 @@
 
 part of cmisbrowsertest;
 
-InputElement cmisType = querySelector('#cmis-type-id');
-DivElement typeAlertSection = querySelector('#cmis-alertsection-type');
-DivElement typeListSection = querySelector('#cmis-type-list');
+InputElement? cmisType = querySelector('#cmis-type-id') as InputElement?;
+DivElement? typeAlertSection = querySelector('#cmis-alertsection-type') as DivElement?;
+DivElement? typeListSection = querySelector('#cmis-type-list') as DivElement?;
 void outputTypeListDescendants(dynamic response) {
   final uList = UListElement();
 
@@ -23,7 +23,7 @@ void outputTypeListDescendants(dynamic response) {
     /* Get a random type if no type id specified */
     var childIndex = 0;
     var typeIndex = 0;
-    if (cmisType.value.isEmpty) {
+    if (cmisType!.value!.isEmpty) {
       final int length = response.jsonCmisResponse.length;
       final randomizer = Random();
       childIndex = randomizer.nextInt(length);
@@ -38,12 +38,12 @@ void outputTypeListDescendants(dynamic response) {
       final noDescendants = LIElement();
       noDescendants.innerHtml = 'No "children" property, try again';
       uList.children.add(noDescendants);
-      typeListSection.children.add(uList);
+      typeListSection!.children.add(uList);
       return;
     }
     if (response.jsonCmisResponse[childIndex].children.isNotEmpty) {
       if (response.jsonCmisResponse[childIndex].children.length > 0) {
-        if (cmisType.value.isEmpty) {
+        if (cmisType!.value!.isEmpty) {
           final int length =
               response.jsonCmisResponse[childIndex].children.length;
           final randomizer = Random();
@@ -82,7 +82,7 @@ void outputTypeListDescendants(dynamic response) {
     }
   } else {
     final noDescendants = LIElement();
-    if (cmisType.value.isEmpty) {
+    if (cmisType!.value!.isEmpty) {
       noDescendants.innerHtml =
           'There are no more type descendants in this repository';
     } else {
@@ -92,23 +92,23 @@ void outputTypeListDescendants(dynamic response) {
     uList.children.add(noDescendants);
   }
 
-  typeListSection.children.add(uList);
+  typeListSection!.children.add(uList);
 }
 
 void doTypeInfoClear(Event e) {
-  typeListSection.children.clear();
-  typeAlertSection.children.clear();
+  typeListSection!.children.clear();
+  typeAlertSection!.children.clear();
 }
 
 void doTypeInfoDescendants(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -118,19 +118,19 @@ void doTypeInfoDescendants(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(typeAlertSection, message);
+      addErrorAlert(typeAlertSection!, message);
     } else {
       outputTypeListDescendants(cmisResponse);
     }
   }
 
-  clearAlertSection(typeAlertSection);
-  cmisSession.resultCompletion = completer;
-  cmisSession.depth = 1;
-  if (cmisType.value.isEmpty) {
-    cmisSession.getTypeDescendants(null);
+  clearAlertSection(typeAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  cmisSession!.depth = 1;
+  if (cmisType!.value!.isEmpty) {
+    cmisSession!.getTypeDescendants(null);
   } else {
-    cmisSession.getTypeDescendants(cmisType.value.trim());
+    cmisSession!.getTypeDescendants(cmisType!.value!.trim());
   }
 }
 
@@ -142,14 +142,14 @@ void outputTypeListChildren(dynamic response) {
     if (response.jsonCmisResponse.types.isNotEmpty) {
       final int length = response.jsonCmisResponse.types.length;
       if (length > 0) {
-        final List<dynamic> types = response.jsonCmisResponse.types;
+        final List<dynamic>? types = response.jsonCmisResponse.types;
         var children = length;
         if (children > 4) {
           children = 4;
         }
         for (var i = 0; i <= children - 1; i++) {
           final localName = LIElement();
-          localName.innerHtml = 'Local Name: ${types[i].localName}';
+          localName.innerHtml = 'Local Name: ${types![i].localName}';
           uList.children.add(localName);
           final description = LIElement();
           description.innerHtml = 'Description: ${types[i].description}';
@@ -174,7 +174,7 @@ void outputTypeListChildren(dynamic response) {
     }
   } else {
     final noChildren = LIElement();
-    if (cmisType.value.isEmpty) {
+    if (cmisType!.value!.isEmpty) {
       noChildren.innerHtml =
           'There are no more children types in this repository';
     } else {
@@ -183,18 +183,18 @@ void outputTypeListChildren(dynamic response) {
     uList.children.add(noChildren);
   }
 
-  typeListSection.children.add(uList);
+  typeListSection!.children.add(uList);
 }
 
 void doTypeInfoChildren(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -204,19 +204,19 @@ void doTypeInfoChildren(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(typeAlertSection, message);
+      addErrorAlert(typeAlertSection!, message);
     } else {
       outputTypeListChildren(cmisResponse);
     }
   }
 
-  clearAlertSection(typeAlertSection);
-  cmisSession.resultCompletion = completer;
-  cmisSession.depth = 1;
-  if (cmisType.value.isEmpty) {
-    cmisSession.getTypeChildren(null);
+  clearAlertSection(typeAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  cmisSession!.depth = 1;
+  if (cmisType!.value!.isEmpty) {
+    cmisSession!.getTypeChildren(null);
   } else {
-    cmisSession.getTypeChildren(cmisType.value.trim());
+    cmisSession!.getTypeChildren(cmisType!.value!.trim());
   }
 }
 
@@ -236,18 +236,18 @@ void outputTypeListDefinition(dynamic response) {
     uList.children.add(noDefinition);
   }
 
-  typeListSection.children.add(uList);
+  typeListSection!.children.add(uList);
 }
 
 void doTypeInfoDefinition(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -257,19 +257,19 @@ void doTypeInfoDefinition(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(typeAlertSection, message);
+      addErrorAlert(typeAlertSection!, message);
     } else {
       outputTypeListDefinition(cmisResponse);
     }
   }
 
-  clearAlertSection(typeAlertSection);
-  if (cmisType.value.isEmpty) {
+  clearAlertSection(typeAlertSection!);
+  if (cmisType!.value!.isEmpty) {
     const message = 'You must supply a Type Id for this function';
-    addErrorAlert(typeAlertSection, message);
+    addErrorAlert(typeAlertSection!, message);
     return;
   }
-  cmisSession.resultCompletion = completer;
-  cmisSession.depth = 1;
-  cmisSession.getTypeDefinition(cmisType.value.trim());
+  cmisSession!.resultCompletion = completer;
+  cmisSession!.depth = 1;
+  cmisSession!.getTypeDefinition(cmisType!.value!.trim());
 }

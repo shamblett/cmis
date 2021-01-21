@@ -13,14 +13,14 @@
 
 part of cmisbrowsertest;
 
-InputElement cmisRootInfoId = querySelector('#cmis-rootinfo-id');
-DivElement rootInfoAlertSection = querySelector('#cmis-alertsection-rootinfo');
-DivElement rootInfoListSection = querySelector('#cmis-rootinfo-list');
-String rootFilterSelection = 'both';
+InputElement? cmisRootInfoId = querySelector('#cmis-rootinfo-id') as InputElement?;
+DivElement? rootInfoAlertSection = querySelector('#cmis-alertsection-rootinfo') as DivElement?;
+DivElement? rootInfoListSection = querySelector('#cmis-rootinfo-list') as DivElement?;
+String? rootFilterSelection = 'both';
 
 void doRootInfoClear(Event e) {
-  rootInfoAlertSection.children.clear();
-  rootInfoListSection.children.clear();
+  rootInfoAlertSection!.children.clear();
+  rootInfoListSection!.children.clear();
 }
 
 void onRootFilterSelect(Event e) {
@@ -33,11 +33,11 @@ void outputRootInfo(dynamic response) {
 
   if (response.jsonCmisResponse.isNotEmpty) {
     if (response.jsonCmisResponse.objects.isNotEmpty) {
-      final List<dynamic> objects = response.jsonCmisResponse.objects;
+      final List<dynamic>? objects = response.jsonCmisResponse.objects;
       final int numItems = response.jsonCmisResponse.numItems;
 
       if (numItems > 0) {
-        for (final dynamic object in objects) {
+        for (final dynamic object in objects!) {
           final dynamic properties = object.object.properties;
 
           /* Check for the type filter */
@@ -97,18 +97,18 @@ void outputRootInfo(dynamic response) {
     uList.children.add(noChildren);
   }
 
-  rootInfoListSection.children.add(uList);
+  rootInfoListSection!.children.add(uList);
 }
 
 void doRootInfo(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -118,12 +118,12 @@ void doRootInfo(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(rootInfoAlertSection, message);
+      addErrorAlert(rootInfoAlertSection!, message);
     } else {
       outputRootInfo(cmisResponse);
     }
   }
 
-  cmisSession.resultCompletion = completer;
-  cmisSession.getRootFolderContents();
+  cmisSession!.resultCompletion = completer;
+  cmisSession!.getRootFolderContents();
 }

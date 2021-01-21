@@ -44,14 +44,14 @@ class Cmis {
   final Map<String, CmisSession> _sessionMap = <String, CmisSession>{};
 
   ///  Return either a new CmisSession or one from the cache if we have one
-  CmisSession getCmisSession(String urlPrefix,
-      [String serviceUrlPrefix,
-      String userName,
-      String password,
-      String repId]) {
+  CmisSession? getCmisSession(String? urlPrefix,
+      [String? serviceUrlPrefix,
+      String? userName,
+      String? password,
+      String? repId]) {
     /// Check for an existing session
     if (_sessionMap.containsKey(repId)) {
-      return _sessionMap[repId];
+      return _sessionMap[repId!];
     }
 
     // Generate a new one

@@ -13,11 +13,11 @@ part of cmis;
 /// CMIS type cache
 class CmisTypeCache {
   // A map from a type id to to a CMIS type definition
-  final Map<String, jsonobject.JsonObjectLite<dynamic>> _types =
-      <String, jsonobject.JsonObjectLite<dynamic>>{};
+  final Map<String?, jsonobject.JsonObjectLite<dynamic>> _types =
+      <String?, jsonobject.JsonObjectLite<dynamic>>{};
 
   // A map from a type id to a time stamp when it was last used
-  final Map<String, DateTime> _lastAccessed = <String, DateTime>{};
+  final Map<String?, DateTime> _lastAccessed = <String?, DateTime>{};
 
   // The number of types to be cached */
   final int _maxSize = 10;
@@ -32,7 +32,7 @@ class CmisTypeCache {
   bool isTypeInCache(String key) => _types.containsKey(key);
 
   /// Get a type for a supplied type id
-  jsonobject.JsonObjectLite<dynamic> getType(String typeId) {
+  jsonobject.JsonObjectLite<dynamic>? getType(String typeId) {
     if (_types.containsKey(typeId)) {
       return _types[typeId];
     }
@@ -43,7 +43,7 @@ class CmisTypeCache {
   /// Remove the oldest element from the type maps.
   void removeOldestElement() {
     var oldest = DateTime.now();
-    String oldestKey;
+    String? oldestKey;
 
     // Find the oldest entry
     _lastAccessed.forEach((dynamic key, dynamic value) {

@@ -21,7 +21,7 @@ class CmisOperationContext {
   String includeRelationships = 'none';
   String renditionFilter = 'cmis:none';
   bool includePathSegment = false;
-  String orderBy;
+  String? orderBy;
   bool includePropertyDefinitions = true;
   bool searchAllVersions = true;
   bool succint = false;

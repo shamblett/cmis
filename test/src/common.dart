@@ -15,7 +15,7 @@ part of cmisbrowsertest;
 
 // Initialise
 CmisBrowserClient cmisClient = CmisBrowserClient();
-CmisSession cmisSession;
+CmisSession? cmisSession;
 
 // Alert Handling
 void clearAlertSection(DivElement section) {

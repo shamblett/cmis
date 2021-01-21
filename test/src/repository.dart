@@ -14,14 +14,14 @@
 part of cmisbrowsertest;
 
 dynamic cmisRepositoryId = querySelector('#cmis-repository-id');
-String repoId;
-DivElement repositoryAlertSection =
-    querySelector('#cmis-alertsection-repository');
-DivElement repositoryDetailsSection = querySelector('#cmis-repository-details');
+String? repoId;
+DivElement? repositoryAlertSection =
+    querySelector('#cmis-alertsection-repository') as DivElement?;
+DivElement? repositoryDetailsSection = querySelector('#cmis-repository-details') as DivElement?;
 void outputRepositoryInfo(dynamic response) {
   final dynamic repositoryInfo = response.jsonCmisResponse;
 
-  repositoryDetailsSection.children.clear();
+  repositoryDetailsSection!.children.clear();
   final uList = UListElement();
   final repoDescription = LIElement();
   repoDescription.innerHtml =
@@ -40,7 +40,7 @@ void outputRepositoryInfo(dynamic response) {
   final rootFolderId = LIElement();
   rootFolderId.innerHtml = 'Root Folder Id : ${repositoryInfo.rootFolderId}';
   uList.children.add(rootFolderId);
-  cmisSession.rootFolderId = repositoryInfo.rootFolderId;
+  cmisSession!.rootFolderId = repositoryInfo.rootFolderId;
   final rootFolderUrl = LIElement();
   rootFolderUrl.innerHtml = 'Root Folder URL : ${repositoryInfo.rootFolderUrl}';
   uList.children.add(rootFolderUrl);
@@ -48,10 +48,10 @@ void outputRepositoryInfo(dynamic response) {
   repositoryUrl.innerHtml = 'Repository URL : ${repositoryInfo.repositoryUrl}';
   uList.children.add(repositoryUrl);
 
-  repositoryDetailsSection.children.add(uList);
+  repositoryDetailsSection!.children.add(uList);
 }
 
-DivElement repositoryListSection = querySelector('#cmis-repository-list');
+DivElement? repositoryListSection = querySelector('#cmis-repository-list') as DivElement?;
 void outputRepositoryList(dynamic response) {
   void onRepoSelect(Event e) {
     final dynamic radioElement = e.target;
@@ -60,7 +60,7 @@ void outputRepositoryList(dynamic response) {
 
   final dynamic repositoryInfo = response.jsonCmisResponse;
 
-  repositoryListSection.children.clear();
+  repositoryListSection!.children.clear();
   var id = 0;
   repositoryInfo.forEach((dynamic key, Map<dynamic, dynamic> value) {
     final div = DivElement();
@@ -79,25 +79,25 @@ void outputRepositoryList(dynamic response) {
     repoLabel.children.add(repoEntry);
 
     div.children.add(repoLabel);
-    repositoryListSection.children.add(div);
+    repositoryListSection!.children.add(div);
     id++;
   });
 }
 
 void doRepositoryInfoClear(Event e) {
-  repositoryAlertSection.children.clear();
-  repositoryDetailsSection.children.clear();
+  repositoryAlertSection!.children.clear();
+  repositoryDetailsSection!.children.clear();
 }
 
 void doRepositoryInfo(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -107,9 +107,9 @@ void doRepositoryInfo(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(repositoryAlertSection, message);
+      addErrorAlert(repositoryAlertSection!, message);
     } else {
-      if (cmisSession.repositoryId != null) {
+      if (cmisSession!.repositoryId != null) {
         outputRepositoryInfo(cmisResponse);
       } else {
         outputRepositoryList(cmisResponse);
@@ -117,13 +117,13 @@ void doRepositoryInfo(Event e) {
     }
   }
 
-  clearAlertSection(repositoryAlertSection);
-  cmisSession.resultCompletion = completer;
+  clearAlertSection(repositoryAlertSection!);
+  cmisSession!.resultCompletion = completer;
   if (cmisRepositoryId.value.isEmpty) {
-    cmisSession.getRepositories();
+    cmisSession!.getRepositories();
   } else {
-    cmisSession.repositoryId = cmisRepositoryId.value;
-    cmisSession.getRepositoryInfo();
+    cmisSession!.repositoryId = cmisRepositoryId.value;
+    cmisSession!.getRepositoryInfo();
   }
 }
 
@@ -158,18 +158,18 @@ void outputCheckedOutDocs(dynamic response) {
     uList.children.add(noChildren);
   }
 
-  repositoryDetailsSection.children.add(uList);
+  repositoryDetailsSection!.children.add(uList);
 }
 
 void doCheckedOutDocs(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -179,12 +179,12 @@ void doCheckedOutDocs(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(typeAlertSection, message);
+      addErrorAlert(typeAlertSection!, message);
     } else {
       outputCheckedOutDocs(cmisResponse);
     }
   }
 
-  cmisSession.resultCompletion = completer;
-  cmisSession.getCheckedOutDocs();
+  cmisSession!.resultCompletion = completer;
+  cmisSession!.getCheckedOutDocs();
 }

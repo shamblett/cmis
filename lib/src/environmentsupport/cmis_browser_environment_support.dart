@@ -22,7 +22,7 @@ class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
 
   /// Blob
   @override
-  dynamic blob(List<String> blobParts, String mimeType) =>
+  dynamic blob(List<String?> blobParts, String? mimeType) =>
       html.Blob(blobParts, mimeType);
 
   /// File reader
@@ -31,7 +31,7 @@ class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
 
   /// File contents
   @override
-  String fileContents(String filename) => null;
+  String? fileContents(String? filename) => null;
 
   /// File
   @override

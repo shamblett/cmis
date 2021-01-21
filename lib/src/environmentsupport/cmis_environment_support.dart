@@ -18,13 +18,13 @@ abstract class CmisEnvironmentSupport {
   dynamic formData();
 
   /// Blob
-  dynamic blob(List<String> blobParts, String mimeType);
+  dynamic blob(List<String?> blobParts, String? mimeType);
 
   /// File reader
   dynamic fileReader();
 
   /// File contents
-  String fileContents(String filename);
+  String? fileContents(String? filename);
 
   /// File
   dynamic file();

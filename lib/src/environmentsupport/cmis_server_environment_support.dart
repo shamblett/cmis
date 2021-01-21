@@ -22,7 +22,7 @@ class CmisServerEnvironmentSupport extends CmisEnvironmentSupport {
 
   /// Blob
   @override
-  dynamic blob(List<String> blobParts, String mimeType) => null;
+  dynamic blob(List<String?> blobParts, String? mimeType) => null;
 
   /// File reader
   @override
@@ -30,7 +30,7 @@ class CmisServerEnvironmentSupport extends CmisEnvironmentSupport {
 
   /// File contents
   @override
-  String fileContents(String filename) => File(filename).readAsStringSync();
+  String fileContents(String? filename) => File(filename!).readAsStringSync();
 
   /// File
   @override

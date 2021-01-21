@@ -13,17 +13,17 @@
 
 part of cmisbrowsertest;
 
-InputElement cmisFolderInfo = querySelector('#cmis-folder-id');
-DivElement folderInfoAlertSection = querySelector('#cmis-alertsection-folder');
-DivElement folderInfoListSection = querySelector('#cmis-folder-list');
+InputElement? cmisFolderInfo = querySelector('#cmis-folder-id') as InputElement?;
+DivElement? folderInfoAlertSection = querySelector('#cmis-alertsection-folder') as DivElement?;
+DivElement? folderInfoListSection = querySelector('#cmis-folder-list') as DivElement?;
 void doFolderInfoClear(Event e) {
-  folderInfoListSection.children.clear();
-  folderInfoAlertSection.children.clear();
+  folderInfoListSection!.children.clear();
+  folderInfoAlertSection!.children.clear();
 }
 
 void doFolderUpdateClear(Event e) {
-  folderUpdateListSection.children.clear();
-  folderUpdateAlertSection.children.clear();
+  folderUpdateListSection!.children.clear();
+  folderUpdateAlertSection!.children.clear();
 }
 
 void outputFolderInfoCommon(dynamic response) {
@@ -31,11 +31,11 @@ void outputFolderInfoCommon(dynamic response) {
 
   if (response.jsonCmisResponse.isNotEmpty) {
     if (response.jsonCmisResponse.objects.isNotEmpty) {
-      final List<dynamic> objects = response.jsonCmisResponse.objects;
+      final List<dynamic>? objects = response.jsonCmisResponse.objects;
       final int numItems = response.jsonCmisResponse.numItems;
 
       if (numItems > 0) {
-        for (final dynamic object in objects) {
+        for (final dynamic object in objects!) {
           final dynamic properties = object.object.properties;
           final name = LIElement();
           name.innerHtml = 'Name: ${properties['cmis:name'].value}';
@@ -74,22 +74,22 @@ void outputFolderInfoCommon(dynamic response) {
       uList.children.add(noChildren);
     }
   } else {
-    addErrorAlert(folderInfoAlertSection, 'This is not a folder type object');
+    addErrorAlert(folderInfoAlertSection!, 'This is not a folder type object');
   }
 
-  folderInfoListSection.children.add(uList);
+  folderInfoListSection!.children.add(uList);
 }
 
 /* Children */
 void doFolderInfoChildren(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -99,18 +99,18 @@ void doFolderInfoChildren(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(folderInfoAlertSection, message);
+      addErrorAlert(folderInfoAlertSection!, message);
     } else {
       outputFolderInfoCommon(cmisResponse);
     }
   }
 
-  clearAlertSection(folderInfoAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
+  clearAlertSection(folderInfoAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisFolderInfo!.value!.isEmpty) {
+    addErrorAlert(folderInfoAlertSection!, 'You must supply a valid folder Id');
   } else {
-    cmisSession.getFolderChildren(cmisFolderInfo.value.trim());
+    cmisSession!.getFolderChildren(cmisFolderInfo!.value!.trim());
   }
 }
 
@@ -153,18 +153,18 @@ void outputFolderInfoDescendants(dynamic response) {
     uList.children.add(noChildren);
   }
 
-  folderInfoListSection.children.add(uList);
+  folderInfoListSection!.children.add(uList);
 }
 
 void doFolderInfoDescendants(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -174,19 +174,19 @@ void doFolderInfoDescendants(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(folderInfoAlertSection, message);
+      addErrorAlert(folderInfoAlertSection!, message);
     } else {
       outputFolderInfoDescendants(cmisResponse);
     }
   }
 
-  clearAlertSection(folderInfoAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
+  clearAlertSection(folderInfoAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisFolderInfo!.value!.isEmpty) {
+    addErrorAlert(folderInfoAlertSection!, 'You must supply a valid folder Id');
   } else {
-    cmisSession.depth = 1;
-    cmisSession.getFolderDescendants(cmisFolderInfo.value.trim());
+    cmisSession!.depth = 1;
+    cmisSession!.getFolderDescendants(cmisFolderInfo!.value!.trim());
   }
 }
 
@@ -226,18 +226,18 @@ void outputFolderInfoParent(dynamic response) {
     uList.children.add(noChildren);
   }
 
-  folderInfoListSection.children.add(uList);
+  folderInfoListSection!.children.add(uList);
 }
 
 void doFolderInfoParent(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -247,31 +247,31 @@ void doFolderInfoParent(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(folderInfoAlertSection, message);
+      addErrorAlert(folderInfoAlertSection!, message);
     } else {
       outputFolderInfoParent(cmisResponse);
     }
   }
 
-  clearAlertSection(folderInfoAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
+  clearAlertSection(folderInfoAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisFolderInfo!.value!.isEmpty) {
+    addErrorAlert(folderInfoAlertSection!, 'You must supply a valid folder Id');
   } else {
-    cmisSession.getFolderParent(cmisFolderInfo.value.trim());
+    cmisSession!.getFolderParent(cmisFolderInfo!.value!.trim());
   }
 }
 
 /* Folder Tree */
 void doFolderInfoTree(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -281,18 +281,18 @@ void doFolderInfoTree(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(folderInfoAlertSection, message);
+      addErrorAlert(folderInfoAlertSection!, message);
     } else {
       outputFolderInfoCommon(cmisResponse);
     }
   }
 
-  clearAlertSection(folderInfoAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
+  clearAlertSection(folderInfoAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisFolderInfo!.value!.isEmpty) {
+    addErrorAlert(folderInfoAlertSection!, 'You must supply a valid folder Id');
   } else {
-    cmisSession.getFolderTree(cmisFolderInfo.value.trim());
+    cmisSession!.getFolderTree(cmisFolderInfo!.value!.trim());
   }
 }
 
@@ -342,18 +342,18 @@ void outputFolderInfoCheckedOut(dynamic response) {
     uList.children.add(noChildren);
   }
 
-  folderInfoListSection.children.add(uList);
+  folderInfoListSection!.children.add(uList);
 }
 
 void doFolderInfoCheckedOut(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -363,31 +363,31 @@ void doFolderInfoCheckedOut(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(folderInfoAlertSection, message);
+      addErrorAlert(folderInfoAlertSection!, message);
     } else {
       outputFolderInfoCheckedOut(cmisResponse);
     }
   }
 
-  clearAlertSection(folderInfoAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisFolderInfo.value.isEmpty) {
-    addErrorAlert(folderInfoAlertSection, 'You must supply a valid folder Id');
+  clearAlertSection(folderInfoAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisFolderInfo!.value!.isEmpty) {
+    addErrorAlert(folderInfoAlertSection!, 'You must supply a valid folder Id');
   } else {
-    cmisSession.getFolderCheckedOutDocs(cmisFolderInfo.value.trim());
+    cmisSession!.getFolderCheckedOutDocs(cmisFolderInfo!.value!.trim());
   }
 }
 
 /* Create */
-InputElement cmisFolderUpdate = querySelector('#cmis-folder-update-name');
-InputElement cmisFolderParent = querySelector('#cmis-folder-update-parent');
-DivElement folderUpdateAlertSection =
-    querySelector('#cmis-alertsection-folder-update');
-DivElement folderUpdateListSection = querySelector('#cmis-folder-update-list');
+InputElement? cmisFolderUpdate = querySelector('#cmis-folder-update-name') as InputElement?;
+InputElement? cmisFolderParent = querySelector('#cmis-folder-update-parent') as InputElement?;
+DivElement? folderUpdateAlertSection =
+    querySelector('#cmis-alertsection-folder-update') as DivElement?;
+DivElement? folderUpdateListSection = querySelector('#cmis-folder-update-list') as DivElement?;
 void outputFolderCreate(dynamic response) {
   final message =
-      'Success! the folder ${cmisFolderUpdate.value} has been created';
-  addSuccessAlert(folderUpdateAlertSection, message);
+      'Success! the folder ${cmisFolderUpdate!.value} has been created';
+  addSuccessAlert(folderUpdateAlertSection!, message);
   final uList = UListElement();
 
   if (response.jsonCmisResponse.isNotEmpty) {
@@ -422,18 +422,18 @@ void outputFolderCreate(dynamic response) {
     uList.children.add(noChildren);
   }
 
-  folderUpdateListSection.children.add(uList);
+  folderUpdateListSection!.children.add(uList);
 }
 
 void doFolderCreate(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -443,23 +443,23 @@ void doFolderCreate(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(folderUpdateAlertSection, message);
+      addErrorAlert(folderUpdateAlertSection!, message);
     } else {
       outputFolderCreate(cmisResponse);
     }
   }
 
-  clearAlertSection(folderUpdateAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisFolderUpdate.value.isEmpty) {
+  clearAlertSection(folderUpdateAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisFolderUpdate!.value!.isEmpty) {
     addErrorAlert(
-        folderUpdateAlertSection, 'You must supply a valid folder name');
+        folderUpdateAlertSection!, 'You must supply a valid folder name');
   } else {
-    String parentPath;
-    if (cmisFolderParent.value.isNotEmpty) {
-      parentPath = cmisFolderParent.value.trim();
+    String? parentPath;
+    if (cmisFolderParent!.value!.isNotEmpty) {
+      parentPath = cmisFolderParent!.value!.trim();
     }
-    cmisSession.createFolder(cmisFolderUpdate.value.trim(),
+    cmisSession!.createFolder(cmisFolderUpdate!.value!.trim(),
         parentPath: parentPath);
   }
 }
@@ -469,19 +469,19 @@ void outputFolderDelete(dynamic response) {
   /* Valid response indicates success, there is no other data returned */
 
   final message =
-      'Success! the folder ${cmisFolderUpdate.value} has been deleted';
-  addSuccessAlert(folderUpdateAlertSection, message);
+      'Success! the folder ${cmisFolderUpdate!.value} has been deleted';
+  addSuccessAlert(folderUpdateAlertSection!, message);
 }
 
 void doFolderDelete(Event e) {
   void completer() {
-    final dynamic cmisResponse = cmisSession.completionResponse;
+    final dynamic cmisResponse = cmisSession!.completionResponse;
 
     if (cmisResponse.error) {
       final dynamic errorResponse = cmisResponse.jsonCmisResponse;
-      final int errorCode = cmisResponse.errorCode;
-      String error;
-      String reason;
+      final int? errorCode = cmisResponse.errorCode;
+      String? error;
+      String? reason;
       if (errorCode == 0) {
         error = errorResponse.error;
         reason = errorResponse.reason;
@@ -491,18 +491,18 @@ void doFolderDelete(Event e) {
       }
 
       final message = 'Error - $error, Reason - $reason, Code - $errorCode';
-      addErrorAlert(folderUpdateAlertSection, message);
+      addErrorAlert(folderUpdateAlertSection!, message);
     } else {
       outputFolderDelete(cmisResponse);
     }
   }
 
-  clearAlertSection(folderUpdateAlertSection);
-  cmisSession.resultCompletion = completer;
-  if (cmisFolderUpdate.value.isEmpty) {
+  clearAlertSection(folderUpdateAlertSection!);
+  cmisSession!.resultCompletion = completer;
+  if (cmisFolderUpdate!.value!.isEmpty) {
     addErrorAlert(
-        folderUpdateAlertSection, 'You must supply a valid Object Id');
+        folderUpdateAlertSection!, 'You must supply a valid Object Id');
   } else {
-    cmisSession.deleteFolder(cmisFolderUpdate.value.trim());
+    cmisSession!.deleteFolder(cmisFolderUpdate!.value!.trim());
   }
 }

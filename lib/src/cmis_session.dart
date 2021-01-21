@@ -81,25 +81,25 @@ class CmisSession {
       [this._serviceUrlPrefix, this.repositoryId]);
 
   /// CMIS repository identifier
-  String repositoryId;
+  String? repositoryId;
 
   /// CMIS root folder
-  String rootFolderId;
+  String? rootFolderId;
 
   final _urlPrefix;
   final _serviceUrlPrefix;
 
   /// URL
-  String get url => _urlPrefix;
+  String? get url => _urlPrefix;
 
   /// Service URL
-  String get serviceUrl => _serviceUrlPrefix;
+  String? get serviceUrl => _serviceUrlPrefix;
 
   /// Root URL
-  String get rootUrl => _getRootFolderUrl();
+  String? get rootUrl => _getRootFolderUrl();
 
   /// Root URL for proxy use
-  String get returnedRootUrl => _getRootFolderUrl(true);
+  String? get returnedRootUrl => _getRootFolderUrl(true);
 
   final CmisOperationContext _opCtx = CmisOperationContext();
 
@@ -111,10 +111,10 @@ class CmisSession {
   int depth = 5;
 
   /// User name
-  String _user;
+  String? _user;
 
   /// Password
-  String _password;
+  String? _password;
 
   /// Proxy indicator
   bool proxy = false;
@@ -127,10 +127,10 @@ class CmisSession {
 
   /// The internal HTTP request method. This wraps the
   /// HTTP adapter class.
-  Future<void> _httpRequest(String method, String url,
+  Future<void> _httpRequest(String method, String? url,
       {bool useServiceUrl = false,
-      jsonobject.JsonObjectLite<dynamic> data,
-      Map<String, String> headers,
+      jsonobject.JsonObjectLite<dynamic>? data,
+      Map<String, String>? headers,
       dynamic formData}) async {
     // Build the request for the HttpAdapter */
     final cmisHeaders = <String, String>{};
@@ -141,14 +141,14 @@ class CmisSession {
 
     // Build the URL if we are not passed one.
     var cmisUrl = url;
-    var httpData = <String, String>{};
+    Map<String?, String>? httpData = <String?, String>{};
     if (cmisUrl == null) {
       cmisUrl = '$_urlPrefix';
       if ((_serviceUrlPrefix.isNotEmpty) && useServiceUrl) {
         cmisUrl = '$_serviceUrlPrefix';
       }
 
-      if (repositoryId != null && repositoryId.isNotEmpty) {
+      if (repositoryId != null && repositoryId!.isNotEmpty) {
         cmisUrl = '$cmisUrl/$repositoryId';
       }
     }
@@ -156,14 +156,14 @@ class CmisSession {
     if (method == 'GET') {
       if (data != null) {
         data.forEach((dynamic key, dynamic value) {
-          cmisUrl = _setURLParameter(cmisUrl, key, value);
+          cmisUrl = _setURLParameter(cmisUrl!, key, value);
         });
       }
     } else if (method == 'POST') {
       // Get the data as a map for POST
       if (data != null) {
         data.forEach((dynamic key, dynamic value) {
-          httpData[key] = value.toString();
+          httpData![key] = value.toString();
         });
       }
     } else {
@@ -198,10 +198,10 @@ class CmisSession {
 
   /// Takes a URL and key/value pair for a URL parameter and adds this
   /// to the query parameters of the URL.
-  String _setURLParameter(String url, String key, dynamic value) {
+  String _setURLParameter(String url, String? key, dynamic value) {
     final originalUrl = Uri.parse(url);
     final queryParams = originalUrl.queryParameters;
-    final newQueryParams = Map<String, String>.from(queryParams);
+    final newQueryParams = Map<String?, String>.from(queryParams);
     newQueryParams[key] = value.toString();
 
     final newUrl = Uri(
@@ -210,7 +210,7 @@ class CmisSession {
         host: originalUrl.host,
         port: originalUrl.port,
         path: originalUrl.path,
-        queryParameters: newQueryParams);
+        queryParameters: newQueryParams as Map<String, dynamic>?);
 
     return _environmentSupport.decodeUrl(newUrl.toString());
   }
@@ -225,14 +225,14 @@ class CmisSession {
   }
 
   /// Getter for the root folder URL checking for proxy use
-  String _getRootFolderUrl([bool ignoreProxy = false]) {
+  String? _getRootFolderUrl([bool ignoreProxy = false]) {
     // Get the root folder URL for the selected repository
     dynamic repoInformation = jsonobject.JsonObjectLite<dynamic>();
     if (!_repoInformation.containsKey(repositoryId)) {
       throw CmisException('getRootFolderUrl() no repository information found');
     }
     repoInformation = _repoInformation[repositoryId];
-    String rootUrl;
+    String? rootUrl;
     // Ignore the proxy check if we want the root url from the repository
     if ((!ignoreProxy) && proxy) {
       rootUrl = _caterForProxyServer(repoInformation.rootFolderUrl);
@@ -258,13 +258,13 @@ class CmisSession {
   }
 
   /// Paging context
-  CmisPagingContext getPagingContext(String elementId) =>
+  CmisPagingContext? getPagingContext(String elementId) =>
       _pagingContext[elementId];
 
   /// Set the paging context offset
   bool setPagingContextOffset(String elementId, int offset) {
     if (_pagingContext.containsKey(elementId)) {
-      _pagingContext[elementId].skipCount = offset;
+      _pagingContext[elementId]!.skipCount = offset;
       return true;
     }
 
@@ -274,7 +274,7 @@ class CmisSession {
   /// Get the paging context offset
   int getPagingContextOffset(String elementId) {
     if (_pagingContext.containsKey(elementId)) {
-      return _pagingContext[elementId].skipCount;
+      return _pagingContext[elementId]!.skipCount;
     }
 
     return 0;
@@ -372,12 +372,12 @@ class CmisSession {
   /// Create item, see the supporting documentation as to what this
   /// currently supports.
   void create(String name, String cmisAction,
-      {String typeId,
-      String parentId,
-      String parentPath,
-      String content,
-      String mimeType,
-      Map<String, String> customProperties}) {
+      {String? typeId,
+      String? parentId,
+      String? parentPath,
+      String? content,
+      String? mimeType,
+      Map<String, String>? customProperties}) {
     if (repositoryId == null) {
       throw CmisException('create() expects a non null repository Id');
     }
@@ -447,7 +447,7 @@ class CmisSession {
         formData.append('PropertyId[2]', 'objectId');
         formData.append('PropertyValue[2]', parentId);
       }
-      final blobParts = <String>[];
+      final blobParts = <String?>[];
       blobParts.add(content);
       final dynamic theBlob = _environmentSupport.blob(blobParts, mimeType);
       formData.appendBlob('content', theBlob);
@@ -506,12 +506,12 @@ class CmisSession {
   /// If content is not null it takes precedent over file upload.
   /// Will take a supplied type id, defaults to document.
   void createDocument(String name,
-      {String typeId,
-      String content,
-      String folderPath,
-      String fileName,
+      {String? typeId,
+      String? content,
+      String? folderPath,
+      String? fileName,
       dynamic file,
-      Map<String, String> customProperties}) {
+      Map<String, String>? customProperties}) {
     if (repositoryId == null) {
       throw CmisException('createDocument() expects a non null repository Id');
     }
@@ -528,7 +528,7 @@ class CmisSession {
     if (typeId == null) {
       intTypeId = 'cmis:document';
     }
-    String mimeType;
+    String? mimeType;
     if (fileName != null) {
       mimeType = lookupMimeType(fileName);
     }
@@ -698,10 +698,10 @@ class CmisSession {
   /// Create folder.
   /// Will take a supplied type id, defaults to folder.
   void createFolder(String name,
-      {String typeId,
-      String parentId,
-      String parentPath,
-      Map<String, String> customProperties}) {
+      {String? typeId,
+      String? parentId,
+      String? parentPath,
+      Map<String, String>? customProperties}) {
     if (repositoryId == null) {
       throw CmisException('createFolder() expects a non null repository Id');
     }
@@ -760,7 +760,7 @@ class CmisSession {
   }
 
   /// Get type children
-  void getTypeChildren([String typeId]) {
+  void getTypeChildren([String? typeId]) {
     if (repositoryId == null) {
       throw CmisException('getTypeChildren() expects a non null repository Id');
     }
@@ -776,7 +776,7 @@ class CmisSession {
   }
 
   /// Get type descendants
-  void getTypeDescendants([String typeId]) {
+  void getTypeDescendants([String? typeId]) {
     if (repositoryId == null) {
       throw CmisException(
           'getTypeDescendants() expects a non null repository Id');
