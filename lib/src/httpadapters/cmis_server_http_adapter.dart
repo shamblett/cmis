@@ -71,29 +71,30 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
   void httpRequest(String method, String? url,
       [String? data, Map<String, String>? headers]) {
     // Query CMIS over HTTP
+    final uri = Uri.parse(url!);
     if (method == 'GET') {
       _client
-          .get(url, headers: headers!)
+          .get(uri, headers: headers!)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     } else if (method == 'PUT') {
       _client
-          .put(url, headers: headers!, body: data)
+          .put(uri, headers: headers!, body: data)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     } else if (method == 'POST') {
       _client
-          .post(url, headers: headers!, body: data)
+          .post(uri, headers: headers!, body: data)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     } else if (method == 'HEAD') {
       _client
-          .head(url, headers: headers!)
+          .head(uri, headers: headers!)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     } else if (method == 'DELETE') {
       _client
-          .delete(url, headers: headers!)
+          .delete(uri, headers: headers!)
           .then(onSuccess, onError: onError)
           .whenComplete(completion);
     }

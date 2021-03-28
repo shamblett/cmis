@@ -9,6 +9,7 @@
 
 library cmis_browser_client;
 
+import 'dart:async';
 import 'dart:html' as html;
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'cmis.dart';
