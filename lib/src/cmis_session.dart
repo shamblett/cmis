@@ -198,10 +198,10 @@ class CmisSession {
 
   /// Takes a URL and key/value pair for a URL parameter and adds this
   /// to the query parameters of the URL.
-  String _setURLParameter(String url, String? key, dynamic value) {
+  String _setURLParameter(String url, String key, dynamic value) {
     final originalUrl = Uri.parse(url);
     final queryParams = originalUrl.queryParameters;
-    final newQueryParams = Map<String?, String>.from(queryParams);
+    final newQueryParams = Map<String, dynamic>.from(queryParams);
     newQueryParams[key] = value.toString();
 
     final newUrl = Uri(
@@ -210,7 +210,7 @@ class CmisSession {
         host: originalUrl.host,
         port: originalUrl.port,
         path: originalUrl.path,
-        queryParameters: newQueryParams as Map<String, dynamic>?);
+        queryParameters: newQueryParams);
 
     return _environmentSupport.decodeUrl(newUrl.toString());
   }
@@ -736,10 +736,10 @@ class CmisSession {
 
     if (repositoryId == null) {
       throw CmisException(
-          'getTypeDefinitiion() expects a non null repository Id');
+          'getTypeDefinition() expects a non null repository Id');
     }
-    if (typeId.isNotEmpty) {
-      throw CmisException('getTypeChildren() expects a type id');
+    if (typeId.isEmpty) {
+      throw CmisException('getTypeDefinition() expects a type id');
     }
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.typeid = typeId;
