@@ -12,7 +12,7 @@
  */
 bool configInUse = true;
 String configUrlBrowser =
-    'http://crossorigin.me/http:/cmis.alfresco.com/cmisbrowser';
+    'https://cors.bridged.cc/http://cmis.alfresco.com/cmisbrowser';
 String configUrlServer = 'http://cmis.alfresco.com/cmisbrowser';
 String serviceUrl = ''; //Optional
 String configUser = 'admin';

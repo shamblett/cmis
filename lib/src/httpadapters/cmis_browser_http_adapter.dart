@@ -33,8 +33,7 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
   // We get an HttpRequestProgressEvent on error and process this
   //  to return a JSON Object.
   @override
-  FutureOr<html.HttpRequest> onError(dynamic response) {
-    jsonResponse.jsonCmisResponse = jsonobject.JsonObjectLite<dynamic>();
+  FutureOr<html.HttpRequest> onError(final response) {
     final completer = Completer<html.HttpRequest>();
     // Process the error response
     if (response.target.status != 0) {
@@ -44,20 +43,20 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
                 response.target.responseText);
         generateErrorResponse(errorAsJson, response.target.status);
         allResponseHeaders = response.target.getAllResponseHeaders();
-        completer.complete(errorAsJson);
+        completer.complete(response.target);
         return completer.future;
       } on Exception {
         final dynamic errorAsJson = jsonobject.JsonObjectLite<dynamic>();
         errorAsJson.message = 'JSON Decode failure';
         generateErrorResponse(errorAsJson, response.target.status);
         allResponseHeaders = response.target.getAllResponseHeaders();
-        completer.complete(errorAsJson);
+        completer.complete(response.target);
         return completer.future;
       }
     } else {
       final dynamic errorAsJson = jsonobject.JsonObjectLite<dynamic>();
       generateErrorResponse(errorAsJson, response.target.status);
-      completer.complete(errorAsJson);
+      completer.complete(response.target);
       return completer.future;
     }
   }

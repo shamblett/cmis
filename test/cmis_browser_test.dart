@@ -11,8 +11,6 @@
  * 
  */
 
-library cmisbrowsertest;
-
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:cmis/cmis_browser_client.dart';
 import 'package:cmis/cmis.dart';
@@ -50,7 +48,6 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
-      print(cmisResponse);
       final jsonobject.JsonObjectLite<dynamic> repo =
           cmisResponse.jsonCmisResponse.toList()[0];
       final String? repositoryId = repo.toList()[0];
