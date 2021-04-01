@@ -68,6 +68,8 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
+      expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
+      expect(cmisResponse.error, isFalse);
       print(cmisResponse);
     }
 
@@ -80,6 +82,8 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
+      expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
+      expect(cmisResponse.error, isFalse);
       print(cmisResponse);
     }
 
@@ -92,6 +96,8 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
+      expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
+      expect(cmisResponse.error, isFalse);
       print(cmisResponse);
     }
 
@@ -104,6 +110,8 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
+      expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
+      expect(cmisResponse.error, isFalse);
       print(cmisResponse);
     }
 
@@ -116,6 +124,8 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
+      expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
+      expect(cmisResponse.error, isFalse);
       print(cmisResponse.jsonCmisResponse);
     }
 
@@ -129,6 +139,8 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
+      expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
+      expect(cmisResponse.error, isFalse);
       print(cmisResponse.jsonCmisResponse);
     }
 
@@ -142,6 +154,8 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
+      expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
+      expect(cmisResponse.error, isFalse);
       print(cmisResponse.jsonCmisResponse);
     }
 
@@ -155,6 +169,8 @@ int main() {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
+      expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
+      expect(cmisResponse.error, isFalse);
       print(cmisResponse.jsonCmisResponse);
     }
 

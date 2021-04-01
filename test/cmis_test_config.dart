@@ -11,7 +11,8 @@
  * 
  */
 bool configInUse = true;
-String configUrlBrowser = 'http://localhost:5000/http://cmis.alfresco.com/cmisbrowser';
+String configUrlBrowser =
+    'http://localhost:5000/http://cmis.alfresco.com/cmisbrowser';
 // Hosted service 'https://cors.bridged.cc/http://cmis.alfresco.com/cmisbrowser';
 
 String configUrlServer = 'http://cmis.alfresco.com/cmisbrowser';
