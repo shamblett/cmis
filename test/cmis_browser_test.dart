@@ -1,170 +1,169 @@
 /*
- * Packge : Cmis
+ * Package : Cmis
  * Author : S. Hamblett <steve.hamblett@linux.com>
- * Date   : 05/07/2013
- * Copyright :  S.Hamblett@OSCF
+ * Date   : 25/07/2019
+ * Copyright :  S.Hamblett
  *
  * The Cmis class provides core functionality for interacting with CMIS servers from
- * the browser.
+ * the server.
  * 
- * This is the CMIS client interactive test suite
+ * This is the CMIS client test suite
  * 
  */
 
-@TestOn('browser')
+library cmisservertest;
 
-library cmisbrowsertest;
-
-import 'dart:async';
-import 'dart:html';
-import 'dart:math';
-
+import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:cmis/cmis_browser_client.dart';
 import 'package:cmis/cmis.dart';
 import 'package:test/test.dart';
 import 'cmis_test_config.dart';
 
-part 'src/common.dart';
-part 'src/connect.dart';
-part 'src/repository.dart';
-part 'src/rootfolder.dart';
-part 'src/typeinfo.dart';
-part 'src/document.dart';
-part 'src/folder.dart';
-part 'src/query.dart';
-
+@TestOn('browser')
 int main() {
-  test('1', () {
-    // Initialise the page from the config file
-    if (configInUse) {
-      cmisRepositoryId.value = configRepositoryId;
-      cmisUrl!.value = configUrlBrowser;
-      cmisServiceUrl!.value = serviceUrl;
-      cmisUser!.value = configUser;
-      cmisPassword!.value = configPassword;
-      cmisProxy!.checked = configProxy;
+  // Initialise
+  final cmisClient = CmisBrowserClient();
+  CmisSession? cmisSession;
+  String? cmisRepositoryId;
+  String? cmisUrl;
+  String? cmisUser;
+  String? cmisPassword;
+
+  // Initialise the page from the config file
+  if (configInUse) {
+    cmisRepositoryId = configRepositoryId;
+    cmisUrl = configUrlBrowser;
+    cmisUser = configUser;
+    cmisPassword = configPassword;
+  }
+
+  test('Connect', () async {
+    try {
+      cmisSession = cmisClient.getCmisSession(
+          cmisUrl, serviceUrl, cmisUser, cmisPassword, cmisRepositoryId);
+    } on Exception catch (e) {
+      print(e);
+    }
+  });
+
+  test('Repositories', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse);
+      final jsonobject.JsonObjectLite<dynamic> repo =
+          cmisResponse.jsonCmisResponse.toList()[0];
+      final String? repositoryId = repo.toList()[0];
+      final String? repositoryName = repo.toList()[1];
+      final String? repositoryDescription = repo.toList()[2];
+      print(
+          'Repository : Id - $repositoryId, : name - $repositoryName, : description - $repositoryDescription');
+      cmisSession!.repositoryId = repositoryId;
     }
 
-    // Get our working element set and add event handlers
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting repositories');
+    cmisSession!.getRepositories();
+  });
 
-    // Connect
-    final connectBtn = querySelector('#cmis-connect-btn') as ButtonElement;
-    connectBtn.onClick.listen(doConnect);
+  test('Root folder', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse);
+    }
 
-    // Repository Info
-    final repositoryInfoBtn =
-        querySelector('#cmis-repository-info') as ButtonElement;
-    repositoryInfoBtn.onClick.listen(doRepositoryInfo);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting root folder contents');
+    cmisSession!.getRootFolderContents();
+  });
 
-    final checkedOutDocsBtn =
-        querySelector('#cmis-repository-checkedoutdocs') as ButtonElement;
-    checkedOutDocsBtn.onClick.listen(doCheckedOutDocs);
+  test('Repository info', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse);
+    }
 
-    final repositoryInfoBtnClear =
-        querySelector('#cmis-repository-info-clear') as ButtonElement;
-    repositoryInfoBtnClear.onClick.listen(doRepositoryInfoClear);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting repository info');
+    cmisSession!.getRepositoryInfo();
+  });
 
-    // Root Folder
-    final rootInfoBtn = querySelector('#cmis-root-info') as ButtonElement;
-    rootInfoBtn.onClick.listen(doRootInfo);
+  test('Checked out docs', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse);
+    }
 
-    querySelector('#cmis-root-info-folder')!.onClick.listen(onRootFilterSelect);
-    querySelector('#cmis-root-info-document')!
-        .onClick
-        .listen(onRootFilterSelect);
-    querySelector('#cmis-root-info-both')!.onClick.listen(onRootFilterSelect);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting checked out docs');
+    cmisSession!.getCheckedOutDocs();
+  });
 
-    final rootInfoBtnClear =
-        querySelector('#cmis-root-info-clear') as ButtonElement;
-    rootInfoBtnClear.onClick.listen(doRootInfoClear);
+  test('Root folder contents', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse);
+    }
 
-    // Type information
-    final typeInfoDescendantsBtn =
-        querySelector('#cmis-type-info-descendants') as ButtonElement;
-    typeInfoDescendantsBtn.onClick.listen(doTypeInfoDescendants);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting root folder contents');
+    cmisSession!.getRootFolderContents();
+  });
 
-    final typeInfoChildrenBtn =
-        querySelector('#cmis-type-info-children') as ButtonElement;
-    typeInfoChildrenBtn.onClick.listen(doTypeInfoChildren);
+  test('Type descendants', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse.jsonCmisResponse);
+    }
 
-    final typeInfoDefinitionBtn =
-        querySelector('#cmis-type-info-definition') as ButtonElement;
-    typeInfoDefinitionBtn.onClick.listen(doTypeInfoDefinition);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting type descendants');
+    cmisSession!.depth = 1;
+    cmisSession!.getTypeDescendants();
+  });
 
-    final typeInfoBtnClear =
-        querySelector('#cmis-type-info-clear') as ButtonElement;
-    typeInfoBtnClear.onClick.listen(doTypeInfoClear);
+  test('Type children', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse.jsonCmisResponse);
+    }
 
-    // Document Information
-    final docInfoBtn = querySelector('#cmis-docinfo-get') as ButtonElement;
-    docInfoBtn.onClick.listen(doDocInfo);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting type children');
+    cmisSession!.depth = 1;
+    cmisSession!.getTypeChildren();
+  });
 
-    final docInfoBtnClear =
-        querySelector('#cmis-docinfo-clear') as ButtonElement;
-    docInfoBtnClear.onClick.listen(doDocInfoClear);
+  test('Type definition', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse.jsonCmisResponse);
+    }
 
-    // Document Update
-    final documentCreateBtn =
-        querySelector('#cmis-document-update-create') as ButtonElement;
-    documentCreateBtn.onClick.listen(doDocumentCreate);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Getting type definition');
+    cmisSession!.depth = 1;
+    cmisSession!.getTypeDefinition('cmis:folder');
+  });
 
-    final documentDeleteBtn =
-        querySelector('#cmis-document-update-delete') as ButtonElement;
-    documentDeleteBtn.onClick.listen(doDocumentDelete);
+  test('Query ', () {
+    dynamic cmisResponse;
+    void completer() {
+      cmisResponse = cmisSession!.completionResponse;
+      print(cmisResponse.jsonCmisResponse);
+    }
 
-    final documentUpdateBtnClear =
-        querySelector('#cmis-document-update-clear') as ButtonElement;
-    documentUpdateBtnClear.onClick.listen(doDocumentUpdateClear);
-
-    // Folder Information
-    final folderInfoChildrenBtn =
-        querySelector('#cmis-folder-get-children') as ButtonElement;
-    folderInfoChildrenBtn.onClick.listen(doFolderInfoChildren);
-
-    final folderInfoDescendantsBtn =
-        querySelector('#cmis-folder-get-descendants') as ButtonElement;
-    folderInfoDescendantsBtn.onClick.listen(doFolderInfoDescendants);
-
-    final folderInfoParentBtn =
-        querySelector('#cmis-folder-get-parent') as ButtonElement;
-    folderInfoParentBtn.onClick.listen(doFolderInfoParent);
-
-    final folderInfoTreeBtn =
-        querySelector('#cmis-folder-get-tree') as ButtonElement;
-    folderInfoTreeBtn.onClick.listen(doFolderInfoTree);
-
-    final folderInfoCheckedOutBtn =
-        querySelector('#cmis-folder-get-checkedout') as ButtonElement;
-    folderInfoCheckedOutBtn.onClick.listen(doFolderInfoCheckedOut);
-
-    final folderInfoBtnClear =
-        querySelector('#cmis-folder-clear') as ButtonElement;
-    folderInfoBtnClear.onClick.listen(doFolderInfoClear);
-
-    // Folder Update
-    final folderCreateBtn =
-        querySelector('#cmis-folder-update-create') as ButtonElement;
-    folderCreateBtn.onClick.listen(doFolderCreate);
-
-    final folderDeleteBtn =
-        querySelector('#cmis-folder-update-delete') as ButtonElement;
-    folderDeleteBtn.onClick.listen(doFolderDelete);
-
-    final folderUpdateBtnClear =
-        querySelector('#cmis-folder-update-clear') as ButtonElement;
-    folderUpdateBtnClear.onClick.listen(doFolderUpdateClear);
-
-    // Query
-    final queryBtn = querySelector('#cmis-query-query') as ButtonElement;
-    queryBtn.onClick.listen(doQuery);
-
-    final queryBtnClear = querySelector('#cmis-query-clear') as ButtonElement;
-    queryBtnClear.onClick.listen(doQueryClear);
-
-    final dynamic end = expectAsync0(() {});
-
-    final timer = Timer(const Duration(seconds: 2000), end);
-    print(timer.isActive);
+    cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
+    print('Running CMIS query');
+    cmisSession!.depth = 1;
+    cmisSession!.query('SELECT * FROM cmis:document');
   });
 
   return 0;
