@@ -5,13 +5,13 @@
  * Copyright :  S.Hamblett
  *
  * The Cmis class provides core functionality for interacting with CMIS servers from
- * the server.
+ * the browser.
  * 
  * This is the CMIS client test suite
  * 
  */
 
-library cmisservertest;
+library cmisbrowsertest;
 
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:cmis/cmis_browser_client.dart';
