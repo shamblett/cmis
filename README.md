@@ -1,5 +1,8 @@
 # CMIS - A browser and server side CMIS client written in Dart
 
+[![Build Status](https://github.com/shamblett/cmis/actions/workflows/ci.yml/badge.svg)](https://github.com/shamblett/cmis/actions/workflows/ci.yml)
+
+
 This package allows browsing of and data manipluation in CMIS V1.1 specification browser binding
 compliant CMIS servers such as the one hosted at [Alfresco](https://cmis.alfresco.com/cmisbrowser).
 

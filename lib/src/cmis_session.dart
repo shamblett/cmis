@@ -86,8 +86,8 @@ class CmisSession {
   /// CMIS root folder
   String? rootFolderId;
 
-  final _urlPrefix;
-  final _serviceUrlPrefix;
+  final String? _urlPrefix;
+  final String? _serviceUrlPrefix;
 
   /// URL
   String? get url => _urlPrefix;
@@ -144,7 +144,7 @@ class CmisSession {
     Map<String?, String>? httpData = <String?, String>{};
     if (cmisUrl == null) {
       cmisUrl = '$_urlPrefix';
-      if ((_serviceUrlPrefix.isNotEmpty) && useServiceUrl) {
+      if ((_serviceUrlPrefix!.isNotEmpty) && useServiceUrl) {
         cmisUrl = '$_serviceUrlPrefix';
       }
 
@@ -427,8 +427,8 @@ class CmisSession {
       properties.forEach((dynamic key, dynamic value) {
         final propId = 'propertyId[$index]';
         final propValue = 'propertyValue[$index]';
-        jsonMap['$propId'] = key;
-        jsonMap['$propValue'] = value;
+        jsonMap[propId] = key;
+        jsonMap[propValue] = value;
         index++;
       });
 

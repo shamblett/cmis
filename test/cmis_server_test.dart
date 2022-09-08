@@ -11,13 +11,14 @@
  * 
  */
 
+@TestOn('vm')
+
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:cmis/cmis_server_client.dart';
 import 'package:cmis/cmis.dart';
 import 'package:test/test.dart';
 import 'cmis_test_config.dart';
 
-@TestOn('vm')
 int main() {
   // Initialise
   final cmisClient = CmisServerClient();

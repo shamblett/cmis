@@ -1,3 +1,6 @@
+## 5.0.1
+Issues 7 and 8
+
 ## 5.0.0
 Issue 6(NNBD)
 
