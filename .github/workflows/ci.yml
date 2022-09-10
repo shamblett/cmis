@@ -7,40 +7,40 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
-
-      - name: Install dependencies
-        run: dart pub get
-
-      - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
-
-      - name: Analyze project source
-        run: dart analyze
-
-      - name: Pull CORS proxy
-        shell: bash
-        run: |
-          docker pull sourabh385/cors-anywhere
-
-      - name: Start CORS proxy
-        shell: bash
-        run: |
-          docker run -d --name cors -p 5000:5000 sourabh385/cors-anywhere
-
-      - name: Check CORS proxy
-        shell: bash
-        run: |
-          docker ps -a
-
-      - name: Run tests
-        run: dart run test test/cmis_server_test.dart
+#  build:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#
+#      - uses: actions/checkout@v2
+#      - uses: dart-lang/setup-dart@v1
+#
+#      - name: Install dependencies
+#        run: dart pub get
+#
+#      - name: Verify formatting
+#        run: dart format --output=none --set-exit-if-changed .
+#
+#      - name: Analyze project source
+#        run: dart analyze
+#
+#      - name: Pull CORS proxy
+#        shell: bash
+#        run: |
+#          docker pull sourabh385/cors-anywhere
+#
+#      - name: Start CORS proxy
+#        shell: bash
+#        run: |
+#          docker run -d --name cors -p 5000:5000 sourabh385/cors-anywhere
+#
+#      - name: Check CORS proxy
+#        shell: bash
+#        run: |
+#          docker ps -a
+#
+#      - name: Run tests
+#        run: dart run test test/cmis_server_test.dart
 
   package-analysis:
     runs-on: ubuntu-latest
