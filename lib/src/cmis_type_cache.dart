@@ -67,9 +67,18 @@ class CmisTypeCache {
 
   /// Add a type to the cache
   void addType(dynamic typeDef) {
-    removeOldestElements();
-    _types[typeDef.id] = typeDef;
-    _lastAccessed[typeDef.id] = DateTime.now();
+    try {
+      // TODO SJH fix this
+      final tt = typeDef;
+      final tmp = tt as jsonobject.JsonObjectLite;
+      if (tmp.keys.contains('id')) {
+        removeOldestElements();
+        _types[typeDef.id] = typeDef;
+        _lastAccessed[typeDef.id] = DateTime.now();
+      }
+    } on Exception {
+      // Do nothing
+    }
   }
 
   /// Get the size of the cache
