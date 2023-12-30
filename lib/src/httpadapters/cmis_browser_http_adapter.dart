@@ -19,7 +19,7 @@
  *                      
  */
 
-part of cmis_browser_client;
+part of '../../cmis_browser_client.dart';
 
 /// Browser HTTP adapter
 class CmisBrowserHttpAdapter extends CmisHttpAdapter {
@@ -27,8 +27,8 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
   CmisBrowserHttpAdapter();
 
   /// Optional completer
-  CmisBrowserHttpAdapter.withCompleter([dynamic completion])
-      : super.withCompletion(completion);
+  CmisBrowserHttpAdapter.withCompleter([super.completion])
+      : super.withCompletion();
 
   // We get an HttpRequestProgressEvent on error and process this
   //  to return a JSON Object.

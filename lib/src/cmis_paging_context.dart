@@ -8,7 +8,7 @@
  * A CMIS Paging Context class
  */
 
-part of cmis;
+part of '../cmis.dart';
 
 /// CMIS paging
 class CmisPagingContext {

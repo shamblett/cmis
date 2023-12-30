@@ -8,7 +8,7 @@
  * parameter being passed to a function.
  */
 
-part of cmis;
+part of '../cmis.dart';
 
 /// CMIS client exceptions
 class CmisException implements Exception {

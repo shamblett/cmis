@@ -27,7 +27,7 @@
  * 'hot' swapped between rather than shared.  
  */
 
-part of cmis;
+part of '../cmis.dart';
 
 /// The CMIS client
 class Cmis {

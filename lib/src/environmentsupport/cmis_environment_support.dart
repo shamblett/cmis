@@ -7,7 +7,7 @@
 * Environmental support
 */
 
-part of cmis;
+part of '../../cmis.dart';
 
 /// Environmental support
 abstract class CmisEnvironmentSupport {

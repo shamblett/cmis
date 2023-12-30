@@ -19,7 +19,7 @@
  *                      
  */
 
-part of cmis_server_client;
+part of '../../cmis_server_client.dart';
 
 /// Server HTTP adapter
 class CmisServerHttpAdapter extends CmisHttpAdapter {
@@ -27,8 +27,8 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
   CmisServerHttpAdapter();
 
   /// Optional completer
-  CmisServerHttpAdapter.withCompleter([dynamic completion])
-      : super.withCompletion(completion);
+  CmisServerHttpAdapter.withCompleter([super.completion])
+      : super.withCompletion();
 
   final http.Client _client = http.Client();
 

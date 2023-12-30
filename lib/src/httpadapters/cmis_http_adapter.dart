@@ -8,7 +8,7 @@
 * allowing for different HTTP adapters to be used.
 */
 
-part of cmis;
+part of '../../cmis.dart';
 
 /// HTTP Adapter interface
 abstract class CmisHttpAdapter {

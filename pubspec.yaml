@@ -9,16 +9,16 @@ funding:
   - https://www.darticulate.com/#funding
 
 dependencies:
-  json_object_lite: '^3.0.2'
+  json_object_lite: '^4.0.1'
   http: '^0.13.6'
   mime: '^1.0.4'
 
 dev_dependencies:
-  bootjack: '^2.0.1+1'
-  test: '^1.24.2'
-  build_runner: '^2.4.4'
-  build_test: '^2.1.7'
-  build_web_compilers: '^4.0.3'
-  lints: '^2.1.0'
+  bootjack: '^3.0.0'
+  test: '^1.25.0'
+  build_runner: '^2.4.7'
+  build_test: '^2.2.2'
+  build_web_compilers: '^4.0.7'
+  lints: '^3.0.0'
 
 
