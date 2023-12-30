@@ -7,7 +7,7 @@
 * Environmental support
 */
 
-part of cmis_server_client;
+part of '../../cmis_server_client.dart';
 
 /// Server environmental support
 class CmisServerEnvironmentSupport extends CmisEnvironmentSupport {

@@ -72,7 +72,7 @@
  * 
  */
 
-part of cmis;
+part of '../cmis.dart';
 
 /// CMIS session management
 class CmisSession {

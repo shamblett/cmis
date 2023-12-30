@@ -8,7 +8,7 @@
  * A CMIS Operational context class for the CMIS session
  */
 
-part of cmis;
+part of '../cmis.dart';
 
 /// CMIS operation context
 class CmisOperationContext {

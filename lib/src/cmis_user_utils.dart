@@ -7,7 +7,7 @@
  * This class provides Cmis user utility functions 
  */
 
-part of cmis;
+part of '../cmis.dart';
 
 /// CMIS client user utilities
 class CmisUserUtils {}

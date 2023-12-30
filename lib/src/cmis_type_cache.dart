@@ -8,7 +8,7 @@
  * A CMIS Type Cache class for the CMIS session
  */
 
-part of cmis;
+part of '../cmis.dart';
 
 /// CMIS type cache
 class CmisTypeCache {

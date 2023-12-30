@@ -7,7 +7,7 @@
 * Environmental support
 */
 
-part of cmis_browser_client;
+part of '../../cmis_browser_client.dart';
 
 /// Browser environmental support
 class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
