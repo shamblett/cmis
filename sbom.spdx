@@ -1,40 +1,183 @@
-SPDXVersion: SPDX-2.2DataLicense: CC0-1.0SPDXID: SPDXRef-DOCUMENTDocumentName: cmisDocumentNamespace: https://pub.dev/packages/cmisLicenseListVersion: 3.8Creator: Tool: https://pub.dev/packages/sbomCreated: 2024-03-10T10:01:44Z
+SPDXVersion: SPDX-2.2
+DataLicense: CC0-1.0
+SPDXID: SPDXRef-DOCUMENT
+DocumentName: cmis
+DocumentNamespace: https://pub.dev/packages/cmis
+LicenseListVersion: 3.8
+Creator: Tool: https://pub.dev/packages/sbom
+Created: 2025-01-11T10:31:14Z
 
-PackageName: cmisSPDXID: SPDXRef-Package-cmisPackageVersion: 6.0.2PackageFileName: cmisPackageSupplier: NOASSERTIONPackageOriginator: NOASSERTIONPackageDownloadLocation: https://pub.dev/packages/cmisFilesAnalyzed: truePackageVerificationCode: 81c3d916c47d61ffa511af98718cd16c98cd3bb9PackageHomePage: https://pub.dev/packages/cmisPackageLicenseConcluded: NOASSERTIONPackageLicenseInfoFromFiles: NOASSERTIONPackageLicenseDeclared: NOASSERTIONPackageCopyrightText: NOASSERTIONPackageSummary: <text>A CMIS 1.1 compliant browser and server based client for Dart.</text>
 
-FileName: /lib/cmis.dartSPDXID: SPDXRef-cmis-0FileType: SOURCEFileChecksum: SHA1: 19e440cc1cce5f2385e699133754e39d9582d705LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+PackageName: cmis
+SPDXID: SPDXRef-Package-cmis
+PackageVersion: 6.0.3
+PackageFileName: cmis
+PackageSupplier: NOASSERTION
+PackageOriginator: NOASSERTION
+PackageDownloadLocation: https://pub.dev/packages/cmis
+FilesAnalyzed: true
+PackageVerificationCode: 11722cc1d044d514acc558c4844e66bced4de795
+PackageHomePage: https://pub.dev/packages/cmis
+PackageLicenseConcluded: NOASSERTION
+PackageLicenseInfoFromFiles: NOASSERTION
+PackageLicenseDeclared: NOASSERTION
+PackageCopyrightText: NOASSERTION
+PackageSummary: <text>A CMIS 1.1 compliant browser and server based client for Dart.</text>
 
-FileName: /lib/cmis_browser_client.dartSPDXID: SPDXRef-cmis-browser-client-1FileType: SOURCEFileChecksum: SHA1: 5040612113bdb6f5551fc726d411e3addf6e05eaLicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
 
-FileName: /lib/cmis_server_client.dartSPDXID: SPDXRef-cmis-server-client-2FileType: SOURCEFileChecksum: SHA1: d9033bc684711fbf469932153cab0bd31b6f5629LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+FileName: lib/cmis.dart
+SPDXID: SPDXRef-cmis-0
+FileType: SOURCE
+FileChecksum: SHA1: 5040612113bdb6f5551fc726d411e3addf6e05ea
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
 
-FileName: /lib/src/cmis.dartSPDXID: SPDXRef-cmis-3FileType: SOURCEFileChecksum: SHA1: d1a20c60e5d0c0444663fb6f242899119bcfc544LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
 
-FileName: /lib/src/cmis_exception.dartSPDXID: SPDXRef-cmis-exception-4FileType: SOURCEFileChecksum: SHA1: 2110c900e6646f20ea05c26703ae1b6c63bc8046LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+FileName: lib/cmis_browser_client.dart
+SPDXID: SPDXRef-cmis-browser-client-1
+FileType: SOURCE
+FileChecksum: SHA1: d9033bc684711fbf469932153cab0bd31b6f5629
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
 
-FileName: /lib/src/cmis_operation_context.dartSPDXID: SPDXRef-cmis-operation-context-5FileType: SOURCEFileChecksum: SHA1: 918656d5114eed39fb7c872a966e3db289ce3dbfLicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
 
-FileName: /lib/src/cmis_paging_context.dartSPDXID: SPDXRef-cmis-paging-context-6FileType: SOURCEFileChecksum: SHA1: cbff644a8f4dd469b6fc93254207ac91afc3f931LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+FileName: lib/cmis_server_client.dart
+SPDXID: SPDXRef-cmis-server-client-2
+FileType: SOURCE
+FileChecksum: SHA1: d1a20c60e5d0c0444663fb6f242899119bcfc544
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
 
-FileName: /lib/src/cmis_session.dartSPDXID: SPDXRef-cmis-session-7FileType: SOURCEFileChecksum: SHA1: 3d419d0535d0e8179ae124a0ef9b70034da9bc94LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
 
-FileName: /lib/src/cmis_type_cache.dartSPDXID: SPDXRef-cmis-type-cache-8FileType: SOURCEFileChecksum: SHA1: cbbe22c486c8004c7eb6f66b0fddbd59d474d9ffLicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+FileName: lib/src/cmis.dart
+SPDXID: SPDXRef-cmis-3
+FileType: SOURCE
+FileChecksum: SHA1: 2110c900e6646f20ea05c26703ae1b6c63bc8046
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
 
-FileName: /lib/src/cmis_user_utils.dartSPDXID: SPDXRef-cmis-user-utils-9FileType: SOURCEFileChecksum: SHA1: d4aac437f495b976afb5377b494afe759d016fd7LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
 
-FileName: /lib/src/environmentsupport/cmis_browser_environment_support.dartSPDXID: SPDXRef-cmis-browser-environment-support-10FileType: SOURCEFileChecksum: SHA1: 4a0750122c1c1d42a963e91d618a21c235a9bf73LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+FileName: lib/src/cmis_exception.dart
+SPDXID: SPDXRef-cmis-exception-4
+FileType: SOURCE
+FileChecksum: SHA1: 918656d5114eed39fb7c872a966e3db289ce3dbf
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
 
-FileName: /lib/src/environmentsupport/cmis_environment_support.dartSPDXID: SPDXRef-cmis-environment-support-11FileType: SOURCEFileChecksum: SHA1: 1ec3fc1c5d5a699bc7ee63a81c0fb7b48b033f9fLicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
 
-FileName: /lib/src/environmentsupport/cmis_server_environment_support.dartSPDXID: SPDXRef-cmis-server-environment-support-12FileType: SOURCEFileChecksum: SHA1: f5b20b147818098fae2dcd09ace680f81f4a4b75LicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+FileName: lib/src/cmis_operation_context.dart
+SPDXID: SPDXRef-cmis-operation-context-5
+FileType: SOURCE
+FileChecksum: SHA1: cbff644a8f4dd469b6fc93254207ac91afc3f931
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
 
-FileName: /lib/src/httpadapters/cmis_browser_http_adapter.dartSPDXID: SPDXRef-cmis-browser-http-adapter-13FileType: SOURCEFileChecksum: SHA1: f70e59dd601c1a291261ad1af723bee96cc62fbcLicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
 
-FileName: /lib/src/httpadapters/cmis_http_adapter.dartSPDXID: SPDXRef-cmis-http-adapter-14FileType: SOURCEFileChecksum: SHA1: 2f928d693be962987d9fd6a23d47a56a2b380cddLicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+FileName: lib/src/cmis_paging_context.dart
+SPDXID: SPDXRef-cmis-paging-context-6
+FileType: SOURCE
+FileChecksum: SHA1: 3d419d0535d0e8179ae124a0ef9b70034da9bc94
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
 
-FileName: /lib/src/httpadapters/cmis_server_http_adapter.dartSPDXID: SPDXRef-cmis-server-http-adapter-15FileType: SOURCEFileChecksum: SHA1: 38375d9cc899832bb9b72480f385b1b5e71d20edLicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
 
-FileName: /pubspec.yamlSPDXID: SPDXRef-pubspec-16FileType: TEXTFileChecksum: SHA1: 630fec31912dfbbd84eb99f5b03a66d2a81a0e0cLicenseConcluded: NOASSERTIONLicenseInfoInFile: NOASSERTIONFileCopyrightText: NOASSERTION
+FileName: lib/src/cmis_session.dart
+SPDXID: SPDXRef-cmis-session-7
+FileType: SOURCE
+FileChecksum: SHA1: cbbe22c486c8004c7eb6f66b0fddbd59d474d9ff
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: lib/src/cmis_type_cache.dart
+SPDXID: SPDXRef-cmis-type-cache-8
+FileType: SOURCE
+FileChecksum: SHA1: d4aac437f495b976afb5377b494afe759d016fd7
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: lib/src/cmis_user_utils.dart
+SPDXID: SPDXRef-cmis-user-utils-9
+FileType: SOURCE
+FileChecksum: SHA1: 4a0750122c1c1d42a963e91d618a21c235a9bf73
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: lib/src/environmentsupport/cmis_browser_environment_support.dart
+SPDXID: SPDXRef-cmis-browser-environment-support-10
+FileType: SOURCE
+FileChecksum: SHA1: 1ec3fc1c5d5a699bc7ee63a81c0fb7b48b033f9f
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: lib/src/environmentsupport/cmis_environment_support.dart
+SPDXID: SPDXRef-cmis-environment-support-11
+FileType: SOURCE
+FileChecksum: SHA1: f5b20b147818098fae2dcd09ace680f81f4a4b75
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: lib/src/environmentsupport/cmis_server_environment_support.dart
+SPDXID: SPDXRef-cmis-server-environment-support-12
+FileType: SOURCE
+FileChecksum: SHA1: f70e59dd601c1a291261ad1af723bee96cc62fbc
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: lib/src/httpadapters/cmis_browser_http_adapter.dart
+SPDXID: SPDXRef-cmis-browser-http-adapter-13
+FileType: SOURCE
+FileChecksum: SHA1: afaea63e1e0a10296a7c3625fd3a793f2f3c07e5
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: lib/src/httpadapters/cmis_http_adapter.dart
+SPDXID: SPDXRef-cmis-http-adapter-14
+FileType: SOURCE
+FileChecksum: SHA1: 150052f4f3eb3593565ae0809cb0b01823c32d40
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: lib/src/httpadapters/cmis_server_http_adapter.dart
+SPDXID: SPDXRef-cmis-server-http-adapter-15
+FileType: SOURCE
+FileChecksum: SHA1: a1ae3bf8d7e9860d026d3d5033297117381a0449
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
+
+FileName: pubspec.yaml
+SPDXID: SPDXRef-pubspec-16
+FileType: TEXT
+FileChecksum: SHA1: a931ff3f20dad5a71692e51a65036563d642b5b8
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: NOASSERTION
+FileCopyrightText: NOASSERTION
+
 
 Relationship: SPDXRef-pubspec-16 DEPENDENCY_MANIFEST_OF SPDXRef-Package-cmis
+
 
