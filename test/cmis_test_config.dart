@@ -15,7 +15,8 @@ String configUrlBrowser =
     'http://localhost:5000/https://cmis.alfresco.com/api/-default-/public/cmis/versions/1.1/browser';
 // Hosted service 'https://cors.bridged.cc/http://cmis.alfresco.com/cmisbrowser';
 
-String configUrlServer = 'https://cmis.alfresco.com/api/-default-/public/cmis/versions/1.1/browser';
+String configUrlServer =
+    'https://cmis.alfresco.com/api/-default-/public/cmis/versions/1.1/browser';
 String serviceUrl = ''; //Optional
 String configUser = 'admin';
 String configPassword = 'admin';
