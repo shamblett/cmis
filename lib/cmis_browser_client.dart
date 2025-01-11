@@ -7,7 +7,7 @@
  * An instance of Cmis specialised for use in the browser
  */
 
-library cmis_browser_client;
+library;
 
 import 'dart:async';
 import 'dart:html' as html;

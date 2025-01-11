@@ -12,6 +12,7 @@
  */
 
 @TestOn('vm')
+library;
 
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:cmis/cmis_server_client.dart';

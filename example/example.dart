@@ -5,7 +5,7 @@
  * Copyright :  S.Hamblett@OSCF
  */
 
-library cmisexample;
+library;
 
 import 'dart:async';
 import 'package:json_object_lite/json_object_lite.dart';

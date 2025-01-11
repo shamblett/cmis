@@ -7,7 +7,7 @@
  * An instance of Wilt specialised for use in the server.
  */
 
-library cmis_server_client;
+library;
 
 import 'dart:convert';
 import 'dart:io';
