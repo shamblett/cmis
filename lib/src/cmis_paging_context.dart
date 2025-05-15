@@ -39,7 +39,7 @@ class CmisPagingContext {
     } else {
       totalPages =
           ((_totalItems - (_totalItems % _opCtx.maxItems)) / _opCtx.maxItems) +
-              1;
+          1;
     }
 
     return totalPages.round();

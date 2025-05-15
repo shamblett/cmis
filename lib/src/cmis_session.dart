@@ -77,8 +77,13 @@ part of '../cmis.dart';
 /// CMIS session management
 class CmisSession {
   /// Default constructor
-  CmisSession(this._urlPrefix, this._httpAdapter, this._environmentSupport,
-      [this._serviceUrlPrefix, this.repositoryId]);
+  CmisSession(
+    this._urlPrefix,
+    this._httpAdapter,
+    this._environmentSupport, [
+    this._serviceUrlPrefix,
+    this.repositoryId,
+  ]);
 
   /// CMIS repository identifier
   String? repositoryId;
@@ -127,11 +132,14 @@ class CmisSession {
 
   /// The internal HTTP request method. This wraps the
   /// HTTP adapter class.
-  Future<void> _httpRequest(String method, String? url,
-      {bool useServiceUrl = false,
-      jsonobject.JsonObjectLite<dynamic>? data,
-      Map<String, String>? headers,
-      dynamic formData}) async {
+  Future<void> _httpRequest(
+    String method,
+    String? url, {
+    bool useServiceUrl = false,
+    jsonobject.JsonObjectLite<dynamic>? data,
+    Map<String, String>? headers,
+    dynamic formData,
+  }) async {
     // Build the request for the HttpAdapter */
     final cmisHeaders = <String, String>{};
     cmisHeaders['accept'] = 'application/json';
@@ -174,8 +182,9 @@ class CmisSession {
     // Check for authentication
     if (_user != null) {
       final authStringToEncode = '$_user:$_password';
-      final encodedAuthString =
-          _environmentSupport.encodedAuthString(authStringToEncode);
+      final encodedAuthString = _environmentSupport.encodedAuthString(
+        authStringToEncode,
+      );
       final authString = 'Basic $encodedAuthString';
       cmisHeaders['authorization'] = authString;
     }
@@ -183,7 +192,11 @@ class CmisSession {
     // Execute the request
     if (method == 'GET') {
       _httpAdapter.httpRequest(
-          method, cmisUrl, httpData.toString(), cmisHeaders);
+        method,
+        cmisUrl,
+        httpData.toString(),
+        cmisHeaders,
+      );
     } else {
       // Method is POST, normal or form data
       if (data != null) {
@@ -191,7 +204,11 @@ class CmisSession {
       } else {
         // Methods is POST, multi part request
         _httpAdapter.httpFormDataRequest(
-            method, cmisUrl, formData, cmisHeaders);
+          method,
+          cmisUrl,
+          formData,
+          cmisHeaders,
+        );
       }
     }
   }
@@ -205,12 +222,13 @@ class CmisSession {
     newQueryParams[key] = value.toString();
 
     final newUrl = Uri(
-        scheme: originalUrl.scheme,
-        userInfo: originalUrl.userInfo,
-        host: originalUrl.host,
-        port: originalUrl.port,
-        path: originalUrl.path,
-        queryParameters: newQueryParams);
+      scheme: originalUrl.scheme,
+      userInfo: originalUrl.userInfo,
+      host: originalUrl.host,
+      port: originalUrl.port,
+      path: originalUrl.path,
+      queryParameters: newQueryParams,
+    );
 
     return _environmentSupport.decodeUrl(newUrl.toString());
   }
@@ -253,8 +271,11 @@ class CmisSession {
 
   /// Add a paging context
   void addPagingContext(String elementId, int skipCount, int numItemsTotal) {
-    _pagingContext[elementId] =
-        CmisPagingContext(skipCount, numItemsTotal, _opCtx);
+    _pagingContext[elementId] = CmisPagingContext(
+      skipCount,
+      numItemsTotal,
+      _opCtx,
+    );
   }
 
   /// Paging context
@@ -293,7 +314,8 @@ class CmisSession {
     void localCompleter() {
       if (_httpAdapter.jsonResponse.error == false) {
         _repoInformation = jsonobject.JsonObjectLite<dynamic>.fromJsonString(
-            _httpAdapter.jsonResponse.jsonCmisResponse.toString());
+          _httpAdapter.jsonResponse.jsonCmisResponse.toString(),
+        );
       }
       savedCompleter();
     }
@@ -308,14 +330,16 @@ class CmisSession {
   void getRepositoryInfo() {
     if (repositoryId == null) {
       throw CmisException(
-          'getRepositoryInfo() expects a non null repository Id');
+        'getRepositoryInfo() expects a non null repository Id',
+      );
     }
 
     // Get the repository information if we have it
     jsonobject.JsonObjectLite<dynamic> repoInformation;
     if (_repoInformation.isNotEmpty) {
       repoInformation = jsonobject.JsonObjectLite<dynamic>.fromJsonString(
-          _repoInformation.toString());
+        _repoInformation.toString(),
+      );
       if (repoInformation.isNotEmpty) {
         // Construct a success response
         final dynamic successAsJson = repoInformation;
@@ -341,7 +365,8 @@ class CmisSession {
   void getCheckedOutDocs() {
     if (repositoryId == null) {
       throw CmisException(
-          'getCheckedOutDocs() expects a non null repository Id');
+        'getCheckedOutDocs() expects a non null repository Id',
+      );
     }
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.cmisselector = 'checkedOut';
@@ -361,7 +386,8 @@ class CmisSession {
   void getRootFolderContents() {
     if (repositoryId == null) {
       throw CmisException(
-          'getRootFolderContents() expects a non null repository Id');
+        'getRootFolderContents() expects a non null repository Id',
+      );
     }
 
     final rootUrl = _getRootFolderUrl();
@@ -371,13 +397,16 @@ class CmisSession {
 
   /// Create item, see the supporting documentation as to what this
   /// currently supports.
-  void create(String name, String cmisAction,
-      {String? typeId,
-      String? parentId,
-      String? parentPath,
-      String? content,
-      String? mimeType,
-      Map<String, String>? customProperties}) {
+  void create(
+    String name,
+    String cmisAction, {
+    String? typeId,
+    String? parentId,
+    String? parentPath,
+    String? content,
+    String? mimeType,
+    Map<String, String>? customProperties,
+  }) {
     if (repositoryId == null) {
       throw CmisException('create() expects a non null repository Id');
     }
@@ -505,13 +534,15 @@ class CmisSession {
   ///  case the file is read from the client.
   /// If content is not null it takes precedent over file upload.
   /// Will take a supplied type id, defaults to document.
-  void createDocument(String name,
-      {String? typeId,
-      String? content,
-      String? folderPath,
-      String? fileName,
-      dynamic file,
-      Map<String, String>? customProperties}) {
+  void createDocument(
+    String name, {
+    String? typeId,
+    String? content,
+    String? folderPath,
+    String? fileName,
+    dynamic file,
+    Map<String, String>? customProperties,
+  }) {
     if (repositoryId == null) {
       throw CmisException('createDocument() expects a non null repository Id');
     }
@@ -537,24 +568,30 @@ class CmisSession {
     void fileRead() {
       final content = reader.result.toString();
 
-      create(name, 'createDocument',
-          typeId: intTypeId,
-          content: content,
-          mimeType: mimeType,
-          parentPath: folderPath,
-          customProperties: customProperties);
+      create(
+        name,
+        'createDocument',
+        typeId: intTypeId,
+        content: content,
+        mimeType: mimeType,
+        parentPath: folderPath,
+        customProperties: customProperties,
+      );
     }
 
     // File read for the server
     void fileReadServer() {
       final content = _environmentSupport.fileContents(fileName);
 
-      create(name, 'createDocument',
-          typeId: intTypeId,
-          content: content,
-          mimeType: mimeType,
-          parentPath: folderPath,
-          customProperties: customProperties);
+      create(
+        name,
+        'createDocument',
+        typeId: intTypeId,
+        content: content,
+        mimeType: mimeType,
+        parentPath: folderPath,
+        customProperties: customProperties,
+      );
     }
 
     void fileReadError() {
@@ -579,11 +616,14 @@ class CmisSession {
       }
     } else {
       // Create from content supplied as a string
-      create(name, 'createDocument',
-          typeId: typeId,
-          content: content,
-          parentPath: folderPath,
-          customProperties: customProperties);
+      create(
+        name,
+        'createDocument',
+        typeId: typeId,
+        content: content,
+        parentPath: folderPath,
+        customProperties: customProperties,
+      );
     }
   }
 
@@ -591,7 +631,8 @@ class CmisSession {
   void getFolderChildren(String folderId) {
     if (repositoryId == null) {
       throw CmisException(
-          'getFolderChildren() expects a non null repository Id');
+        'getFolderChildren() expects a non null repository Id',
+      );
     }
 
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
@@ -615,7 +656,8 @@ class CmisSession {
   void getFolderDescendants(String folderId) {
     if (repositoryId == null) {
       throw CmisException(
-          'getFolderDescendantss() expects a non null repository Id');
+        'getFolderDescendantss() expects a non null repository Id',
+      );
     }
 
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
@@ -675,7 +717,8 @@ class CmisSession {
   void getFolderCheckedOutDocs(String folderId) {
     if (repositoryId == null) {
       throw CmisException(
-          'getFolderCheckedOutDocs() expects a non null repository Id');
+        'getFolderCheckedOutDocs() expects a non null repository Id',
+      );
     }
 
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
@@ -697,11 +740,13 @@ class CmisSession {
 
   /// Create folder.
   /// Will take a supplied type id, defaults to folder.
-  void createFolder(String name,
-      {String? typeId,
-      String? parentId,
-      String? parentPath,
-      Map<String, String>? customProperties}) {
+  void createFolder(
+    String name, {
+    String? typeId,
+    String? parentId,
+    String? parentPath,
+    Map<String, String>? customProperties,
+  }) {
     if (repositoryId == null) {
       throw CmisException('createFolder() expects a non null repository Id');
     }
@@ -710,11 +755,14 @@ class CmisSession {
     if (typeId == null) {
       intTypeId = 'cmis:folder';
     }
-    create(name, 'createFolder',
-        typeId: intTypeId,
-        parentId: parentId,
-        parentPath: parentPath,
-        customProperties: customProperties);
+    create(
+      name,
+      'createFolder',
+      typeId: intTypeId,
+      parentId: parentId,
+      parentPath: parentPath,
+      customProperties: customProperties,
+    );
   }
 
   /// Delete folder
@@ -736,7 +784,8 @@ class CmisSession {
 
     if (repositoryId == null) {
       throw CmisException(
-          'getTypeDefinition() expects a non null repository Id');
+        'getTypeDefinition() expects a non null repository Id',
+      );
     }
     if (typeId.isEmpty) {
       throw CmisException('getTypeDefinition() expects a type id');
@@ -779,7 +828,8 @@ class CmisSession {
   void getTypeDescendants([String? typeId]) {
     if (repositoryId == null) {
       throw CmisException(
-          'getTypeDescendants() expects a non null repository Id');
+        'getTypeDescendants() expects a non null repository Id',
+      );
     }
     final dynamic data = jsonobject.JsonObjectLite<dynamic>();
     data.cmisselector = 'typeDescendants';

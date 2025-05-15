@@ -40,7 +40,12 @@ int main() {
   test('Connect', () async {
     try {
       cmisSession = cmisClient.getCmisSession(
-          cmisUrl, serviceUrl, cmisUser, cmisPassword, cmisRepositoryId);
+        cmisUrl,
+        serviceUrl,
+        cmisUser,
+        cmisPassword,
+        cmisRepositoryId,
+      );
     } on Exception catch (e) {
       print(e);
     }
@@ -56,7 +61,8 @@ int main() {
       final String? repositoryName = repo.toList()[1];
       final String? repositoryDescription = repo.toList()[2];
       print(
-          'Repository : Id - $repositoryId, : name - $repositoryName, : description - $repositoryDescription');
+        'Repository : Id - $repositoryId, : name - $repositoryName, : description - $repositoryDescription',
+      );
       cmisSession!.repositoryId = repositoryId;
     }
 
