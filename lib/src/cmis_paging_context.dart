@@ -12,35 +12,37 @@ part of '../cmis.dart';
 
 /// CMIS paging
 class CmisPagingContext {
-  /// Construct this with a skip count, total items and an operational context
-  CmisPagingContext(this.skipCount, this._totalItems, this._opCtx);
-
   /// Unknown
   static const double cmisUnknown = -1;
+
+  static const maxItems = 4294967295;
 
   /// Skip count
   int skipCount;
 
   final int _totalItems;
+
   final CmisOperationContext _opCtx;
 
   /// Get total item count
-  int get totalItems => _totalItems == 0 ? 4294967295 : _totalItems;
+  int get totalItems => _totalItems == 0 ? maxItems : _totalItems;
 
   /// Get the current page
   num get currentPage => ((skipCount / _opCtx.maxItems) + 1).floor();
+
+  /// Construct this with a skip count, total items and an operational context
+  CmisPagingContext(this.skipCount, this._totalItems, this._opCtx);
 
   /// Get the total page count
   int getTotalPages() {
     double totalPages;
 
-    if ((_opCtx.maxItems == 0)) {
-      totalPages = cmisUnknown;
-    } else {
-      totalPages =
-          ((_totalItems - (_totalItems % _opCtx.maxItems)) / _opCtx.maxItems) +
-          1;
-    }
+    totalPages =
+        (_opCtx.maxItems == 0)
+            ? cmisUnknown
+            : ((_totalItems - (_totalItems % _opCtx.maxItems)) /
+                    _opCtx.maxItems) +
+                1;
 
     return totalPages.round();
   }

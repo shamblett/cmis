@@ -153,7 +153,7 @@ class CmisSession {
     if (cmisUrl == null) {
       cmisUrl = '$_urlPrefix';
       if ((_serviceUrlPrefix!.isNotEmpty) && useServiceUrl) {
-        cmisUrl = '$_serviceUrlPrefix';
+        cmisUrl = _serviceUrlPrefix;
       }
 
       if (repositoryId != null && repositoryId!.isNotEmpty) {

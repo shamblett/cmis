@@ -12,10 +12,10 @@ part of '../cmis.dart';
 
 /// CMIS client exceptions
 class CmisException implements Exception {
+  final String _message;
+
   /// Default
   CmisException([this._message = 'No Message Supplied']);
-
-  final String _message;
 
   @override
   String toString() => 'CmisException: message = $_message';

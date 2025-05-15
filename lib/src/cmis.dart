@@ -31,17 +31,17 @@ part of '../cmis.dart';
 
 /// The CMIS client
 class Cmis {
-  /// Default constructor
-  Cmis(this.httpAdapter, this.environmentSupport);
-
   /// HTTP Adapter
   CmisHttpAdapter httpAdapter;
 
   /// Environment support
   CmisEnvironmentSupport environmentSupport;
 
-  /// Cmis session map
+  // Cmis session map
   final Map<String, CmisSession> _sessionMap = <String, CmisSession>{};
+
+  /// Default constructor
+  Cmis(this.httpAdapter, this.environmentSupport);
 
   ///  Return either a new CmisSession or one from the cache if we have one
   CmisSession? getCmisSession(

@@ -20,13 +20,14 @@ part 'src/environmentsupport/cmis_server_environment_support.dart';
 
 /// The Cmis server client
 class CmisServerClient extends Cmis {
-  /// Default constructor
-  CmisServerClient() : super(serverHttpAdapter, serverEnvironmentSupport);
-
   /// Browser HTTP adapter
-  static CmisServerHttpAdapter serverHttpAdapter = CmisServerHttpAdapter();
+  static final CmisServerHttpAdapter serverHttpAdapter =
+      CmisServerHttpAdapter();
 
   /// Browser environment support
-  static CmisServerEnvironmentSupport serverEnvironmentSupport =
+  static final CmisServerEnvironmentSupport serverEnvironmentSupport =
       CmisServerEnvironmentSupport();
+
+  /// Default constructor
+  CmisServerClient() : super(serverHttpAdapter, serverEnvironmentSupport);
 }
