@@ -12,12 +12,6 @@ part of '../../cmis.dart';
 
 /// HTTP Adapter interface
 abstract class CmisHttpAdapter {
-  /// Default constructor
-  CmisHttpAdapter();
-
-  /// Constructor with completer
-  CmisHttpAdapter.withCompletion([this.completion]);
-
   /// Completion callback
   dynamic completion;
 
@@ -26,6 +20,12 @@ abstract class CmisHttpAdapter {
 
   /// All response headers
   String? allResponseHeaders;
+
+  /// Default constructor
+  CmisHttpAdapter();
+
+  /// Constructor with completer
+  CmisHttpAdapter.withCompletion([this.completion]);
 
   /// Processes the HTTP request returning the server's response as
   /// a JSON Object

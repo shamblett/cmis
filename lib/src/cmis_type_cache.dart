@@ -22,6 +22,9 @@ class CmisTypeCache {
   // The number of types to be cached */
   final int _maxSize = 10;
 
+  /// Get the size of the cache
+  int get size => _types.length;
+
   /// Reset the type id maps
   void reset() {
     _types.clear();
@@ -80,7 +83,4 @@ class CmisTypeCache {
       // Do nothing
     }
   }
-
-  /// Get the size of the cache
-  int get size => _types.length;
 }

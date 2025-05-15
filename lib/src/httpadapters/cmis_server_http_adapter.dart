@@ -23,14 +23,14 @@ part of '../../cmis_server_client.dart';
 
 /// Server HTTP adapter
 class CmisServerHttpAdapter extends CmisHttpAdapter {
+  final http.Client _client = http.Client();
+
   /// Default constructor
   CmisServerHttpAdapter();
 
   /// Optional completer
   CmisServerHttpAdapter.withCompleter([super.completion])
     : super.withCompletion();
-
-  final http.Client _client = http.Client();
 
   // We get an HttpRequestProgressEvent on error and process this
   //  to return a JSON Object.
@@ -111,7 +111,9 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
     String? url, [
     Map<dynamic, dynamic>? data,
     Map<String, String>? headers,
-  ]) {}
+  ]) {
+    return;
+  }
 
   /// Not used on the server
   @override
@@ -120,7 +122,9 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
     String? url, [
     dynamic formData,
     Map<String, String>? headers,
-  ]) {}
+  ]) {
+    return;
+  }
 
   /// Error response
   @override
