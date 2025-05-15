@@ -17,9 +17,6 @@ abstract class CmisEnvironmentSupport {
   /// Form data
   dynamic formData();
 
-  /// Blob
-  dynamic blob(List<String?> blobParts, String? mimeType);
-
   /// File reader
   dynamic fileReader();
 

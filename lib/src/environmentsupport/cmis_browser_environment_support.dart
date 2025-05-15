@@ -14,20 +14,19 @@ class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
   /// Encoded authentication string
   @override
   String encodedAuthString(String authStringToEncode) =>
-      html.window.btoa(authStringToEncode);
+      window.btoa(authStringToEncode);
 
   /// Form data
   @override
-  dynamic formData() => html.FormData();
+  dynamic formData() => FormData();
 
   /// Blob
-  @override
-  dynamic blob(List<String?> blobParts, String? mimeType) =>
-      html.Blob(blobParts, mimeType);
+  dynamic blob(JSArray<BlobPart> blobParts, BlobPropertyBag mimeType) =>
+      Blob(blobParts, mimeType);
 
   /// File reader
   @override
-  dynamic fileReader() => html.FileReader();
+  dynamic fileReader() => FileReader();
 
   /// File contents
   @override
@@ -35,7 +34,7 @@ class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
 
   /// File
   @override
-  dynamic file() => html.File;
+  dynamic file() => File;
 
   /// Decode an encoded url string
   @override
