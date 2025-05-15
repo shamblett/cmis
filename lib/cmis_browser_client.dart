@@ -19,13 +19,14 @@ part 'src/environmentsupport/cmis_browser_environment_support.dart';
 
 /// The Cmis browser client
 class CmisBrowserClient extends Cmis {
-  /// Default constructor
-  CmisBrowserClient() : super(browserHttpAdapter, browserEnvironmentSupport);
-
   /// Browser HTTP adapter
-  static CmisBrowserHttpAdapter browserHttpAdapter = CmisBrowserHttpAdapter();
+  static final CmisBrowserHttpAdapter browserHttpAdapter =
+      CmisBrowserHttpAdapter();
 
   /// Browser environment support
-  static CmisBrowserEnvironmentSupport browserEnvironmentSupport =
+  static final CmisBrowserEnvironmentSupport browserEnvironmentSupport =
       CmisBrowserEnvironmentSupport();
+
+  /// Default constructor
+  CmisBrowserClient() : super(browserHttpAdapter, browserEnvironmentSupport);
 }

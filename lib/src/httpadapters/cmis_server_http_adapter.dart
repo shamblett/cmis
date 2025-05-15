@@ -23,14 +23,14 @@ part of '../../cmis_server_client.dart';
 
 /// Server HTTP adapter
 class CmisServerHttpAdapter extends CmisHttpAdapter {
+  final http.Client _client = http.Client();
+
   /// Default constructor
   CmisServerHttpAdapter();
 
   /// Optional completer
   CmisServerHttpAdapter.withCompleter([super.completion])
-      : super.withCompletion();
-
-  final http.Client _client = http.Client();
+    : super.withCompletion();
 
   // We get an HttpRequestProgressEvent on error and process this
   //  to return a JSON Object.
@@ -68,8 +68,12 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
   /// Processes the HTTP request, returning the server's response
   /// via the completion callback.
   @override
-  void httpRequest(String method, String? url,
-      [String? data, Map<String, String>? headers]) {
+  void httpRequest(
+    String method,
+    String? url, [
+    String? data,
+    Map<String, String>? headers,
+  ]) {
     // Query CMIS over HTTP
     final uri = Uri.parse(url!);
     if (method == 'GET') {
@@ -102,13 +106,25 @@ class CmisServerHttpAdapter extends CmisHttpAdapter {
 
   /// Not used on the server
   @override
-  void httpFormRequest(String method, String? url,
-      [Map<dynamic, dynamic>? data, Map<String, String>? headers]) {}
+  void httpFormRequest(
+    String method,
+    String? url, [
+    Map<dynamic, dynamic>? data,
+    Map<String, String>? headers,
+  ]) {
+    return;
+  }
 
   /// Not used on the server
   @override
-  void httpFormDataRequest(String method, String? url,
-      [dynamic formData, Map<String, String>? headers]) {}
+  void httpFormDataRequest(
+    String method,
+    String? url, [
+    dynamic formData,
+    Map<String, String>? headers,
+  ]) {
+    return;
+  }
 
   /// Error response
   @override

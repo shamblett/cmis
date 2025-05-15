@@ -47,7 +47,12 @@ Future<void> main() async {
 
   try {
     cmisSession = cmisClient.getCmisSession(
-        cmisUrl, serviceUrl, cmisUser, cmisPassword, cmisRepositoryId);
+      cmisUrl,
+      serviceUrl,
+      cmisUser,
+      cmisPassword,
+      cmisRepositoryId,
+    );
   } on Exception catch (e) {
     print(e);
   }
