@@ -12,9 +12,8 @@ library;
 import 'dart:async';
 import 'dart:js_interop';
 
-import 'package:http/browser_client.dart' as http;
-import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'package:web/web.dart';
+import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'cmis.dart';
 
 part 'src/httpadapters/cmis_browser_http_adapter.dart';

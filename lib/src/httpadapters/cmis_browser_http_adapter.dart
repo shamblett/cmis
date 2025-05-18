@@ -94,6 +94,7 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
     String? data,
     Map<String, String>? headers,
   ]) {
+
     // Query CMIS over HTTP
     HttpRequest.request(
         url!,
