@@ -21,8 +21,8 @@ class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
   dynamic formData() => FormData();
 
   /// Blob
-  dynamic blob(JSArray<BlobPart> blobParts, BlobPropertyBag mimeType) =>
-      Blob(blobParts, mimeType);
+  dynamic blob(List<String?> blobParts, String? mimeType) =>
+      _createBlob(blobParts, mimeType);
 
   /// File reader
   @override
@@ -39,4 +39,16 @@ class CmisBrowserEnvironmentSupport extends CmisEnvironmentSupport {
   /// Decode an encoded url string
   @override
   String decodeUrl(String url) => url;
+
+  Blob _createBlob(List<String?> strings, String? type) {
+    final jsStr = <JSString>[];
+    for (final str in strings) {
+      if (str != null) {
+        jsStr.add(str.toJS);
+      }
+    }
+    return type != null
+        ? Blob(jsStr.toJS, BlobPropertyBag(type: type))
+        : Blob(jsStr.toJS, BlobPropertyBag());
+  }
 }

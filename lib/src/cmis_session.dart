@@ -107,7 +107,7 @@ class CmisSession {
 
   final CmisHttpAdapter _httpAdapter;
 
-  final CmisEnvironmentSupport _environmentSupport;
+  final dynamic _environmentSupport;
 
   jsonobject.JsonObjectLite<dynamic> _repoInformation =
       jsonobject.JsonObjectLite<dynamic>();
