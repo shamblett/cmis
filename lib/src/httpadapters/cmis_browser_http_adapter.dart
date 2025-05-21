@@ -33,8 +33,8 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
   // We get an HttpRequestProgressEvent on error and process this
   //  to return a JSON Object.
   @override
-  FutureOr<html.HttpRequest> onError(final response) {
-    final completer = Completer<html.HttpRequest>();
+  FutureOr<XMLHttpRequest> onError(final response) {
+    final completer = Completer<XMLHttpRequest>();
     // Process the error response
     if (response.target.status != 0) {
       try {
@@ -95,7 +95,7 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
     Map<String, String>? headers,
   ]) {
     // Query CMIS over HTTP
-    html.HttpRequest.request(
+    HttpRequest.request(
         url!,
         method: method,
         withCredentials: false,
@@ -118,7 +118,7 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
     Map<String, String>? headers,
   ]) {
     // POST CMIS over HTTP
-    html.HttpRequest.postFormData(
+    HttpRequest.postFormData(
         url!,
         data as Map<String, String>,
         withCredentials: false,
@@ -140,7 +140,7 @@ class CmisBrowserHttpAdapter extends CmisHttpAdapter {
     Map<String, String>? headers,
   ]) {
     // Query CMIS over HTTP
-    html.HttpRequest.request(
+    HttpRequest.request(
         url!,
         method: method,
         withCredentials: false,

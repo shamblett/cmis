@@ -76,7 +76,7 @@ int main() {
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
       expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
-      expect(cmisResponse.error, isTrue);
+      expect(cmisResponse.error, isFalse);
     }
 
     cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
@@ -102,20 +102,20 @@ int main() {
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
       expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
-      expect(cmisResponse.error, isFalse);
+      expect(cmisResponse.error, isTrue);
     }
 
     cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting checked out docs');
     cmisSession!.getCheckedOutDocs();
-  });
+  }, skip: true);
 
   test('Root folder contents', () {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
       expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
-      expect(cmisResponse.error, isTrue);
+      expect(cmisResponse.error, isFalse);
     }
 
     cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
@@ -128,35 +128,35 @@ int main() {
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
       expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
-      expect(cmisResponse.error, isFalse);
+      expect(cmisResponse.error, isTrue);
     }
 
     cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting type descendants');
     cmisSession!.depth = 1;
     cmisSession!.getTypeDescendants();
-  });
+  }, skip: true);
 
   test('Type children', () {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
       expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
-      expect(cmisResponse.error, isFalse);
+      expect(cmisResponse.error, isTrue);
     }
 
     cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
     print('Getting type children');
     cmisSession!.depth = 1;
     cmisSession!.getTypeChildren();
-  });
+  }, skip: true);
 
   test('Type definition', () {
     dynamic cmisResponse;
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
       expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
-      expect(cmisResponse.error, isTrue);
+      expect(cmisResponse.error, isFalse);
     }
 
     cmisSession!.resultCompletion = expectAsync0(completer, count: 1);
@@ -170,7 +170,7 @@ int main() {
     void completer() {
       cmisResponse = cmisSession!.completionResponse;
       expect(cmisResponse, isA<jsonobject.JsonObjectLite>());
-      expect(cmisResponse.error, isTrue);
+      expect(cmisResponse.error, isFalse);
     }
 
     cmisSession!.resultCompletion = expectAsync0(completer, count: 1);

@@ -10,7 +10,9 @@
 library;
 
 import 'dart:async';
-import 'dart:html' as html;
+import 'dart:js_interop';
+
+import 'package:web/web.dart';
 import 'package:json_object_lite/json_object_lite.dart' as jsonobject;
 import 'cmis.dart';
 

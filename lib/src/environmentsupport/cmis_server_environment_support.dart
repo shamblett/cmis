@@ -21,7 +21,6 @@ class CmisServerEnvironmentSupport extends CmisEnvironmentSupport {
   dynamic formData() => null;
 
   /// Blob
-  @override
   dynamic blob(List<String?> blobParts, String? mimeType) => null;
 
   /// File reader
