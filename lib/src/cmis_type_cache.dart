@@ -76,8 +76,8 @@ class CmisTypeCache {
       final tmp = tt as jsonobject.JsonObjectLite;
       if (tmp.keys.contains('id')) {
         removeOldestElements();
-        _types[typeDef.id] = typeDef;
-        _lastAccessed[typeDef.id] = DateTime.now();
+        _types[typeDef.id as String] = typeDef;
+        _lastAccessed[typeDef.id as String] = DateTime.now();
       }
     } on Exception {
       // Do nothing
