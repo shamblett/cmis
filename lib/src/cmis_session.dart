@@ -79,9 +79,6 @@ class CmisSession {
   /// CMIS repository identifier
   String? repositoryId;
 
-  /// CMIS root folder
-  String? rootFolderId;
-
   /// Search depth
   int depth = 5;
 
