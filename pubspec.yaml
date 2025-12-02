@@ -10,17 +10,13 @@ funding:
 
 dependencies:
   json_object_lite: '^4.0.2'
-  http: '^1.4.0'
+  http: '^1.6.0'
   mime: '^2.0.0'
   web: '^1.1.1'
 
 dev_dependencies:
-  bootjack: '^3.0.0+1'
-  test: '^1.26.0'
-  build_runner: '^2.4.15'
-  build_test: '^2.2.3'
+  test: '^1.28.0'
+  build_runner: '^2.10.4'
+  build_test: '^3.5.4'
   build_web_compilers: '^4.1.5'
-  lints: '^5.1.1'
-  dart_code_metrics_presets: '^2.22.0'
-
-
+  lints: '^6.0.0'

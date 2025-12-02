@@ -79,9 +79,6 @@ class CmisSession {
   /// CMIS repository identifier
   String? repositoryId;
 
-  /// CMIS root folder
-  String? rootFolderId;
-
   /// Search depth
   int depth = 5;
 
@@ -742,14 +739,14 @@ class CmisSession {
 
   /// The internal HTTP request method. This wraps the
   /// HTTP adapter class.
-  Future<void> _httpRequest(
+  void _httpRequest(
     String method,
     String? url, {
     bool useServiceUrl = false,
     jsonobject.JsonObjectLite<dynamic>? data,
     Map<String, String>? headers,
     dynamic formData,
-  }) async {
+  }) {
     // Build the request for the HttpAdapter */
     final cmisHeaders = <String, String>{};
     cmisHeaders['accept'] = 'application/json';
@@ -780,8 +777,8 @@ class CmisSession {
     } else if (method == 'POST') {
       // Get the data as a map for POST
       if (data != null) {
-        data.forEach((dynamic key, dynamic value) {
-          httpData![key] = value.toString();
+        data.forEach((key, dynamic value) {
+          httpData![key as String] = value.toString();
         });
       }
     } else {
@@ -828,7 +825,7 @@ class CmisSession {
   String _setURLParameter(String url, String key, dynamic value) {
     final originalUrl = Uri.parse(url);
     final queryParams = originalUrl.queryParameters;
-    final newQueryParams = Map<String, dynamic>.from(queryParams);
+    final newQueryParams = Map<String, dynamic>.of(queryParams);
     newQueryParams[key] = value.toString();
 
     final newUrl = Uri(
