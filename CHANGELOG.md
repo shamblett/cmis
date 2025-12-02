@@ -1,3 +1,6 @@
+## 6.2.0
+- [Issue 21](https://github.com/shamblett/cmis/issues/21)
+
 ## 6.1.0
 - [Issue 17](https://github.com/shamblett/cmis/issues/17)
 - [Issue 19](https://github.com/shamblett/cmis/issues/19)
